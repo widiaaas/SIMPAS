@@ -8,3 +8,7 @@ Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::get('/dashboard', function () {
     return view('pesertaMagang.dashboard');
 });
+
+Route::get('/mtrDashboard', function () {
+    return view('mentor.dashboard');
+});
