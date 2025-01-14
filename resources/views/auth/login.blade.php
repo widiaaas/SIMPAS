@@ -65,8 +65,9 @@
         }
 
         .form-control {
-            border-radius: 20px;
-            padding: 10px 15px;
+            background-color: rgba(255, 136, 91, 0.25); 
+            border: 2px solid #FF885B; 
+            color: #403333;
         }
 
         .btn-primary {
@@ -74,11 +75,26 @@
             font-weight: bold;
             background-color: #FF885B;
             border-color: #FF885B;
+            outline: none;
+            box-shadow: none; /* Menghilangkan shadow biru */
         }
 
         .btn-primary:hover {
-            background-color: #FEF7F4;
-            border-color: #FEF7F4;
+            background-color: #FF7733; /* Sedikit lebih gelap dari warna awal */
+            border-color: #FF7733;
+            color: white;
+        }
+
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #FF6600; /* Tetap dengan warna yang sama */
+            border-color: #FF6600; 
+            outline: none; /* Menghilangkan outline biru */
+            box-shadow: none; /* Menghilangkan shadow */
+        }
+
+        .btn-primary:focus-visible {
+            outline: none; /* Hilangkan outline biru */
         }
 
         .logo {
@@ -157,14 +173,12 @@
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <div class="card-footer">
-                                <h6>Belum punya akun?</h6>
-                                <h6>Daftar sekarang</h6>
+                                {{-- nanti route Daftar sekarang ganti ke page daftar --}}
+                                <h9>Belum punya akun? <a href="{{ route('login') }}" style="font-weight: bold;">Daftar sekarang</a></h9>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Masuk</button>
                             </div>
-
-
                         </form>
                     </div>
                 </div>
