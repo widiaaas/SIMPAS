@@ -6,13 +6,15 @@
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
         html, body {
             height: 100%; 
             margin: 0; 
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Inter", sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,6 +25,22 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+
+        // <uniquifier>: Use a unique and descriptive class name
+        // <weight>: Use a value from 100 to 900
+
+        .inter-font {
+            font-family: "Inter", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .aoboshi-one-regular {
+            font-family: "Aoboshi One", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
 
         .container {
             margin: auto;  
@@ -134,7 +152,7 @@
                     <div class="card-header">
                         <h2>SIMPAS</h2>
                         <img src="{{ asset('img/pemkot.png') }}" alt="Logo" class="logo">
-                        <h5>Masuk</h5>
+                        <h5 class="aoboshi-one-regular">Masuk</h5>
                     </div>
                     <div class="card-body">
                         <!-- @if($errors->any())
@@ -149,19 +167,19 @@
                         <form action="{{ route('login') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
-                                <label for="nim" class="form-label">Nim</label>
+                                <label for="nim" class="form-label" style="font-style: italic;">NIM/NISN</label>
                                 <input type="nim" name="nim" id="nim" class="form-control" required value="{{ old('nim') }}">
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label" style="font-style: italic;">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <div class="card-footer">
-                                <h6>Belum punya akun?</h6>
-                                <h6>Daftar sekarang</h6>
+                                <h6 style="font-style: italic;">Belum punya akun?</h6>
+                                <h6 style="font-weight: bold;">Daftar sekarang</h6>
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Masuk</button>
+                                <button type="submit" class="btn btn-primary aoboshi-one-regular">Masuk</button>
                             </div>
 
 
