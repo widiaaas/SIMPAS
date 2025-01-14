@@ -115,6 +115,9 @@
             background-color: rgba(255, 136, 91, 0.25); 
             border: 2px #FF885B; 
         }
+        .card-footer{
+            text-align: center;
+        }
 
     </style>
 </head>
@@ -153,9 +156,15 @@
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
+                            <div class="card-footer">
+                                <h6>Belum punya akun?</h6>
+                                <h6>Daftar sekarang</h6>
+                            </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Masuk</button>
                             </div>
+
+
                         </form>
                     </div>
                 </div>
