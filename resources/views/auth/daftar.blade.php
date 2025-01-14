@@ -191,7 +191,7 @@
                                 <input type="password" name="password" id="password" class="form-control" required>
                             </div>
                             <div class="card-footer">
-                                <h6 style="font-style: italic;">Belum punya akun? <a href="{{ route('daftarakun') }}" style="font-weight: bold;">Daftar sekarang</a></h6>
+                                <h6 style="font-style: italic;">Belum punya akun? <a href="{{ route('login') }}" style="font-weight: bold;">Daftar sekarang</a></h6>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary aoboshi-one-regular">Masuk</button>
