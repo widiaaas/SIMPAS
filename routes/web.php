@@ -10,5 +10,8 @@ Route::get('pesertaMagang/dashboard', function () {
 });
 
 Route::get('pesertaMagang/profil', function () {
-    return view('pesertaMagang.profil');
+    return view('pesertaMagang.profil');});
+
+Route::get('/mtrDashboard', function () {
+    return view('mentor.dashboard');
 });
