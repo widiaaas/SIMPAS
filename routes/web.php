@@ -12,14 +12,14 @@ Route::get('pesertaMagang/dashboard', function () {
 Route::get('pesertaMagang/profil', function () {
     return view('pesertaMagang.profil');});
 
-Route::get('/mtrDashboard', function () {
+Route::get('mentor/dashboard', function () {
     return view('mentor.dashboard');
 });
 
-Route::get('/mtrProfil', function () {
+Route::get('mentor/profil', function () {
     return view('mentor.profil');
 });
 
-Route::get('/mtrEditProfil', function () {
+Route::get('mentor/editProfil', function () {
     return view('mentor.profilEdit');
 });

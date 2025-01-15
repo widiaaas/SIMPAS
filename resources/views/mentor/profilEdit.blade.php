@@ -115,9 +115,9 @@
                 </div>
             </div>
             <div class="mt-6 text-right">
-                <button class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="/mtrEditProfil">
-                    Edit
-                </button>
+                <a class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="/mentor/editProfil">
+                    Simpan
+                </a>
             </div>
         </div>
     </div>

@@ -8,12 +8,12 @@
     <aside>
         <ul>
             <li class="mb-4 mt-4">
-               <a class="aoboshi-one-regular block py-2 px-4 hover:bg-[#FF885B] rounded-lg px-4 py-2 " href="/mtrDashboard">
+               <a class="aoboshi-one-regular block py-2 px-4 hover:bg-[#FF885B] rounded-lg px-4 py-2 " href="mentor/dashboard">
                 Beranda
                </a>
             </li>
             <li class="mb-4">
-                <a class="aoboshi-one-regular block py-2 px-4 hover:bg-[#FF885B] rounded-lg px-4 py-2 " href="/mtrProfil">
+                <a class="aoboshi-one-regular block py-2 px-4 hover:bg-[#FF885B] rounded-lg px-4 py-2 " href="/mentor/profil">
                Profil
               </a>
             </li>
