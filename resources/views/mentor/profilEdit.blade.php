@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Profil Mentor - SIMPAS </title>
+    <title>Edit Profil Mentor - SIMPAS </title>
      <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -69,9 +69,11 @@
                     <label class=" inter-font italic block text-sm font-medium text-gray-700">
                         Nomor Telepon
                     </label>
-                    <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2">
-                        087832630688
-                    </p>
+                    <input 
+                        type="text" 
+                        class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full" 
+                        value="087832630688"
+                    />
                 </div>
                 <div>
                     <label class="inter-font italic block text-sm font-medium text-gray-700">
@@ -85,9 +87,11 @@
                     <label class="inter-font italic block text-sm font-medium text-gray-700">
                         Email
                     </label>
-                    <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2">
-                        arifbudiman@gmail.com
-                    </p>
+                    <input 
+                        type="text" 
+                        class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full" 
+                        value="arifbudiman@gmail.com"
+                    />
                 </div>
                 <div>
                     <label class="inter-font italic block text-sm font-medium text-gray-700">
@@ -101,9 +105,11 @@
                     <label class="inter-font italic block text-sm font-medium text-gray-700">
                         Alamat
                     </label>
-                    <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2">
-                        Jalan Kedondong no. 9, Kedungmundu, Semarang.
-                    </p>
+                    <input 
+                        type="text" 
+                        class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full" 
+                        value="Jalan Kedondong no. 9, Kedungmundu, Semarang."
+                    />
                 </div>
                 <div>
                     <label class="inter-font italic block text-sm font-medium text-gray-700">

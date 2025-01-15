@@ -27,3 +27,15 @@ Route::get('mentor/profil', function () {
 Route::get('mentor/editProfil', function () {
     return view('mentor.profilEdit');
 });
+
+Route::get('mentor/daftarPeserta', function () {
+    return view('mentor.daftarPeserta');
+});
+
+Route::get('mentor/penilaianPeserta', function () {
+    return view('mentor.penilaianPeserta');
+});
+
+Route::get('mentor/detail', function () {
+    return view('mentor.detail');
+});
