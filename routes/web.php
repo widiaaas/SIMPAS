@@ -16,6 +16,10 @@ Route::get('mentor/dashboard', function () {
     return view('mentor.dashboard');
 });
 
+Route::get('/koor/dashboard', function () {
+    return view('koordinator.dashboard');
+});
+
 Route::get('mentor/profil', function () {
     return view('mentor.profil');
 });
