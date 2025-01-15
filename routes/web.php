@@ -12,3 +12,11 @@ Route::get('/dashboard', function () {
 Route::get('/mtrDashboard', function () {
     return view('mentor.dashboard');
 });
+
+Route::get('/mtrProfil', function () {
+    return view('mentor.profil');
+});
+
+Route::get('/mtrEditProfil', function () {
+    return view('mentor.profilEdit');
+});
