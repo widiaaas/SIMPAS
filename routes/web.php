@@ -15,3 +15,8 @@ Route::get('pesertaMagang/profil', function () {
 Route::get('/mtrDashboard', function () {
     return view('mentor.dashboard');
 });
+
+Route::get('/koor/dashboard', function () {
+    return view('koordinator.dashboard');
+});
+
