@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Dashboard Peserta Magang')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #4A2F27;
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            padding: 20px 0;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            padding: 10px 20px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #FF6F5E;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #FDF2EE;
+            height: 100vh;
+        }
+        .card {
+            background-color: #FFDED5;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+        .card h3 {
+            margin: 0;
+            color: #b22222;
+        }
+        .card p {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        .header {
+            color: #B22222;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    @if(Auth::user()->role === 'peserta')
+        <a href="#" class="active">Beranda</a>
+        <a href="#">Profil</a>
+        <a href="#">Daftar Magang</a>
+        <a href="#">SKL</a>
+    @elseif(Auth::user()->role === 'admin')
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Kelola Peserta</a>
+        <a href="#">Kelola Magang</a>
+    @elseif(Auth::user()->role === 'pembimbing')
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Peserta Bimbingan</a>
+        <a href="#">Evaluasi</a>
+    @endif
+</div>
+
+    <div class="content">
+        @yield('content')
+    </div>
+</body>
+</html>
+
+
+// sidebar
+@if(auth()->user()->hasRole('admin'))
+    <!-- Sidebar untuk Admin -->
+    <div class="sidebar">
+        <a href="/admin/dashboard" class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">Dashboard</a>
+        <a href="/admin/settings" class="{{ Request::is('admin/settings') ? 'active' : '' }}">Settings</a>
+        <!-- Menu admin lainnya -->
+    </div>
+@elseif(auth()->user()->hasRole('lecturer'))
+    <!-- Sidebar untuk Dosen -->
+    <div class="sidebar">
+        <a href="/lecturer/dashboard" class="{{ Request::is('lecturer/dashboard') ? 'active' : '' }}">Dashboard</a>
+        <a href="/lecturer/schedules" class="{{ Request::is('lecturer/schedules') ? 'active' : '' }}">Schedules</a>
+        <!-- Menu dosen lainnya -->
+    </div>
+@elseif(auth()->user()->hasRole('student'))
+    <!-- Sidebar untuk Mahasiswa -->
+    <div class="sidebar">
+        <a href="/student/dashboard" class="{{ Request::is('student/dashboard') ? 'active' : '' }}">Dashboard</a>
+        <a href="/student/internships" class="{{ Request::is('student/internships') ? 'active' : '' }}">Internships</a>
+        <!-- Menu mahasiswa lainnya -->
+    </div>
+@else
+    <!-- Sidebar default untuk pengguna lainnya -->
+    <div class="sidebar">
+        <a href="/" class="{{ Request::is('/') ? 'active' : '' }}">Home</a>
+        <a href="/profile" class="{{ Request::is('profile') ? 'active' : '' }}">Profile</a>
+        <!-- Menu default lainnya -->
+    </div>
+@endif
