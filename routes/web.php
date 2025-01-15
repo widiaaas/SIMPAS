@@ -20,3 +20,10 @@ Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
 
+Route::get('/mtrProfil', function () {
+    return view('mentor.profil');
+});
+
+Route::get('/mtrEditProfil', function () {
+    return view('mentor.profilEdit');
+});
