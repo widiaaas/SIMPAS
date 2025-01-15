@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
-
-@section('page_title', 'Dashboard Utama')
-
-@section('sub_title', 'Informasi umum aplikasi')
-
-@section('username', 'John Doe')
+@section('title', 'Dashboard Peserta Magang')
 
 @section('content')
-    <div class="bg-[#f28b61] text-center py-16 rounded-lg">
-        <p class="text-xl font-bold mb-4">Jumlah Pengguna Terdaftar</p>
-        <p class="text-6xl font-bold text-[#b12a2f]">500</p>
+<h1 class="header">Beranda</h1>
+<p>Selamat Datang <strong>Widiawati Sihaloho</strong></p>
+<div style="display: flex; justify-content: space-between;">
+    <div class="card">
+        <h3>Status Pendaftaran</h3>
+        <p>Diterima</p>
     </div>
+    <div class="card">
+        <h3>Status Magang</h3>
+        <p>Aktif</p>
+    </div>
+    <div class="card">
+        <h3>Status SKL</h3>
+        <p>Belum diterbitkan</p>
+    </div>
+</div>
 @endsection
