@@ -62,7 +62,7 @@
         }
 
         .corner-text {
-            position: fixed;
+            position: absolute;
             margin-left: 10px;
             font-size: 16px;
             color: #b22222;
@@ -72,7 +72,7 @@
         }
 
         .corner-text2 {
-            position: fixed;
+            position: absolute;
             margin-left: 10px;
             font-size: 16px;
             color: #b22222;
@@ -83,7 +83,7 @@
         }
 
         img.corner-image {
-            position: fixed;
+            position: absolute;
             top: 20px; 
             right: 20px; 
             width: 50px; 

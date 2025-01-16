@@ -8,14 +8,17 @@
 <div style="display: flex; justify-content: space-between;">
     <div class="card">
         <h3>Status Pendaftaran</h3>
+        <hr>
         <p>Diterima</p>
     </div>
     <div class="card">
         <h3>Status Magang</h3>
+        <hr>
         <p>Aktif</p>
     </div>
     <div class="card">
         <h3>Status SKL</h3>
+        <hr>
         <p>Belum diterbitkan</p>
     </div>
 </div>

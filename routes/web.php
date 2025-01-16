@@ -18,4 +18,22 @@ Route::get('/mtrDashboard', function () {
     return view('mentor.dashboard');
 });
 
-Route::get('/koorDashboard', [KoorController::class, 'koorDashboard'])->name('koorDashboard');
+Route::get('/koor/dashboard', function () {
+    return view('koordinator.dashboard');
+});
+
+Route::get('/koor/pembagianMagang', function () {
+    return view('koordinator.pembagianMagang');
+});
+
+Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
+    return view('koordinator.detailPendaftarMagang');
+});
+
+Route::get('/mtrProfil', function () {
+    return view('mentor.profil');
+});
+
+Route::get('/mtrEditProfil', function () {
+    return view('mentor.profilEdit');
+});
