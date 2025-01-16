@@ -115,7 +115,7 @@
                 </div>
             </div>
             <div class="mt-6 text-right">
-                <a class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="/mtrEditProfil">
+                <a class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="/mentor/editProfil">
                     Edit
                 </a>
             </div>
