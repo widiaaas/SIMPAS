@@ -26,7 +26,7 @@
     <!-- Sidebar -->
     <x-sidebar-mentor></x-sidebar-mentor>
     <!--main content-->
-    <div class="w-screen p-8 rounded-tl-[30px] rounded-bl-[30px] bg-[#fdf7f4]">
+    <div class="w-screen p-8 rounded-tl-[30px] rounded-bl-[30px] bg-[#fdf7f4] overflow-auto">
         <div class="mb-8">
             <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/daftarPeserta">
                 <i class="fas fa-arrow-left">
