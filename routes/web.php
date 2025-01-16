@@ -6,18 +6,23 @@ use App\Http\Controllers\KoorController;
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); 
 
+//Peserta Magang 
 Route::get('pesertaMagang/dashboard', function () {
     return view('pesertaMagang.dashboard');
 });
-
 Route::get('pesertaMagang/profil', function () {
     return view('pesertaMagang.profil');});
+Route::get('pesertaMagang/daftar-magang', function () {
+    return view('pesertaMagang.daftar-magang');});
+Route::get('pesertaMagang/skl', function () {
+    return view('pesertaMagang.skl');});
+          
 
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
-Route::get('/mtrDashboard', function () {
+
+Route::get('mentor/dashboard', function () {
     return view('mentor.dashboard');
 });
-
 Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
@@ -34,6 +39,22 @@ Route::get('/mtrProfil', function () {
     return view('mentor.profil');
 });
 
-Route::get('/mtrEditProfil', function () {
+Route::get('mentor/profil', function () {
+    return view('mentor.profil');
+});
+
+Route::get('mentor/editProfil', function () {
     return view('mentor.profilEdit');
+});
+
+Route::get('mentor/daftarPeserta', function () {
+    return view('mentor.daftarPeserta');
+});
+
+Route::get('mentor/penilaianPeserta', function () {
+    return view('mentor.penilaianPeserta');
+});
+
+Route::get('mentor/detail', function () {
+    return view('mentor.detail');
 });

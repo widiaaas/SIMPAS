@@ -6,6 +6,7 @@
     <title>@yield('title', 'Dashboard ')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Aoboshi One', sans-serif;
@@ -19,6 +20,13 @@
             position: fixed;
             height: 100vh;
             padding: 20px 0;
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+            padding-top: 75px;
+            
+        }
+        .sidebar.closed {
+            transform: translateX(-250px);
         }
         .sidebar a {
             width: 200px;
@@ -27,6 +35,8 @@
             display: block;
             padding: 10px 20px;
             font-weight: normal;
+            top: 200px; 
+            right: 50px;
             
         }
         .sidebar a:hover, .sidebar a.active {
@@ -35,10 +45,13 @@
         }
         .content {
             margin-left: 250px;
-            padding: 20px;
+            padding: 50px;
             background-color: #FDF2EE;
             height: 100vh;
-            
+            transition: margin-left 0.3s ease;
+        }
+        .content.expanded {
+            margin-left: 0;
         }
         .card {
             background-color: #FFDED5;
@@ -55,12 +68,12 @@
         .card p {
             margin: 5px 0;
             font-size: 18px;
-    
         }
         .header {
             color: #B22222;
+            font-size: 40px;
+            margin-left: 40px;
         }
-
         .corner-text {
             position: absolute;
             margin-left: 10px;
@@ -70,7 +83,6 @@
             right: 122px; 
             width: 80px;
         }
-
         .corner-text2 {
             position: absolute;
             margin-left: 10px;
@@ -81,7 +93,6 @@
             width: 80px;
             white-space: nowrap; 
         }
-
         img.corner-image {
             position: absolute;
             top: 20px; 
@@ -90,22 +101,57 @@
             height: auto; 
             z-index: 999; 
         }
-
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            
+            background-color: #403333;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000;
+            border-radius: 0 50px 50px 0;
+            width: 50px;
+        }
+        .sidebar.closed + .toggle-button {
+            left: 20px; 
+        }
     </style>
 </head>
 <body>
+    <button id="toggle-sidebar" class="toggle-button">
+        ☰
+    </button>
+
     <div class="sidebar">
-        <a href="/" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a>
-        <a href="/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-        <a href="/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
-        <a href="/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
+        <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+        <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+        <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
+        <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
         @yield('sidebar')
     </div>
+    
     <div class="content">
         <span class="corner-text">Pemerintahan</span>
         <span class="corner-text2">Kota Semarang</span>
         <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" class="corner-image">
         @yield('content')
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.getElementById('toggle-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+
+            toggleButton.addEventListener('click', function () {
+                sidebar.classList.toggle('closed');
+                content.classList.toggle('expanded');
+            });
+        });
+    </script>
 </body>
 </html>
