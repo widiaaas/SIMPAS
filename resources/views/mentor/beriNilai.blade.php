@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Detail Peserta - SIMPAS </title>
+    <title>Penilaian Peserta - SIMPAS </title>
      <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -28,7 +28,7 @@
     <!--main content-->
     <div class="w-screen p-8 rounded-tl-[30px] rounded-bl-[30px] bg-[#fdf7f4]">
         <div class="mb-8">
-            <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/daftarPeserta">
+            <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/penilaianPeserta">
                 <i class="fas fa-arrow-left">
                 </i>
                 Kembali
@@ -36,7 +36,7 @@
         </div>
         <div class="flex justify-between items-center">
             <h2 class="text-2xl aoboshi-one-regular font-bold text-[#b12a2f]">
-               Detail Peserta Magang
+               Penilaian Peserta Magang
             </h2>
             <div class="flex items-center justify-end">
                 <div class="text-right">
