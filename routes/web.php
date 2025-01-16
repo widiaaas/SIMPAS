@@ -17,30 +17,22 @@ Route::get('pesertaMagang/skl', function () {
     return view('pesertaMagang.skl');});
           
 
-<<<<<<< HEAD
 // Mentor
-Route::get('/mtrDashboard', function () {
-=======
 Route::get('mentor/dashboard', function () {
->>>>>>> 546b7640544824b474b0f9ec4777806c28d600ad
     return view('mentor.dashboard');
 });
 Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
-<<<<<<< HEAD
 Route::get('/mtrProfil', function () {
     return view('mentor.profil');
 });
-Route::get('/mtrEditProfil', function () {
-=======
 
 Route::get('mentor/profil', function () {
     return view('mentor.profil');
 });
 
 Route::get('mentor/editProfil', function () {
->>>>>>> 546b7640544824b474b0f9ec4777806c28d600ad
     return view('mentor.profilEdit');
 });
 
