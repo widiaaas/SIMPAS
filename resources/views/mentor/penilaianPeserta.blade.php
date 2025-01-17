@@ -78,7 +78,7 @@
                             <td class="p-2 border border-[#FF885B]">Statistik</td>
                             <td class="p-2 border border-[#FF885B]">02/01/2025</td>
                             <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-                            <td class="p-2 border border-[#FF885B] text-center"><button class="bg-[#282A4C] text-white p-2 rounded">Beri Nilai</button></td>
+                            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
                         </tr>
                         <tr>
                             <td class="p-2 border border-[#FF885B]">2</td>
@@ -87,7 +87,7 @@
                             <td class="p-2 border border-[#FF885B]">Statistik</td>
                             <td class="p-2 border border-[#FF885B]">02/01/2025</td>
                             <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-                            <td class="p-2 border border-[#FF885B] text-center"><button class="bg-[#282A4C] text-white p-2 rounded">Beri Nilai</button></td>
+                            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
                         </tr>
                         <tr>
                             <td class="p-2 border border-[#FF885B]">3</td>
@@ -96,7 +96,7 @@
                             <td class="p-2 border border-[#FF885B]">Statistik</td>
                             <td class="p-2 border border-[#FF885B]">02/01/2025</td>
                             <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-                            <td class="p-2 border border-[#FF885B] text-center"><button class="bg-[#282A4C] text-white p-2 rounded">Beri Nilai</button></td>
+                            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
                         </tr>
                         <tr>
                             <td class="p-2 border border-[#FF885B]">4</td>
@@ -105,7 +105,7 @@
                             <td class="p-2 border border-[#FF885B]">Statistik</td>
                             <td class="p-2 border border-[#FF885B]">02/01/2025</td>
                             <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-                            <td class="p-2 border border-[#FF885B] text-center"><button class="bg-[#282A4C] text-white p-2 rounded">Beri Nilai</button></td>
+                            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
                         </tr>
                     </tbody >
                 </table>

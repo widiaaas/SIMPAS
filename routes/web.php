@@ -58,3 +58,7 @@ Route::get('mentor/penilaianPeserta', function () {
 Route::get('mentor/detail', function () {
     return view('mentor.detail');
 });
+
+Route::get('mentor/beriNilai', function () {
+    return view('mentor.beriNilai');
+});

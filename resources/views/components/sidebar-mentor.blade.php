@@ -1,4 +1,4 @@
-<nav class="w-1/5 bg-[#3a2e2b] text-white h-screen p-6 ">
+<nav class="w-1/5 bg-[#3a2e2b] text-white flex-h-screen p-6 ">
     <div class="flex flex-col items-center mb-8 pt-6">
         <img src="{{asset('img/pemkot.png')}}" class="mx-auto" width="70" alt="">
            <div class="ml-2 mt-3 text-center">
