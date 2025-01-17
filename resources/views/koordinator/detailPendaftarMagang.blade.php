@@ -7,13 +7,11 @@
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        .container {
-            width: 80%;
-            margin: 0 auto;
+        .card {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: start;
+            margin-top: 40px;
+            margin-left: 40px;
         }
     
         .info-section {
@@ -66,7 +64,7 @@
 
 <h1 class="header">Detail Pendaftar</h1>
 
-<div class="container">
+<div class="card">
     <div class="info-section">
         <div class="info-label">Nama</div>
         <div class="info-value">WIDIAWATI SIHALOHO</div>

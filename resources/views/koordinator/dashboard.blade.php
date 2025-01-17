@@ -5,9 +5,16 @@
 @section('content')
 
 <style>
+    .card {
+        background-color:#fdf2ee;
+        text-align: start;
+        margin-left: 10px;
+        box-shadow: none;
+    }
+
     .stat-pendaftar {
         background-color: #FFDED5;
-        margin: 100px;
+        margin-left: 40px;
         width: 100%; /* Mengubah lebar card */
         height: 150px; /* Mengubah tinggi card */
         padding: 20px; /* Menambah padding dalam card */
@@ -22,7 +29,6 @@
         margin: 10px;
         width: 100%; /* Mengubah lebar card */
         height: 150px; /* Mengubah tinggi card */
-        padding: 20px; /* Menambah padding dalam card */
         margin: 10px; /* Menambah jarak antar card */
         border-radius: 8px; /* Membuat sudut card lebih melengkung */
     }
@@ -61,30 +67,32 @@
     }
 </style>
 
-<h1 class="header">Beranda</h1>
+<h1 class="header mb-20">Beranda</h1>
+<p class="mb-6 text-xl" style="margin-left: 40px">Selamat Datang <strong>Wihajun</strong></p>
 
-<p>Selamat Datang <strong>Wihajun</strong></p>
-
-<div style="display: flex; justify-content: space-between;">
-    <div class="stat-peserta">
-        <div>
-            <p>Total Peserta</p>
-            <h1>1257</h1>
-            <p>Peserta</p>
-        </div>
-        <button class="btn detail-peserta mt-3">Lihat Detail Peserta</button>
-    </div>
-</div>
-
-<div style="display: flex; justify-content: space-between;">
-    <div class="stat-pendaftar">
+<div class="card">
+    <div style="display: flex; justify-content: space-between;">
+        <div class="stat-peserta">
             <div>
                 <p>Total Peserta</p>
                 <h1>1257</h1>
                 <p>Peserta</p>
             </div>
-            <!-- Tombol diposisikan di pojok kanan atas -->
-            <button class="btn detail-peserta mt-3 btn-detail-pendaftar" style="margin-bottom: 20px">Selengkapnya</button>
+            <button class="btn detail-peserta mt-3">Lihat Detail Peserta</button>
+        </div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between;">
+        <div class="stat-pendaftar">
+                <div>
+                    <p>Total Peserta</p>
+                    <h1>1257</h1>
+                    <p>Peserta</p>
+                </div>
+                <button class="btn detail-peserta mt-3 btn-detail-pendaftar" style="margin-bottom: 20px" >
+                    <a href="/koor/pembagianMagang">Selengkapnya</a>
+                </button>
+        </div>
     </div>
 </div>
 

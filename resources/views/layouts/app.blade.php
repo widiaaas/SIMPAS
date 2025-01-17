@@ -12,13 +12,14 @@
             font-family: 'Aoboshi One', sans-serif;
             margin: 0;
             padding: 0;
+            height: 100%; /* Pastikan body memiliki tinggi penuh */
         }
         .sidebar {
             width: 250px;
             background-color: #403333;
             color: #fff;
             position: fixed;
-            height: 100vh;
+            height: 100%;
             padding: 20px 0;
             transform: translateX(0);
             transition: transform 0.3s ease;
@@ -47,7 +48,7 @@
             margin-left: 250px;
             padding: 50px;
             background-color: #FDF2EE;
-            height: 100vh;
+            min-height: 100vh;
             transition: margin-left 0.3s ease;
         }
         .content.expanded {
@@ -119,6 +120,7 @@
         .sidebar.closed + .toggle-button {
             left: 20px; 
         }
+
     </style>
 </head>
 <body>
