@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KoorController;
 
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login'); 
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); 
 
 //Peserta Magang 
 Route::get('pesertaMagang/dashboard', function () {
@@ -17,13 +18,23 @@ Route::get('pesertaMagang/skl', function () {
     return view('pesertaMagang.skl');});
           
 
-// Mentor
+Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
+
 Route::get('mentor/dashboard', function () {
     return view('mentor.dashboard');
 });
 Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
+
+Route::get('/koor/pembagianMagang', function () {
+    return view('koordinator.pembagianMagang');
+});
+
+Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
+    return view('koordinator.detailPendaftarMagang');
+});
+
 Route::get('/mtrProfil', function () {
     return view('mentor.profil');
 });

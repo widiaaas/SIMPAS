@@ -18,12 +18,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative; 
-            overflow: hidden; 
+            min-height: 100vh; /* Memastikan konten memenuhi tinggi viewport */
+            position: relative;
             background-image: url('{{ asset('img/bg.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            margin: 0;
         }
 
         // <uniquifier>: Use a unique and descriptive class name
@@ -41,17 +42,16 @@
             font-style: normal;
         }
 
-
         .container {
-            margin: auto;  
-            max-width: 1000px;
-            padding: 50px;
-            margin-top: 110px;
+            width: 100%;
+            max-width: 1200px; /* Lebar maksimum yang lebih besar */
+            margin-top: 100px;
+            margin-bottom: 100px;
         }
 
         /* Dark overlay */
         .overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -65,9 +65,16 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
-            z-index: 1; 
+            max-width: 4000px;
+            z-index: 1;
         }
+/* 
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        } */
 
         .card-header h2 {
             font-weight: bold; 
@@ -82,14 +89,9 @@
             text-emphasis: none;
         }
 
-        .form-control {
-            background-color: rgba(255, 136, 91, 0.25); 
-            border: 2px solid #FF885B; 
-            color: #403333;
-        }
-
-        .btn-primary {
+        .btn-daftar {
             border-radius: 20px;
+            color:#FEF7F4;
             font-weight: bold;
             background-color: #FF885B;
             border-color: #FF885B;
@@ -97,22 +99,16 @@
             box-shadow: none; /* Menghilangkan shadow biru */
         }
 
-        .btn-primary:hover {
-            background-color: #FF7733; /* Sedikit lebih gelap dari warna awal */
-            border-color: #FF7733;
+        .btn-daftar:hover {
+            background-color: #b53c00d1; /* Sedikit lebih gelap dari warna awal */
+            border-color: #b53c00d1;
             color: white;
         }
 
-        .btn-primary:focus,
-        .btn-primary:active {
+        .btn-daftar:focus,
+        .btn-daftar:active {
             background-color: #FF6600; /* Tetap dengan warna yang sama */
-            border-color: #FF6600; 
-            outline: none; /* Menghilangkan outline biru */
-            box-shadow: none; /* Menghilangkan shadow */
-        }
-
-        .btn-primary:focus-visible {
-            outline: none; /* Hilangkan outline biru */
+            border-color: #FF6600;
         }
 
         .logo {
@@ -126,7 +122,7 @@
         }
 
         footer {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             width: 100%;
             background-color: #403333; 
@@ -145,7 +141,8 @@
         
         .form-control {
             border-radius: 20px;
-            padding: 10px 15px;
+            padding: 5px;
+            max-width: 100%;
             background-color: rgba(255, 136, 91, 0.25); 
             border: 2px #FF885B; 
         }
@@ -163,12 +160,12 @@
     <!-- Main container for centering -->
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
+            <div class="col-md-10">
                 <div class="card shadow">
                     <div class="card-header">
                         <h2>SIMPAS</h2>
                         <img src="{{ asset('img/pemkot.png') }}" alt="Logo" class="logo">
-                        <h5 class="aoboshi-one-regular">Masuk</h5>
+                        <h5 class="aoboshi-one-regular">Daftar</h5>
                     </div>
                     <div class="card-body">
                         <!-- @if($errors->any())
@@ -180,21 +177,32 @@
                                 </ul>
                             </div>
                         @endif -->
-                        <form action="{{ route('login') }}" method="POST" autocomplete="on">
+                        <form action="{{ route('daftarakun') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
                                 <label for="nim" class="form-label" style="font-style: italic;">NIM/NISN</label>
                                 <input type="nim" name="nim" id="nim" class="form-control" required value="{{ old('nim') }}">
-                            </div>
-                            <div class="mb-3">
+
+                                <label for="nama" class="form-label" style="font-style: italic;">Nama Lengkap</label>
+                                <input type="nama" name="nama" id="nama" class="form-control"  value="{{ old('nama') }}">
+
+                                <label for="email" class="form-label" style="font-style: italic;">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
+                                
+                                <label for="notelp" class="form-label" style="font-style: italic;">Nomor Telepon</label>
+                                <input type="notelp" name="notelp" id="notelp" class="form-control" required value="{{ old('notelp') }}">
+                                
+                                <label for="sekolah" class="form-label" style="font-style: italic;">Asal Sekolah / Perguruan Tinggi</label>
+                                <input type="sekolah" name="sekolah" id="sekolah" class="form-control" required value="{{ old('sekolah') }}">
+                                
+                                <label for="jurusan" class="form-label" style="font-style: italic;">Jurusan</label>
+                                <input type="jurusan" name="jurusan" id="jurusan" class="form-control" required value="{{ old('jurusan') }}">
+
                                 <label for="password" class="form-label" style="font-style: italic;">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" required>
-                            </div>
-                            <div class="card-footer">
-                                <h6 style="font-style: italic;">Belum punya akun? <a href="{{ route('daftarakun') }}" style="font-weight: bold;">Daftar sekarang</a></h6>
+                                <input type="password" name="password" id="password" class="form-control" required value="{{ old('password') }}">
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary aoboshi-one-regular">Masuk</button>
+                                <button type="submit" class="btn btn-daftar aoboshi-one-regular">Daftar</button>
                             </div>
                         </form>
                     </div>
