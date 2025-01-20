@@ -184,14 +184,18 @@ function toggleEdit() {
 }
   // Fungsi validasi input dan perhitungan total
   function validateAndCalculate(input, max) {
-    const value = parseInt(input.value, 10);
-    if (value < 1 || value > max || isNaN(value)) {
-      alert(`Masukkan nilai antara 1 dan ${max}`);
-      input.value = ''; // Kosongkan input jika invalid
+    const value = parseFloat(input.value); // Gunakan parseFloat untuk menangani angka desimal
+    if (!Number.isInteger(value)) {
+        alert('Masukkan nilai berupa bilangan bulat.');
+        input.value = ''; // Kosongkan input jika invalid
+    } else if (value < 1 || value > max || isNaN(value)) {
+        alert(`Masukkan nilai antara 1 dan ${max}`);
+        input.value = ''; // Kosongkan input jika invalid
     } else {
-      calculateTotal(); // Hitung total setelah input valid
+        calculateTotal(); // Hitung total setelah input valid
     }
-  }
+}
+
 
   // Fungsi menghitung total nilai
   function calculateTotal() {
