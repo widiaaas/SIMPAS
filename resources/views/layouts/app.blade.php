@@ -132,6 +132,7 @@
         <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
         <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
         <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
+        <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
         <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
         @yield('sidebar')
     </div>

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoorController;
+use App\Http\Controllers\SKLController;
+
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); 
 
@@ -14,9 +16,11 @@ Route::get('pesertaMagang/profil', function () {
     return view('pesertaMagang.profil');});
 Route::get('pesertaMagang/daftar-magang', function () {
     return view('pesertaMagang.daftar-magang');});
+Route::get('pesertaMagang/kumpul-laporan', function () {
+    return view('pesertaMagang.kumpul-laporan');});
 Route::get('pesertaMagang/skl', function () {
     return view('pesertaMagang.skl');});
-          
+Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');         
 
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
 
