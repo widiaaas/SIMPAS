@@ -95,30 +95,51 @@
     }
 
     .card-custom h1 {
-        font-size: 1.25rem;
-        color: #B31314;
+        font-size: 50px;
+        color: #403333;
+    }
+
+    .card-custom p {
+        color: #b31312;
     }
 
     .container-custom {
         display: flex;
         justify-content: space-between;
     }
+    
+    .stat-peserta-diagram {
+        /* padding: 0px;
+        height: 300px; */
+        flex: 1;
+        display: flex;
+        justify-content: end;
+        justify-items: end;
+        /* background-color:#403333 */
+    }
+
 </style>
 
 <h1 class="header">Beranda</h1>
 <p class="text-xl" style="margin-left: 40px">Selamat Datang <strong style="color:#b31312">Wihajun</strong></p>
 
 <div class="card">
-    <div class= stat-peserta>
-        <div>
-            <p style="font-size: 30px">Total Peserta</p>
-            <h1 style="font-size: 100px">1257</h1>
-            <p>Peserta</p>
+    <div class="stat-container">
+        <div class= stat-peserta>
+            <div class="container-custom" style="gap: 40px">
+                <div>
+                    <p style="font-size: 30px">Total Peserta</p>
+                    <h1 style="font-size: 100px">1257</h1>
+                    <p>Peserta</p>
+                </div>
+                <div class="stat-peserta-diagram" style="height: 250px">
+                    <canvas id="pesertaChart" width="250" height="250px"></canvas>
+                </div>
+            </div>
+            <button class="btn btn-detail-peserta mt-3">Lihat Detail Peserta</button>
         </div>
         
-        <button class="btn btn-detail-peserta mt-3">Lihat Detail Peserta</button>
     </div>
-    
     <div class="stat-pendaftar">
         <p style="font-size: 30px; color:#b31312">Pendaftar Magang</p>
         <div class="container-custom" style="background-color:#FFDED5">
@@ -142,44 +163,54 @@
 </div>
 
 <script>
-    var ctx = document.getElementById('pendaftarChart').getContext('2d');
-    var pendaftarChart = new Chart(ctx, {
-        type: 'pie',
+    var ctx = document.getElementById('pesertaChart').getContext('2d');
+    var pesertaChart = new Chart(ctx, {
+        type: 'doughnut',
         data: {
             labels: ['DISPERKIM', 'DISKOMINFO', 'DLH', 'DISPERTAN', 'DISHUB', 'dll.'],
             datasets: [{
-                label: 'Jumlah Pendaftar',
-                data: [300, 250, 200, 180, 127], // Ganti dengan jumlah peserta aktual di setiap dinas
+                data: [300, 250, 200, 180, 127, 200],
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)', // Warna untuk DISPERKIM
-                    'rgba(255, 159, 64, 0.2)', // Warna untuk DISKOMINFO
-                    'rgba(255, 205, 86, 0.2)', // Warna untuk DLH
-                    'rgba(54, 162, 235, 0.2)', // Warna untuk DISPERTAN
-                    'rgba(153, 102, 255, 0.2)', // Warna untuk DISHUB
-                    'rgba(201, 203, 207, 0.2)'  // Warna untuk lainnya
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
                 ],
-
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 205, 86, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(201, 203, 207, 1)'
+                ],
+                borderWidth: 1
             }]
         },
+        plugins: [ChartDataLabels],
         options: {
-            responsive: true,
-            plugins: [ChartDataLabels],
-            options: {
-                plugins: {
-                    legend: {
-                        position: 'right', // Menempatkan legenda di sebelah kanan
-                    },
-                    datalabels: {
-                        color: '#000',
-                        formatter: (value, ctx) => {
-                            let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                            let percentage = (value * 100 / sum).toFixed(2) + "%";
-                            return percentage;
-                        }
-                    }
-                }
+    plugins: {
+        legend: {
+            display: true,
+            position:'left',
+            labels: {
+                padding: 0 // Mengurangi padding antara legend dan chart
             }
+        },
+        title: {
+            display: false // Pastikan title tidak ditampilkan
         }
+    },
+    layout: {
+        padding: {
+            top: 0,
+            bottom: 0
+        }
+    }
+}
+
     });
 </script>
 
