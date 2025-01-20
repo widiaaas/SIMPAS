@@ -271,6 +271,48 @@
     </div>
 </div>
 
+{{-- Script untuk Sweet Alert --}}
+<script>
+    function confirmApproval() {
+        Swal.fire({
+            title: 'Setujui Pengajuan?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            customClass: {
+                confirmButton: 'btn-ya',
+                cancelButton: 'btn-tidak',
+                icon: 'icon-approval'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Pengajuan disetujui!', '', 'success');
+            }
+        });
+    }
+
+    function confirmRejection() {
+        Swal.fire({
+            title: 'Tolak Pengajuan?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            customClass: {
+                confirmButton: 'btn-ya',
+                cancelButton: 'btn-tidak',
+                icon: 'icon-rejection'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Pengajuan ditolak!', '', 'success');
+            }
+        });
+    }
+</script>
+
+{{-- Script untuk Search bar dan Pagination --}}
 <script>
 let currentPage = 1;
 let rowsPerPage = 5;
