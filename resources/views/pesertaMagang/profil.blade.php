@@ -75,6 +75,25 @@
         background-color: #ff7043;
         font-weight: bold;
     }
+
+    .save-button {
+        background-color: #4caf50;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: normal;
+        transition: background-color 0.3s;
+        margin-left: 1rem;
+    }
+
+    .save-button:hover {
+        background-color: #43a047;
+        font-weight: bold;
+    }
+
+    .hidden {
+        display: none;
+    }
 </style>
 
 <div class="profile-container">
@@ -91,7 +110,10 @@
             </div>
             <div>
                 <label class="profile-label">Nomor Telepon</label>
-                <p class="profile-value">087832630688</p>
+                <div class="profile-value">
+                    <span id="phone-display">081313243434</span>
+                    <input type="text" id="phone-edit" class="hidden" value="081313243434" />
+                </div>
             </div>
             <div>
                 <label class="profile-label">Asal Sekolah/Perguruan Tinggi</label>
@@ -99,7 +121,10 @@
             </div>
             <div>
                 <label class="profile-label">Email</label>
-                <p class="profile-value">widiawatis@gmail.com</p>
+                <div class="profile-value">
+                    <span id="email-display">widiawati@gmail.com</span>
+                    <input type="text" id="email-edit" class="hidden" value="widiawati@gmail.com" />
+                </div>
             </div>
             <div>
                 <label class="profile-label">Jurusan</label>
@@ -107,11 +132,55 @@
             </div>
         </div>
         <div class="mt-6 text-right">
-            <a class="edit-button" href="/mtrEditProfil">
+            <button class="edit-button" id="edit-button">
                 Edit
-            </a>
+            </button>
+            <button class="save-button hidden" id="save-button">
+                Save
+            </button>
         </div>
     </div>
 </div>
+
+<script>
+    const editButton = document.getElementById('edit-button');
+    const saveButton = document.getElementById('save-button');
+
+    const phoneDisplay = document.getElementById('phone-display');
+    const phoneEdit = document.getElementById('phone-edit');
+
+    const emailDisplay = document.getElementById('email-display');
+    const emailEdit = document.getElementById('email-edit');
+
+    editButton.addEventListener('click', function () {
+        // Toggle Edit Mode
+        phoneDisplay.classList.add('hidden');
+        phoneEdit.classList.remove('hidden');
+
+        emailDisplay.classList.add('hidden');
+        emailEdit.classList.remove('hidden');
+
+        // Show Save Button
+        saveButton.classList.remove('hidden');
+        editButton.classList.add('hidden');
+    });
+
+    saveButton.addEventListener('click', function () {
+        // Save Changes
+        phoneDisplay.textContent = phoneEdit.value;
+        emailDisplay.textContent = emailEdit.value;
+
+        // Toggle View Mode
+        phoneDisplay.classList.remove('hidden');
+        phoneEdit.classList.add('hidden');
+
+        emailDisplay.classList.remove('hidden');
+        emailEdit.classList.add('hidden');
+
+        // Show Edit Button
+        saveButton.classList.add('hidden');
+        editButton.classList.remove('hidden');
+    });
+</script>
 
 @endsection

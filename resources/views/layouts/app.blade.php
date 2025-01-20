@@ -8,6 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        .inter-font {
+            font-family: "Inter", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .aoboshi-one-regular {
+            font-family: "Aoboshi One", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
         body {
             font-family: 'Aoboshi One', sans-serif;
             margin: 0;
@@ -120,6 +134,15 @@
         .sidebar.closed + .toggle-button {
             left: 20px; 
         }
+        .content {
+            position: relative; /* Untuk posisi elemen */
+        }
+
+        .corner-text,
+        .corner-text2,
+        .corner-image {
+            display: block; /* Atur posisi sesuai kebutuhan */
+        }
 
     </style>
 </head>
@@ -132,11 +155,12 @@
         <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
         <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
         <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
+        <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
         <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
         @yield('sidebar')
     </div>
     
-    <div class="content">
+    <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>
         <span class="corner-text2">Kota Semarang</span>
         <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" class="corner-image">

@@ -10,9 +10,12 @@ class AuthController extends Controller
     {
         return view('auth.login', ['title' => 'Login']);
     }
-
     public function showSignUpForm() 
     {
         return view('auth.daftar', ['title' => 'Daftar Akun']);
     }
+}
+
+class DaftarAkunController extends Controller
+{
 }

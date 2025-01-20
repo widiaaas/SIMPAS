@@ -169,7 +169,7 @@
 
         <!-- Tombol Unduh SKL -->
         <div class="mt-6 text-right">
-            <a href="#" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh SKL</a>
+        <a href="{{ route('unduh-skl') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh Sertifikat</a>
         </div>
     </div>
 </div>
