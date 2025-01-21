@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cvs', function (Blueprint $table) {
-            $table->id();
-            $table->string('nip_peserta');
-            $table->string('nama_peserta');
-            $table->string('file_cv');
-            $table->unsignedBigInteger('file_size')->nullable();
+        Schema::create('mentors', function (Blueprint $table) {
+            $table->string('nip_mentor')->primary();
+            $table->string('nama');
+            $table->string('nomor_telp');
+            $table->string('email');
+            $table->string('alamat');
+            $table->string('kode_instansi');
             $table->unsignedBigInteger('user_id');
-            $table->timestamps();
-            
-            // FK
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs')->onDelete('cascade');
-            ;
+            $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cvs');
+        Schema::dropIfExists('mentors');
     }
 };

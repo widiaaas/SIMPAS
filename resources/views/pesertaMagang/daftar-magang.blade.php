@@ -82,81 +82,25 @@
                     <option value="DPU">Dinas Pekerjaan Umum </option>
                     <option value="Dishub">Dinas Perhubungan</option>
                     <option value="DPMPTSP">Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu</option>
-                    <option value="Dispang">Dinas Ketahanan Pangan</option>
+                    <option value="DKP">Dinas Ketahanan Pangan</option>
                     <option value="DLH">Dinas Lingkungan Hidup</option>
-                    <option value="Dinas A">Dinas Arsip dan Perpustakaan</option>
-                    <option value="Dinas B">Dinas Perdagangan</option>
-                    <option value="Dinas C">Dinas Perindustrian</option>
-                    <option value="Dinas A">Dinas Sosial</option>
+                    <option value="Disarpus">Dinas Arsip dan Perpustakaan</option>
+                    <option value="Disperindag">Dinas Perdagangan</option>
+                    <option value="Disperin">Dinas Perindustrian</option>
+                    <option value="Dinsos">Dinas Sosial</option>
                     <option value="Disnaker">Dinas Tenaga Kerja</option>
-                    <option value="Dinas C">Dinas Kepemudaan dan Olahraga</option>
-                    <option value="Diper">Dinas Perikanan</option>
-                    <option value="Diskes">Dinas Kesehatan</option>
-                    <option value="Dispen">Dinas Pendidikan</option>
+                    <option value="Dispora">Dinas Kepemudaan dan Olahraga</option>
+                    <option value="Dispi">Dinas Perikanan</option>
+                    <option value="Dinkes">Dinas Kesehatan</option>
+                    <option value="Disdik">Dinas Pendidikan</option>
                 </select>
             </div>
             <div>
                 <label class="registration-label">Surat Pengantar</label>
-                <input type="file" class="registration-value w-full" id="suratpengantar" name="suratpengantar" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                <input type="file" class="registration-value w-full" id="suratpengantar" name="suratpengantar" accept=".pdf">
             </div>
 
-            <div>
-                <label class="registration-label">Bidang Dituju</label>
-                <select class="registration-value w-full" id="bidang">
-                    <option value="" disabled selected>Pilih Bidang</option>
-                </select>
-            </div>
-            <script>
-                function updateBidang() {
-                    const dinas = document.getElementById('dinas').value;
-                    const bidang = document.getElementById('bidang');
-
-                    bidang.innerHTML = '<option value="" disabled selected>Pilih Bidang</option>';
-
-                    let bidangOptions = [];
-
-                    // Tentukan opsi bidang berdasarkan dinas yang dipilih
-                    if (dinas === 'Disperkim') {
-                        bidangOptions = ['Bidang Perumahan', 'Bidang Kawasan Permukiman'];
-                    } else if (dinas === 'DPU') {
-                        bidangOptions = ['Bidang Infrastruktur', 'Bidang Jalan Raya'];
-                    } else if (dinas === 'Dishub') {
-                        bidangOptions = ['Bidang Transportasi Umum', 'Bidang Angkutan Jalan'];
-                    } else if (dinas === 'DPMPTSP') {
-                        bidangOptions = ['Bidang Penanaman Modal', 'Bidang Pelayanan Terpadu'];
-                    } else if (dinas === 'Dispang') {
-                        bidangOptions = ['Bidang Ketahanan Pangan', 'Bidang Pertanian'];
-                    } else if (dinas === 'DLH') {
-                        bidangOptions = ['Bidang Lingkungan Hidup', 'Bidang Pengelolaan Sampah'];
-                    } else if (dinas === 'DinasA') {
-                        bidangOptions = ['Bidang Arsip', 'Bidang Perpustakaan'];
-                    } else if (dinas === 'DinasB') {
-                        bidangOptions = ['Bidang Perdagangan', 'Bidang Distribusi'];
-                    } else if (dinas === 'DinasC') {
-                        bidangOptions = ['Bidang Industri', 'Bidang Pengembangan Usaha'];
-                    } else if (dinas === 'DinasSosial') {
-                        bidangOptions = ['Bidang Kesejahteraan Sosial', 'Bidang Perlindungan Anak'];
-                    } else if (dinas === 'Disnaker') {
-                        bidangOptions = ['Bidang Tenaga Kerja', 'Bidang Pelatihan Kerja'];
-                    } else if (dinas === 'DinasOlahraga') {
-                        bidangOptions = ['Bidang Kepemudaan', 'Bidang Olahraga'];
-                    } else if (dinas === 'Diper') {
-                        bidangOptions = ['Bidang Perikanan', 'Bidang Kelautan'];
-                    } else if (dinas === 'Diskes') {
-                        bidangOptions = ['Bidang Kesehatan Umum', 'Bidang Kesehatan Masyarakat'];
-                    } else if (dinas === 'Dispen') {
-                        bidangOptions = ['Bidang Pendidikan', 'Bidang Pengajaran'];
-                    }
-
-                    // Tambahkan opsi bidang yang sesuai
-                    for (const option of bidangOptions) {
-                        const newOption = document.createElement('option');
-                        newOption.value = option;
-                        newOption.textContent = option;
-                        bidang.appendChild(newOption);
-                    }
-                }
-            </script>
+            
             <div>
                 <label class="registration-label">Tanggal Mulai Magang</label>
                 <input type="date" class="registration-value w-full" id="tanggal_mulai" name="tanggal_mulai">
@@ -164,7 +108,7 @@
 
             <div>
                 <label class="registration-label">CV</label>
-                <input type="file" class="registration-value w-full" id="cv" name="cv" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                <input type="file" class="registration-value w-full" id="cv" name="cv" accept=".pdf">
             </div>
             <div>
                 <label class="registration-label">Tanggal Selesai Magang</label>
@@ -173,7 +117,7 @@
 
             <div>
                 <label class="registration-label">Proposal</label>
-                <input type="file" class="registration-value w-full" id="proposal" name="proposal" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                <input type="file" class="registration-value w-full" id="proposal" name="proposal" accept=".pdf">
             </div>
 
         </div>
@@ -185,4 +129,30 @@
     </div>
 </div>
 
+<script>
+    // Fungsi untuk validasi ukuran file
+    function validateFileSize(fileInput, maxSizeMB) {
+        const file = fileInput.files[0];
+        if (file) {
+            const fileSizeMB = file.size / (1024 * 1024); // Mengonversi ukuran file ke MB
+            if (fileSizeMB > maxSizeMB) {
+                alert(`File harus lebih kecil dari ${maxSizeMB} MB`);
+                fileInput.value = ''; // Reset file input jika ukuran terlalu besar
+            }
+        }
+    }
+
+    // Menambahkan event listener untuk file input
+    document.getElementById('suratpengantar').addEventListener('change', function() {
+        validateFileSize(this, 1); // Maksimum 1 MB untuk Surat Pengantar
+    });
+
+    document.getElementById('cv').addEventListener('change', function() {
+        validateFileSize(this, 1); // Maksimum 1 MB untuk CV
+    });
+
+    document.getElementById('proposal').addEventListener('change', function() {
+        validateFileSize(this, 100); // Maksimum 100 MB untuk Proposal
+    });
+</script>
 @endsection

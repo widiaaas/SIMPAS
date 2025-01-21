@@ -12,29 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('peserta_magangs', function (Blueprint $table) {
-            $table->id();
-            $table->string('nip_peserta');
-            $table->string('email_peserta');
-            $table->string('no_telp_peserta');
+            $table->string('nip_peserta')->primary();
+            $table->string('email_peserta')->unique();
+            $table->string('no_telp_peserta')->unique();
             $table->string('asal_sekolah');
             $table->string('jurusan');
-            $table->string('status_pendaftaran');
-            $table->string('status_magang');
-            $table->string('status_skl');
-            $table->string('nama_mentor');
-            $table->string('tanggal_mulai');
-            $table->string('tanggal_selesai');
-            $table->string('user_id');
-            $table->string('kode_instansi');
-            $table->string('kode_bidang');
-            $table->string('nama_mentor');
+            $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
+            $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
+            $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
+            $table->string('nip_mentor')->nullable();
+            $table->string('kode_instansi')->nullable();
             $table->unsignedBigInteger('user_id');
 
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');
-            $table->foreign('kode_bidang')->references('kode_bidang')->on('bidangs');
-            $table->foreign('nama_mentor')->references('nama')->on('mentors');
+            $table->foreign('nip_mentor')->references('nip_mentor')->on('mentors');
             $table->timestamps();
         });
     }

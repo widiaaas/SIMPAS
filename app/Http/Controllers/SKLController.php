@@ -13,7 +13,7 @@ class SKLController extends Controller
     {
         // Data untuk sertifikat
         $data = [
-            'name' => 'Widiawati Sihaloho', // Nama peserta
+            'name' => 'Widiawati Sihaloho', 
             'date' => date('d F Y'),        // Tanggal pembuatan sertifikat
         ];
 

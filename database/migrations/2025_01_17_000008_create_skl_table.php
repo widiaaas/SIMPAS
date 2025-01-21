@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nip_peserta');
             $table->string('file_skl');
-            $table->unsignedBigInteger('file_size')->nullable();
-            $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs');
+            $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs')->onDelete('cascade');
             $table->timestamps();
         });
     }
