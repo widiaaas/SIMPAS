@@ -4,16 +4,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoorController;
 use App\Http\Controllers\SKLController;
+use App\Http\Controllers\PesertaMagangController;
 
+Route::get('/', function () {
+    return view('auth.login'); 
+});
 
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login'); 
-
+// Route::get('/', [AuthController::class, 'index'])->name('login'); 
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
+
 //Peserta Magang 
-Route::get('pesertaMagang/dashboard', function () {
-    return view('pesertaMagang.dashboard');
-});      
+Route::prefix('mahasiswa')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [PesertaMagangController::class, 'index'])->name('pesertaMagang.dashboard');
+}); 
+// Route::get('pesertaMagang/dashboard', function () {
+//     return view('pesertaMagang.dashboard');
+// });      
 Route::get('pesertaMagang/profil', function () {
     return view('pesertaMagang.profil');});
 Route::get('pesertaMagang/daftar-magang', function () {

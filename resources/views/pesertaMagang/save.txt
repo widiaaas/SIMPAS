@@ -249,3 +249,35 @@
                     }
                 }
             </script>
+
+// daftar akun 
+// Handle sign-up logic
+    public function signUp(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'role' => 'required|in:peserta,mentor,koordinator',
+        ]);
+
+        // Create new user
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
+        // Log the user in after registration
+        Auth::login($user);
+
+        // Redirect to role-specific dashboard after registration
+        if ($user->role == 'peserta') {
+            return redirect()->route('peserta.dashboard');
+        } elseif ($user->role == 'mentor') {
+            return redirect()->route('mentor.dashboard');
+        } elseif ($user->role == 'koordinator') {
+            return redirect()->route('koordinator.dashboard');
+        }
+    }
