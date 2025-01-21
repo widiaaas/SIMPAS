@@ -171,7 +171,7 @@
                         <h5 class="aoboshi-one-regular">Masuk</h5>
                     </div>
                     <div class="card-body">
-                        <!-- @if($errors->any())
+                        @if($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
@@ -179,12 +179,12 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif -->
-                        <form action="{{ route('login') }}" method="POST" autocomplete="on">
+                        @endif
+                        <form action="{{ route('authenticate') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
-                                <label for="nim" class="form-label" style="font-style: italic;">NIM/NISN</label>
-                                <input type="nim" name="nim" id="nim" class="form-control" required value="{{ old('nim') }}">
+                                <label for="email" class="form-label" style="font-style: italic;">NIM/NISN</label>
+                                <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label" style="font-style: italic;">Password</label>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\PesertaMagang;
+use App\Models\Mentor;
+use App\Models\Koordinator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -12,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
     // Show the login form
-    public function showLoginForm() 
+    public function index() 
     {
         return view('auth.login', ['title' => 'Login']);
     }
@@ -24,22 +27,23 @@ class AuthController extends Controller
     }
 
     // Handle login logic
-    public function login(Request $request)
+    public function authenticate(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
         ]);
-
-        $credentials = $request->only('email', 'password');
+        
+        // dd($credentials);
+        // $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Redirect user to appropriate dashboard based on role
+            $request->session()->regenerate();
             $user = Auth::user();
 
-            // Handle redirection based on user role
+            // arahkan berdasarkan role
             if ($user->role == 'peserta') {
-                return redirect()->route('peserta.dashboard');
+                return redirect()->route('pesertaMagang.dashboard');
             } elseif ($user->role == 'mentor') {
                 return redirect()->route('mentor.dashboard');
             } elseif ($user->role == 'koordinator') {
@@ -47,41 +51,14 @@ class AuthController extends Controller
             }
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
+        // throw ValidationException::withMessages([
+        //     'email' => ['The provided credentials are incorrect.'],
+        // ]);
+
+        return back()->withErrors(['email' => 'Login gagal! Periksa email dan kata sandi Anda.'])->withInput();
     }
 
-    // Handle sign-up logic
-    public function signUp(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:peserta,mentor,koordinator',
-        ]);
-
-        // Create new user
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        // Log the user in after registration
-        Auth::login($user);
-
-        // Redirect to role-specific dashboard after registration
-        if ($user->role == 'peserta') {
-            return redirect()->route('peserta.dashboard');
-        } elseif ($user->role == 'mentor') {
-            return redirect()->route('mentor.dashboard');
-        } elseif ($user->role == 'koordinator') {
-            return redirect()->route('koordinator.dashboard');
-        }
-    }
+    
 
     // Handle logout logic
     public function logout(Request $request)

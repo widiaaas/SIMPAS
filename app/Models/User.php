@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
 
+    protected $table = 'users';
     protected $fillable = [
         'username', 'email', 'password', 'role'
     ];
@@ -17,18 +21,18 @@ class User extends Model
         'password', 'remember_token',
     ];
 
-    public function pesertaMagangs()
+    public function pesertaMagang()
     {
-        return $this->hasMany(PesertaMagang::class);
+        return $this->hasOne(PesertaMagang::class,'user_id');
     }
 
-    public function mentors()
+    public function mentor()
     {
-        return $this->hasMany(Mentor::class);
+        return $this->hasOne(Mentor::class,'user_id');
     }
 
-    public function coordinators()
+    public function koordinator()
     {
-        return $this->hasMany(Koordinator::class);
+        return $this->hasOne(Koordinator::class,'user_id');
     }
 }
