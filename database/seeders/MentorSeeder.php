@@ -21,6 +21,7 @@ class MentorSeeder extends Seeder
                 'email' => 'johndoe@example.com',
                 'alamat' => 'Jl. Contoh No. 1, Semarang',
                 'kode_instansi' => 'Disperkim',
+                'jabatan'=>'Kepala Sub Bagian Umum dan Kepegawaian',
                 'user_id' => 1, // Gantilah dengan user_id yang valid
             ],
             [
@@ -30,6 +31,7 @@ class MentorSeeder extends Seeder
                 'email' => 'janesmith@example.com',
                 'alamat' => 'Jl. Contoh No. 2, Semarang',
                 'kode_instansi' => 'DPU',
+                'jabatan'=>'Kepala Bidang Bina Marga',
                 'user_id' => 2, // Gantilah dengan user_id yang valid
             ],
             [
@@ -39,6 +41,7 @@ class MentorSeeder extends Seeder
                 'email' => 'alicejohnson@example.com',
                 'alamat' => 'Jl. Contoh No. 3, Semarang',
                 'kode_instansi' => 'Dishub',
+                'jabatan'=>'Kepala Bidang Angkutan',
                 'user_id' => 3, // Gantilah dengan user_id yang valid
             ],
             [
@@ -48,6 +51,7 @@ class MentorSeeder extends Seeder
                 'email' => 'boblee@example.com',
                 'alamat' => 'Jl. Contoh No. 4, Semarang',
                 'kode_instansi' => 'DPMPTSP',
+                'jabatan'=>'Bidang Penyelenggaraan Layanan Perizinan',
                 'user_id' => 4, // Gantilah dengan user_id yang valid
             ],
         ]);
