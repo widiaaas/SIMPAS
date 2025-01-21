@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('alamat');
             $table->string('kode_instansi');
+            $table->string('jabatan');
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
