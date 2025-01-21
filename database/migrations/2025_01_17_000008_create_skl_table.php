@@ -11,19 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cvs', function (Blueprint $table) {
+        Schema::create('skls', function (Blueprint $table) {
             $table->id();
             $table->string('nip_peserta');
-            $table->string('nama_peserta');
-            $table->string('file_cv');
-            $table->unsignedBigInteger('file_size')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->timestamps();
-            
-            // FK
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('file_skl');
             $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs')->onDelete('cascade');
-            ;
+            $table->timestamps();
         });
     }
 
@@ -32,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cvs');
+        Schema::dropIfExists('skls');
     }
 };

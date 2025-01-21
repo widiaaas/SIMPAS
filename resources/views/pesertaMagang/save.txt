@@ -1,0 +1,251 @@
+@extends('layouts.app')
+
+@section('title', 'Detail Pendaftaran')
+
+@section('content')
+<h1 class="header mb-20">Detail Pendaftaran</h1>
+
+<div style="margin-left: 40px;">
+    <h2 class="mb-6 text-xl">Informasi Pendaftaran</h2>
+    <table style="width: 80%; border-collapse: collapse;">
+        <tr>
+            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Nama</th>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pendaftaran->nama }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Email</th>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pendaftaran->email }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Tanggal Pendaftaran</th>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">{{ $pendaftaran->tanggal_pendaftaran }}</td>
+        </tr>
+        <tr>
+            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Status Pendaftaran</th>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                @if(strtolower($pendaftaran->status) === 'diterima')
+                    <span style="color: green; font-weight: bold;">{{ $pendaftaran->status }}</span>
+                @elseif(strtolower($pendaftaran->status) === 'ditolak')
+                    <span style="color: red; font-weight: bold;">{{ $pendaftaran->status }}</span>
+                @else
+                    <span style="color: orange; font-weight: bold;">{{ $pendaftaran->status }}</span>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">Alasan</th>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                {{ $pendaftaran->alasan ?? 'Tidak ada informasi tambahan.' }}
+            </td>
+        </tr>
+    </table>
+
+    <a href="/dashboard" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #B31314; color: white; text-decoration: none; border-radius: 5px;">
+        Kembali ke Dashboard
+    </a>
+</div>
+@endsection
+
+// detail pendaftaran button berubah
+@extends('layouts.app')
+
+@section('title', 'Detail Pendaftaran')
+
+@section('content')
+<h1 class="header mb-20">Detail Pendaftaran</h1>
+
+<div class="detail-container">
+    <h2 class="section-title">Informasi Pendaftaran</h2>
+    <table class="detail-table">
+        <tr>
+            <th>Nama</th>
+            <td>Widiawati Sihaloho</td>
+        </tr>
+        <tr>
+            <th>Asal Sekolah/Universitas</th>
+            <td>Universitas Diponegoro</td>
+        </tr>
+        <tr>
+            <th>Tanggal Pendaftaran</th>
+            <td>02-01-2025</td>
+        </tr>
+        <tr>
+            <th>Dinas</th>
+            <td>Dinas Pendidikan</td>
+        </tr>
+        <tr>
+            <th>Tanggal Mulai Magang</th>
+            <td>02-01-2025</td>
+        </tr>
+        <tr>
+            <th>Tanggal Selesai Magang</th>
+            <td>13-02-2025</td>
+        </tr>
+        <tr>
+            <th>Status Pendaftaran</th>
+            <td>
+                <span class="status {{ strtolower($statusPendaftaran) == 'diterima' ? 'accepted' : (strtolower($statusPendaftaran) == 'ditolak' ? 'rejected' : 'processing') }}">
+                    {{ $statusPendaftaran }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th>Alasan</th>
+            <td>Diterima karena memenuhi persyaratan.</td>
+        </tr>
+    </table>
+
+    <a href="/dashboard" class="back-button {{ strtolower($statusPendaftaran) == 'diterima' ? 'button-accepted' : (strtolower($statusPendaftaran) == 'ditolak' ? 'button-rejected' : 'button-processing') }}">
+        Kembali ke Dashboard
+    </a>
+</div>
+
+<style>
+    .detail-container {
+        margin: 0 auto;
+        max-width: 800px;
+        background: #fdfdfd;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .detail-table th, 
+    .detail-table td {
+        text-align: left;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .detail-table th {
+        background-color: #f9f9f9;
+        font-weight: bold;
+    }
+
+    .status {
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .status.accepted {
+        color: #fff;
+        background-color: #4caf50; /* Hijau untuk diterima */
+    }
+
+    .status.rejected {
+        color: #fff;
+        background-color: #f44336; /* Merah untuk ditolak */
+    }
+
+    .status.processing {
+        color: #fff;
+        background-color: #ff9800; /* Oranye untuk diproses */
+    }
+
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .back-button.button-accepted {
+        background-color: #4caf50; /* Hijau untuk diterima */
+    }
+
+    .back-button.button-accepted:hover {
+        background-color: #388e3c; /* Hijau lebih gelap */
+    }
+
+    .back-button.button-rejected {
+        background-color: #f44336; /* Merah untuk ditolak */
+    }
+
+    .back-button.button-rejected:hover {
+        background-color: #d32f2f; /* Merah lebih gelap */
+    }
+
+    .back-button.button-processing {
+        background-color: #ff9800; /* Oranye untuk diproses */
+    }
+
+    .back-button.button-processing:hover {
+        background-color: #f57c00; /* Oranye lebih gelap */
+    }
+</style>
+@endsection
+
+// bidang
+<div>
+                <label class="registration-label">Bidang Dituju</label>
+                <select class="registration-value w-full" id="bidang">
+                    <option value="" disabled selected>Pilih Bidang</option>
+                </select>
+            </div>
+            <script>
+                function updateBidang() {
+                    const dinas = document.getElementById('dinas').value;
+                    const bidang = document.getElementById('bidang');
+
+                    bidang.innerHTML = '<option value="" disabled selected>Pilih Bidang</option>';
+
+                    let bidangOptions = [];
+
+                    // Tentukan opsi bidang berdasarkan dinas yang dipilih
+                    if (dinas === 'Disperkim') {
+                        bidangOptions = ['Bidang Pertamanan Dan Pemakaman', 'Bidang Prasarana, Sarana, dan Utilitas Umum', 'Bidang Rumah Umum Dan Rumah Swadaya', 'Bidang Permukiman'];
+                    } else if (dinas === 'DPU') {
+                        bidangOptions = ['Bidang Rekayasa Teknis', 'Bidang Bina Marga', 'Bidang Sumber Daya Air dan Drainase', 'Bidang Pendayagunaan Infrastruktur'];
+                    } else if (dinas === 'Dishub') {
+                        bidangOptions = ['Bidang Lalu Lintas', 'Bidang Angkutan', 'Bidang Pengendlian dan Penertiban', 'Bidang Parkir'];
+                    } else if (dinas === 'DPMPTSP') {
+                        bidangOptions = ['Bidang Potensi Dan Promosi Penanaman Modal', 'Bidang Penyelenggaraan Layanan Perizinan', 'Sistem Informasi Dan Monitoring Dan Evaluasi Perijinan'];
+                    } else if (dinas === 'DKP') {
+                        bidangOptions = ['Bidang Ketersediaan Dan Kewaspadaan Pangan', 'Bidang Distribusi Dan Cadangan Pangan', 'Bidang Konsumsi, Penganekaragaman Dan Pengembangan Pangan', 'Bidang Keamanan Pangan'];
+                    } else if (dinas === 'DLH') {
+                        bidangOptions = ['Bidang Penataan Lingkungan Hidup', 'Bidang Pengelolaan Sampah', 'Bidang Pengendalian Pencemaran dan Konservasi Lingkungan Hidup', 'Bidang Pengawasan dan Pemberdayaan Lingkungan'];
+                    } else if (dinas === 'Disarpus') {
+                        bidangOptions = ['Bidang Pengelolaan dan Layanan Kearsipan', ' Bidang Pengembangan dan Pengolahan Bahan Perpustakaan', 'Bidang Pemberdayaan dan Layanan Perpustakaan', 'Bidang Pengembangan, Pembinaan, dan Pengawasan Kearsipan'];
+                    } else if (dinas === 'Disperindag') {
+                        bidangOptions = ['Bidang Pengembangan Perdagangan Dan Stabilitasi Harga', 'Bidang Bina Usaha', 'Bidang Penataan dan Penetapan' , 'Bidang Pengembangan Prasarana Dan Sarana Perdagangan'];
+                    } else if (dinas === 'Disperin') {
+                        bidangOptions = ['Bidang Industri Logam, Mesin, Alat Transportasi Dan Telematika Dan Elektronika', 'Bidang Industri Kimia Dan Tekstil', 'Bidang Industri Agro Dan Hasil Hutan', 'Bidang Aneka Industri'];
+                    } else if (dinas === 'Dinsos') {
+                        bidangOptions = ['Bidang Pemberdayaan Sosial', 'Bidang Rehabilitasi Sosial', 'Bidang Jaminan Sosial', 'Bidang Perlindungan Sosial'];
+                    } else if (dinas === 'Disnaker') {
+                        bidangOptions = ['Bidang Pelatihan Tenaga Kerja',  'Bidang Penempatan Tenaga Kerja dan Perluasan Kerja', 'Bidang Hubungan Industrial dan Jaminan Sosial Tenaga Kerja', 'Bidang Informasi Pasar Kerja Dan Produktivitas Kerja'];
+                    } else if (dinas === 'Dispora') {
+                        bidangOptions = ['Bidang Pembinaan Dan Prestasi Olahraga', 'Bidang Pengembangan Pemuda', 'Bidang Pemberdayaan Pemuda', 'Bidang Pemberdayaan Olahraga'];
+                    } else if (dinas === 'Dispi') {
+                        bidangOptions = ['Bidang Pengelolaan Pembudidayaan Ikan', 'Bidang Pemberdayaan Usaha Kecil Pembudidayaan Ikan', 'Bidang Perikanan Tangkap'];
+                    } else if (dinas === 'Dinkes') {
+                        bidangOptions = ['Bidang Kesehatan Masyarakat', 'Bidang Pencegahan dan Pengendailan Penyakit', 'Bidang Sumber Pelayanan Kesehatan', 'Bidang Sumber Daya Kesehatan'];
+                    } else if (dinas === 'Disdik') {
+                        bidangOptions = ['Bidang Pembinaan Paud Dan Pnf', 'Bidang Pembinaan Guru Dan Tenaga Kependidikan', 'Bidang Pembinaan Sekola Dasar', 'Bidang Pembinaan Sekolah Menengah Pertama'];
+                    }
+
+                    // Tambahkan opsi bidang yang sesuai
+                    for (const option of bidangOptions) {
+                        const newOption = document.createElement('option');
+                        newOption.value = option;
+                        newOption.textContent = option;
+                        bidang.appendChild(newOption);
+                    }
+                }
+            </script>

@@ -6,12 +6,14 @@ use App\Http\Controllers\KoorController;
 use App\Http\Controllers\SKLController;
 
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); 
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login'); 
 
+
+Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
 //Peserta Magang 
 Route::get('pesertaMagang/dashboard', function () {
     return view('pesertaMagang.dashboard');
-});
+});      
 Route::get('pesertaMagang/profil', function () {
     return view('pesertaMagang.profil');});
 Route::get('pesertaMagang/daftar-magang', function () {
@@ -25,6 +27,12 @@ Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
 
 //Koor
+Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');   
+Route::get('/detail-pendaftaran', function () {
+    return view('pesertaMagang.detail-pendaftaran');
+});
+
+// Koor
 Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
@@ -34,7 +42,12 @@ Route::get('/koor/pembagianMagang', function () {
 });
 
 Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
+});
     return view('koordinator.detailPendaftarMagang');
+
+//Mentor
+Route::get('mentor/dashboard', function () {
+    return view('mentor.dashboard');
 });
 
 Route::get('/koor/pembagianMagang/plottingMentor', function () {

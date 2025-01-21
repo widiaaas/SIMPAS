@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('pendaftaran_magangs', function (Blueprint $table) {
             $table->id();
-            $table->string('id_akun');
+            $table->string('nip_peserta');
             $table->string('kode_instansi');
-            $table->string('kode_bidang');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->string('file_spkl');
             $table->string('file_cv');
-            $table->string('file_cv');
+            $table->string('file_proposal');
             $table->timestamps();
+
+            $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');
+            $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs');
         });
     }
 

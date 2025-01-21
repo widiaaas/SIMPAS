@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bidangs', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_bidang');
-            $table->string('nama_bidang');
-            $table->string('kode_instansi');
+        Schema::create('koordinators', function (Blueprint $table) {
+            $table->string('nip_koor')->primary();
+            $table->string('email')->unique();
             $table->timestamps();
-            
-            $table->foreign('kode_instansi')->references('kode_instansi')->on('instansi');
+            $table->string('no_telp');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bidangs');
+        Schema::dropIfExists('koordinators');
     }
 };

@@ -25,24 +25,49 @@
         display: flex;
         justify-content: space-between;
     }
+
+    .button-detail {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 0.5rem 1rem;
+        background-color: #B31314;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        text-decoration: none;
+    }
 </style>
 
 <div class="container-custom">
     <div class="card card-custom">
         <h3>Status Pendaftaran</h3>
         <hr>
-        <p>Diterima</p>
+        @php
+            $statusPendaftaran = 'Diterima'; // Contoh status, ini bisa berasal dari database
+        @endphp
+        <p>{{ $statusPendaftaran }}</p>
+        @if (strtolower($statusPendaftaran) === 'diterima' || strtolower($statusPendaftaran) === 'ditolak')
+        <a href="/detail-pendaftaran" class="button-detail">Lihat Detail</a>
+        @endif
     </div>
     <div class="card card-custom">
         <h3>Status Magang</h3>
         <hr>
-        <p>Aktif</p>
+        @php
+            $statusMagang = 'Aktif'; // Contoh status, ini bisa berasal dari database
+            $tanggalMulaiMagang = '02-01-2025'; // Contoh tanggal mulai
+            $tanggalSelesaiMagang = '13-02-2025'; // Contoh tanggal selesai
+        @endphp
+        <p>{{ $statusMagang }}</p>
+        @if (strtolower($statusMagang) === 'aktif')
+        <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulaiMagang }}</p>
+        <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesaiMagang }}</p>
+        @endif
     </div>
     <div class="card card-custom">
         <h3>Status SKL</h3>
         <hr>
         <p>Belum diterbitkan</p>
     </div>
-</div>
 </div>
 @endsection

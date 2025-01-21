@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('koordinators', function (Blueprint $table) {
-            $table->string('nip_koor');
-            $table->string('jabatan');
-            $table->string('no_telp');
-            $table->string('email');
-            $table->string('nip_koor');
+            $table->string('nip_koor')->primary();
+            $table->string('email')->unique();
             $table->timestamps();
+            $table->string('no_telp');
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
