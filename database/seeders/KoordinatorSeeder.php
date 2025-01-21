@@ -16,8 +16,11 @@ class KoordinatorSeeder extends Seeder
         DB::table('koordinators')->insert([
             [
                 'nip_koor' => 'KOORD1',
-                'email' => 'koordinator1@example.com',
+                'nama' => 'John Doe',
                 'no_telp' => '081234567890',
+                'email' => 'koordinator1@example.com',
+                'alamat' => 'Jl. Contoh No. 1, Semarang',
+                'kode_instansi' => 'Pemkot',
                 'user_id' => 8,  // Sesuaikan dengan ID user yang sudah ada
             ],
             

@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KoorController;
+use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\SKLController;
 use App\Http\Controllers\PesertaMagangController;
+use App\Http\Controllers\MentorController;
 
 Route::get('/', function () {
     return view('auth.login'); 
@@ -42,22 +43,22 @@ Route::get('/detail-pendaftaran', function () {
 });
 
 // Koor
-Route::get('/koor/dashboard', function () {
-    return view('koordinator.dashboard');
-});
+Route::prefix('koordinator')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [KoordinatorController::class, 'dashboard'])->name('koordinator.dashboard');
+}); 
 
 Route::get('/koor/pembagianMagang', function () {
     return view('koordinator.pembagianMagang');
 });
 
 Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
-});
     return view('koordinator.detailPendaftarMagang');
+});
 
 //Mentor
-Route::get('mentor/dashboard', function () {
-    return view('mentor.dashboard');
-});
+Route::prefix('mentor')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
+}); 
 
 Route::get('/koor/pembagianMagang/plottingMentor', function () {
     return view('koordinator.plottingMentor');

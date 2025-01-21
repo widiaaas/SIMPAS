@@ -121,15 +121,15 @@
 </style>
 
 <h1 class="header">Beranda</h1>
-<p class="text-xl" style="margin-left: 40px">Selamat Datang <strong style="color:#b31312">Wihajun</strong></p>
+<p class="text-xl" style="margin-left: 40px">Selamat Datang <strong style="color:#b31312">{{ $koordinator->nama }}</strong></p>
 
 <div class="card">
     <div class="stat-container">
-        <div class= stat-peserta>
+        <div class="stat-peserta">
             <div class="container-custom" style="gap: 40px">
                 <div>
                     <p style="font-size: 30px">Total Peserta</p>
-                    <h1 style="font-size: 100px">1257</h1>
+                    <h1 style="font-size: 100px">{{ $totalPeserta }}</h1>
                     <p>Peserta</p>
                 </div>
                 <div class="stat-peserta-diagram" style="height: 250px">
@@ -137,22 +137,21 @@
                 </div>
             </div>
             <button class="btn btn-detail-peserta mt-3">Lihat Detail Peserta</button>
-        </div>
-        
+        </div>        
     </div>
     <div class="stat-pendaftar">
         <p style="font-size: 30px; color:#b31312">Pendaftar Magang</p>
         <div class="container-custom" style="background-color:#FFDED5">
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $totalPendaftar }}</h1>
                 <p style="text-align: center; color:#b31312">Total</p>
             </div>
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $diterima }}</h1>
                 <p style="text-align: center; color:#b31312">Diterima</p>
             </div>
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $diproses }}</h1>
                 <p style="text-align: center; color:#b31312">Belum Diterima</p>
             </div>
         </div>
@@ -167,51 +166,51 @@
     var pesertaChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['DISPERKIM', 'DISKOMINFO', 'DLH', 'DISPERTAN', 'DISHUB', 'dll.'],
+            labels: @json($instansiLabels),  // Menampilkan label dari instansi
             datasets: [{
-                data: [300, 250, 200, 180, 127, 200],
+                data: @json($instansiCounts),  // Menampilkan jumlah peserta per instansi
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
+                    'rgba(75, 192, 192, 0.2)', // Warna untuk instansi pertama
+                    'rgba(153, 102, 255, 0.2)', // Warna untuk instansi kedua
+                    'rgba(255, 159, 64, 0.2)',  // Warna untuk instansi ketiga
+                    'rgba(54, 162, 235, 0.2)',  // Warna untuk instansi keempat
+                    'rgba(255, 99, 132, 0.2)',  // Warna untuk instansi kelima
+                    'rgba(201, 203, 207, 0.2)' // Warna untuk 'dll.'
                 ],
                 borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 205, 86, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(201, 203, 207, 1)'
+                    'rgba(75, 192, 192, 1)', // Border untuk instansi pertama
+                    'rgba(153, 102, 255, 1)', // Border untuk instansi kedua
+                    'rgba(255, 159, 64, 1)',  // Border untuk instansi ketiga
+                    'rgba(54, 162, 235, 1)',  // Border untuk instansi keempat
+                    'rgba(255, 99, 132, 1)',  // Border untuk instansi kelima
+                    'rgba(201, 203, 207, 1)'  // Border untuk 'dll.'
                 ],
                 borderWidth: 1
             }]
         },
         plugins: [ChartDataLabels],
         options: {
-    plugins: {
-        legend: {
-            display: true,
-            position:'left',
-            labels: {
-                padding: 0 // Mengurangi padding antara legend dan chart
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'left',
+                    labels: {
+                        padding: 0 // Mengurangi padding antara legend dan chart
+                    }
+                },
+                title: {
+                    display: false // Pastikan title tidak ditampilkan
+                }
+            },
+            layout: {
+                padding: {
+                    top: 0,
+                    bottom: 0
+                }
             }
-        },
-        title: {
-            display: false // Pastikan title tidak ditampilkan
         }
-    },
-    layout: {
-        padding: {
-            top: 0,
-            bottom: 0
-        }
-    }
-}
-
     });
 </script>
+
 
 @endsection
