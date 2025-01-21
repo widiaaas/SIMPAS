@@ -24,9 +24,7 @@ Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');
 
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
 
-Route::get('mentor/dashboard', function () {
-    return view('mentor.dashboard');
-});
+//Koor
 Route::get('/koor/dashboard', function () {
     return view('koordinator.dashboard');
 });
@@ -37,6 +35,23 @@ Route::get('/koor/pembagianMagang', function () {
 
 Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
     return view('koordinator.detailPendaftarMagang');
+});
+
+Route::get('/koor/pembagianMagang/plottingMentor', function () {
+    return view('koordinator.plottingMentor');
+});
+
+Route::get('/koor/penilaianPeserta', function () {
+    return view('koordinator.penilaianPeserta');
+});
+
+Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
+    return view('koordinator.detailNilaiPeserta');
+});
+
+//Mentor
+Route::get('mentor/dashboard', function () {
+    return view('mentor.dashboard');
 });
 
 Route::get('/mtrProfil', function () {

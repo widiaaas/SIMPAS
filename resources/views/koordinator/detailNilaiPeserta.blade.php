@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Beri Nilai Peserta - SIMPAS')
+@section('title', 'Detail Nilai Peserta - SIMPAS')
 
 @section('content')
 <div class="mb-8">
-  <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/penilaianPeserta">
+  <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/koor/penilaianPeserta">
       <i class="fas fa-arrow-left">
       </i>
       Kembali
   </a>
 </div>
-<h1 class="header">Penilaian Peserta Magang</h1>
+<h1 class="header">Detail Nilai Peserta Magang</h1>
  <!-- Informasi Peserta -->
  <div class="bg-[#FDF2EE] rounded-lg p-5 mt-4 ml-7 inter-font">
   <div class="grid grid-cols-2 gap-6">
@@ -163,54 +163,71 @@
 </div>
 </div>
 <script>
-  let isEditable = true; // Status input apakah editable atau tidak
-
-// Fungsi untuk mengubah status edit
-function toggleEdit() {
-  const inputs = document.querySelectorAll('.score-input');
-  const actionButton = document.getElementById('actionButton');
-
-  if (isEditable) {
-      // Jika sedang editable dan tombol diklik, kunci input
-      inputs.forEach(input => input.disabled = true);
+    // Contoh data nilai awal
+    const initialScores = [4, 5, 7, 8, 9, 12, 13, 17, 4, 5]; // Nilai awal yang diambil dari data
+  
+    let isEditable = false; // Status input apakah editable atau tidak (default 'false' = tidak editable)
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mengisi input dengan nilai awal saat halaman dimuat
+      const inputs = document.querySelectorAll('.score-input');
+      inputs.forEach((input, index) => {
+        input.value = initialScores[index] || 0; // Mengisi input dengan nilai awal
+        input.disabled = !isEditable; // Pastikan input terkunci (disabled) saat awal
+      });
+  
+      // Set tombol untuk pertama kali menjadi "Edit"
+      const actionButton = document.getElementById('actionButton');
       actionButton.textContent = 'Edit';
-  } else {
-      // Jika tidak editable, aktifkan input
-      inputs.forEach(input => input.disabled = false);
-      actionButton.textContent = 'Simpan';
-  }
-
-  isEditable = !isEditable; // Toggle status
-}
-  // Fungsi validasi input dan perhitungan total
-  function validateAndCalculate(input, max) {
-    const value = parseFloat(input.value); // Gunakan parseFloat untuk menangani angka desimal
-    if (!Number.isInteger(value)) {
-        alert('Masukkan nilai berupa bilangan bulat.');
-        input.value = ''; // Kosongkan input jika invalid
-    } else if (value < 1 || value > max || isNaN(value)) {
-        alert(`Masukkan nilai antara 1 dan ${max}`);
-        input.value = ''; // Kosongkan input jika invalid
-    } else {
-        calculateTotal(); // Hitung total setelah input valid
-    }
-}
-
-
-  // Fungsi menghitung total nilai
-  function calculateTotal() {
-    const inputs = document.querySelectorAll('.score-input');
-    let total = 0;
-    inputs.forEach(input => {
-      const value = parseInt(input.value, 10);
-      if (!isNaN(value)) {
-        total += value;
-      }
+  
+      // Menghitung nilai total pada saat halaman dimuat
+      calculateTotal();
     });
-    document.getElementById('totalScore').innerText = total;
-  }
-</script>
+  
+    function toggleEdit() {
+      const inputs = document.querySelectorAll('.score-input');
+      const actionButton = document.getElementById('actionButton');
+  
+      if (isEditable) {
+        // Jika sudah dalam mode edit, kunci input dan ubah tombol menjadi "Edit"
+        inputs.forEach(input => input.disabled = true);
+        actionButton.textContent = 'Edit';
+      } else {
+        // Jika tidak dalam mode edit, buka input dan ubah tombol menjadi "Simpan"
+        inputs.forEach(input => input.disabled = false);
+        actionButton.textContent = 'Simpan';
+      }
+  
+      isEditable = !isEditable; // Toggle status (mode edit / simpan)
+    }
+  
+    function validateAndCalculate(input, max) {
+      const value = parseFloat(input.value);
+      if (!Number.isInteger(value)) {
+        alert('Masukkan nilai berupa bilangan bulat.');
+        input.value = '';
+      } else if (value < 1 || value > max || isNaN(value)) {
+        alert(`Masukkan nilai antara 1 dan ${max}`);
+        input.value = '';
+      } else {
+        // Hitung total nilai jika valid
+        calculateTotal();
+      }
+    }
+  
+    function calculateTotal() {
+      const inputs = document.querySelectorAll('.score-input');
+      let total = 0;
+      inputs.forEach(input => {
+        const value = parseInt(input.value, 10);
+        if (!isNaN(value)) {
+          total += value;
+        }
+      });
+      document.getElementById('totalScore').innerText = total;
+    }
+  </script>
+  
 
 
-    
 @endsection 
