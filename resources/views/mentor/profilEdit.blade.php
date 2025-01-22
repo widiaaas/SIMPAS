@@ -21,7 +21,7 @@
             <label class="inter-font italic block text-sm font-medium text-gray-700">
                 NIP
             </label>
-            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                 2344578400009
             </p>
         </div>
@@ -31,7 +31,7 @@
             </label>
             <input 
                 type="text" 
-                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font" 
+                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
                 value="087832630688"
             />
         </div>
@@ -39,7 +39,7 @@
             <label class="inter-font italic block text-sm font-medium text-gray-700">
                 Nama
             </label>
-            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                 Arif Budiman, S.Kom.
             </p>
         </div>
@@ -49,7 +49,7 @@
             </label>
             <input 
                 type="text" 
-                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font" 
+                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
                 value="arifbudiman@gmail.com"
             />
         </div>
@@ -57,7 +57,7 @@
             <label class="inter-font italic block text-sm font-medium text-gray-700">
                 Instansi
             </label>
-            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                 Dinas Komunikasi, Informatika, Statistik, dan Persandian
             </p>
         </div>
@@ -67,7 +67,7 @@
             </label>
             <input 
                 type="text" 
-                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font" 
+                class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
                 value="Jalan Kedondong no. 9, Kedungmundu, Semarang."
             />
         </div>
@@ -75,7 +75,7 @@
             <label class="inter-font italic block text-sm font-medium text-gray-700">
                 Jabatan
             </label>
-            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+            <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                 Kepala Bidang Sistem Pemerintahan Berbasis Elektronik
             </p>
         </div>
