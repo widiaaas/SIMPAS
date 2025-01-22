@@ -75,13 +75,10 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
 }); 
 
 
-Route::get('mentor/profil', function () {
-    return view('mentor.profil');
-});
+Route::get('/mentor/profil', [MentorController::class, 'showProfile'])->middleware('auth');
+Route::get('/mentor/editProfil', [MentorController::class, 'showProfile1'])->middleware('auth');
 
-Route::get('mentor/editProfil', function () {
-    return view('mentor.profilEdit');
-});
+
 
 Route::get('mentor/daftarPeserta', function () {
     return view('mentor.daftarPeserta');

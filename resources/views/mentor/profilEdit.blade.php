@@ -8,21 +8,24 @@
     <div class="flex items-center mb-6">
         <div>
             <h2 class="aoboshi-one-regular text-2xl font-bold text-[#3e2c2c]">
-                Arif Budiman, S.Kom.
+                {{ $mentor->nama??'Nama Tidak ditemukan' }}
             </h2>
             <p class="aoboshi-one-regular text-lg text-[#3e2c2c]">
-                NIP. 2344578400009
+                NIP. {{ $mentor->nip_mentor ??'-' }}
             </p>
         </div>
     </div>
     <hr class="border-t border-gray-300 mb-6" />
+    <form method="POST" action="{{ route('mentor.profilEdit',$mentor->nip_mentor) }}">
+    @csrf
+    @method('PUT')
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
             <label class="inter-font italic block text-sm font-medium text-gray-700">
                 NIP
             </label>
             <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                2344578400009
+                {{ $mentor->nip_mentor ??'-' }}
             </p>
         </div>
         <div>
@@ -31,8 +34,9 @@
             </label>
             <input 
                 type="text" 
+                name="nomor_telp"
                 class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
-                value="087832630688"
+                value="{{ $mentor->nomor_telp ?? '-' }}"
             />
         </div>
         <div>
@@ -40,7 +44,7 @@
                 Nama
             </label>
             <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                Arif Budiman, S.Kom.
+                {{ $mentor->nama ?? '-' }}
             </p>
         </div>
         <div>
@@ -48,9 +52,10 @@
                 Email
             </label>
             <input 
-                type="text" 
+                type="text"
+                name="email" 
                 class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
-                value="arifbudiman@gmail.com"
+                value="{{ $mentor->email ?? '-' }}"
             />
         </div>
         <div>
@@ -58,7 +63,7 @@
                 Instansi
             </label>
             <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                Dinas Komunikasi, Informatika, Statistik, dan Persandian
+                {{ $namaInstansi ?? '-' }}
             </p>
         </div>
         <div>
@@ -67,8 +72,9 @@
             </label>
             <input 
                 type="text" 
+                name="alamat"
                 class="bg-[#f28b61] text-[#3e2c2c] rounded-lg px-4 py-2 w-full inter-font break-words" 
-                value="Jalan Kedondong no. 9, Kedungmundu, Semarang."
+                value="{{ $mentor->alamat ?? '-' }}."
             />
         </div>
         <div>

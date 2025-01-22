@@ -11,10 +11,10 @@
         <div class="flex items-center mb-6">
             <div>
                 <h2 class="aoboshi-one-regular text-2xl font-bold text-[#3e2c2c]">
-                    Arif Budiman, S.Kom.
+                    {{ $mentor->nama??'Nama Tidak ditemukan' }}
                 </h2>
                 <p class="aoboshi-one-regular text-lg text-[#3e2c2c]">
-                    NIP. 2344578400009
+                    NIP. {{ $mentor->nip_mentor ??'-' }}
                 </p>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     NIP
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    2344578400009
+                    {{ $mentor->nip_mentor ??'-' }}
                 </p>
             </div>
             <div>
@@ -33,7 +33,7 @@
                     Nomor Telepon
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    087832630688
+                    {{ $mentor->nomor_telp ?? '-' }}
                 </p>
             </div>
             <div>
@@ -41,7 +41,7 @@
                     Nama
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    Arif Budiman, S.Kom.
+                    {{ $mentor->nama ?? '-' }}
                 </p>
             </div>
             <div>
@@ -49,7 +49,7 @@
                     Email
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    arifbudiman@gmail.com
+                    {{ $mentor->email ?? '-' }}
                 </p>
             </div>
             <div>
@@ -57,7 +57,7 @@
                     Instansi
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    Dinas Komunikasi, Informatika, Statistik, dan Persandian
+                    {{ $namaInstansi ?? '-' }}
                 </p>
             </div>
             <div>
@@ -65,7 +65,7 @@
                     Alamat
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    Jalan Kedondong no. 9, Kedungmundu, Semarang.
+                    {{ $mentor->alamat ?? '-' }}
                 </p>
             </div>
             <div>
@@ -73,7 +73,7 @@
                     Jabatan
                 </label>
                 <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
-                    Kepala Bidang Sistem Pemerintahan Berbasis Elektronik
+                    {{ $mentor->jabatan ?? '-' }}
                 </p>
             </div>
         </div>
