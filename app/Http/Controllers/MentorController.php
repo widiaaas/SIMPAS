@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class MentorController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
         // get info mhs brdasarkan user yg saat ini sdg login
         $currentLogin = auth()->user()->id;

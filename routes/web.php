@@ -55,10 +55,7 @@ Route::get('/koor/pembagianMagang/detailPendaftarMagang', function () {
     return view('koordinator.detailPendaftarMagang');
 });
 
-//Mentor
-Route::prefix('mentor')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
-}); 
+
 
 Route::get('/koor/pembagianMagang/plottingMentor', function () {
     return view('koordinator.plottingMentor');
@@ -73,13 +70,10 @@ Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
 });
 
 //Mentor
-Route::get('mentor/dashboard', function () {
-    return view('mentor.dashboard');
-});
+Route::prefix('mentor')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
+}); 
 
-Route::get('/mtrProfil', function () {
-    return view('mentor.profil');
-});
 
 Route::get('mentor/profil', function () {
     return view('mentor.profil');
