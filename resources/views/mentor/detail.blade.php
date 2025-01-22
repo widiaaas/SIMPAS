@@ -53,10 +53,7 @@
       <p class="text-sm font-semibold text-gray-600">Diterima Magang di:</p>
       <p class="text-lg font-medium">Dinas Komunikasi, Informasi, Statistik, dan Persandian Kota Semarang</p>
     </div>
-    <div>
-      <p class="text-sm font-semibold text-gray-600">Bidang:</p>
-      <p class="text-lg font-medium">Statistik</p>
-    </div>
+
     <div class="flex space-x-4">
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Mulai:</p>

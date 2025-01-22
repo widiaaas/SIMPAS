@@ -24,7 +24,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     NIP
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     2344578400009
                 </p>
             </div>
@@ -32,7 +32,7 @@
                 <label class=" inter-font italic block text-sm font-medium text-gray-700">
                     Nomor Telepon
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     087832630688
                 </p>
             </div>
@@ -40,7 +40,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     Nama
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     Arif Budiman, S.Kom.
                 </p>
             </div>
@@ -48,7 +48,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     Email
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     arifbudiman@gmail.com
                 </p>
             </div>
@@ -56,7 +56,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     Instansi
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     Dinas Komunikasi, Informatika, Statistik, dan Persandian
                 </p>
             </div>
@@ -64,7 +64,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     Alamat
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     Jalan Kedondong no. 9, Kedungmundu, Semarang.
                 </p>
             </div>
@@ -72,7 +72,7 @@
                 <label class="inter-font italic block text-sm font-medium text-gray-700">
                     Jabatan
                 </label>
-                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font">
+                <p class="bg-[#ffccbc] text-[#3e2c2c] rounded-lg px-4 py-2 inter-font break-words">
                     Kepala Bidang Sistem Pemerintahan Berbasis Elektronik
                 </p>
             </div>

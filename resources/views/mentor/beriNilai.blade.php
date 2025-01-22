@@ -21,8 +21,6 @@
       <p class="text-lg font-medium">Universitas Diponegoro</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
       <p class="text-lg font-medium">Informatika</p>
-      <p class="text-sm font-semibold text-gray-600 mt-2">Divisi Kerja:</p>
-      <p class="text-lg font-medium">Statistik</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
       <p class="text-lg font-medium">12/02/2025 - 02/01/2025</p>
     </div>
@@ -173,14 +171,10 @@ function toggleEdit() {
   if (isEditable) {
       // Jika sedang editable dan tombol diklik, kunci input
       inputs.forEach(input => input.disabled = true);
-      actionButton.textContent = 'Edit';
-  } else {
-      // Jika tidak editable, aktifkan input
-      inputs.forEach(input => input.disabled = false);
-      actionButton.textContent = 'Simpan';
+      actionButton.style.display='none';
   }
 
-  isEditable = !isEditable; // Toggle status
+  isEditable = false; // Toggle status
 }
   // Fungsi validasi input dan perhitungan total
   function validateAndCalculate(input, max) {
