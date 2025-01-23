@@ -74,9 +74,14 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
 }); 
 
+Route::get('/mentor/profil', [MentorController::class, 'showProfile'])->middleware('auth')->name('mentor.profil');
+//menampilkan form edit profil
+Route::get('/mentor/edit/{nip_mentor}',[MentorController::class,'showProfileEdit'])->middleware('auth')->name('mentor.profilEdit');
+//meyimpan perubahan profil
+Route::put('/mentor/edit/{nip_mentor}',[MentorController::class,'update'])->middleware('auth')->name('mentor.update');
+//halaman profil
+Route::get('/mentor/profil',[MentorController::class,'showProfile'])->middleware('auth')->name('mentor.profil');
 
-Route::get('/mentor/profil', [MentorController::class, 'showProfile'])->middleware('auth');
-Route::get('/mentor/editProfil', [MentorController::class, 'showProfile1'])->middleware('auth');
 
 
 

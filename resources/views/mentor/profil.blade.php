@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="mt-6 text-right">
-            <a class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="/mentor/editProfil">
+            <a class="aoboshi-one-regular bg-[#ff8a65] text-white rounded-lg hover:font-bold hover:bg-orange-500 px-6 py-2" href="{{ route('mentor.profilEdit',['nip_mentor'=>$mentor->nip_mentor]) }}">
                 Edit
             </a>
         </div>
