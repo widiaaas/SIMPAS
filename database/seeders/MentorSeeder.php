@@ -62,7 +62,7 @@ class MentorSeeder extends Seeder
                  'alamat' => 'Jl. Madukoro no 9, Semarang',
                  'kode_instansi' => 'DPU',
                  'jabatan'=>'Kepala Bidang Sumber Daya Air dan Drainase',
-                'user_id' => null, // Gantilah dengan user_id yang valid
+                'user_id' => 4, // Gantilah dengan user_id yang valid
              ],
              [
                 'nip_mentor' => '1976026152',

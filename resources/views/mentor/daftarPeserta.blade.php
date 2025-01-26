@@ -18,6 +18,7 @@
 </div>
 
 <!-- Tabel -->
+
 <table class="w-full text-left border-collapse inter-font overflow-hidden rounded-tl-lg rounded-tr-lg ml-9 mr-7">
     <thead class="bg-[#FF885B] text-white rounded-tl-lg rounded-tr-lg">
         <tr>
@@ -30,14 +31,22 @@
         </tr>
     </thead>
     <tbody class="bg-[#F4EDEB] rounded-bl-lg rounded-br-lg">
-        <tr>
-            <td class="p-2 border border-[#FF885B] text-center">1</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail">Detail</a></td>
-        </tr>
+        @foreach ($mentors as $index => $mentor)
+        @foreach ($mentor->user->pesertaMagang as $peserta)
+            @if ($peserta->pendaftaran)
+                <tr>
+                    <td class="p-2 border border-[#FF885B] text-center">{{ $index + 1 }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ $mentor->user->name }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ $peserta->asal_sekolah }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y') }}</td>
+                    <td class="p-4 border border-[#FF885B] text-center">
+                        <a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail/{{ $mentor->id }}">Detail</a>
+                    </td>
+                </tr>
+            @endif
+        @endforeach
+    @endforeach
         <tr>
             <td class="p-2 border border-[#FF885B]">2</td>
             <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>

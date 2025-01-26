@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mentor;
 use Illuminate\Http\Request;
 use App\Models\PesertaMagang;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
@@ -50,39 +51,44 @@ class MentorController extends Controller
     }
 
     //update profil
-    public function update(Request $request, $nip_mentor)
-    {
-    //berdasarkan nip
-    $mentor=Mentor::where('nip_mentor',$nip_mentor)->first();
-    if (!$mentor) {
-        // Jika mentor tidak ditemukan, arahkan kembali ke halaman profil dengan pesan error
-        return redirect()->route('mentor.profil')->with('error', 'Mentor tidak ditemukan.');
+    public function update(Request $request, $nip_mentor){
+        //berdasarkan nip
+        $mentor=Mentor::where('nip_mentor',$nip_mentor)->first();
+        if (!$mentor) {
+            // Jika mentor tidak ditemukan, arahkan kembali ke halaman profil dengan pesan error
+            return redirect()->route('mentor.profil')->with('error', 'Mentor tidak ditemukan.');
+        }
+        //validasi input
+        $request->validate([
+            'nomor_telp' => 'required|string|max:15|regex:/^[0-9]+$/',
+            'email' => 'required|email|max:255 | unique:users,email,' .$mentor->user->id,
+            'alamat' => 'required|string|max:255',
+        ],[
+            'nomor_telp.regex'=>'Nomor telepon hanya boleh berisi angka.',
+        ]);
+
+        $user = $mentor->user;
+
+        if (!$user) {
+            return redirect()->route('mentor.profil')->with('error', 'User terkait mentor tidak ditemukan.');
+        }
+        $mentor->update([
+            'nomor_telp' => $request->nomor_telp,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+        ]);
+
+        $user->update([
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('mentor.profil')->with('success', 'Profil berhasil diperbarui');
     }
-    //validasi input
-    $request->validate([
-        'nomor_telp' => 'required|string|max:15|regex:/^[0-9]+$/',
-        'email' => 'required|email|max:255 | unique:users,email,' .$mentor->user->id,
-        'alamat' => 'required|string|max:255',
-    ],[
-        'nomor_telp.regex'=>'Nomor telepon hanya boleh berisi angka.',
-    ]);
 
-    $user = $mentor->user;
+    
 
-    if (!$user) {
-        return redirect()->route('mentor.profil')->with('error', 'User terkait mentor tidak ditemukan.');
-    }
-    $mentor->update([
-        'nomor_telp' => $request->nomor_telp,
-        'email' => $request->email,
-        'alamat' => $request->alamat,
-    ]);
 
-    $user->update([
-        'email' => $request->email,
-    ]);
 
-    return redirect()->route('mentor.profil')->with('success', 'Profil berhasil diperbarui');
-    }
+
 
 }

@@ -38,8 +38,8 @@ class UserSeeder extends Seeder
                 'remember_token' => null,
             ],
             [
-                'username' => 'boblee',
-                'email' => 'boblee@example.com',
+                'username' => 'mhashari',
+                'email' => 'mhashari@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,

@@ -3,6 +3,27 @@
 @section('title', 'Beri Nilai Peserta - SIMPAS')
 
 @section('content')
+<style>
+      .btn-ok{
+        background-color: #FFDD55;
+        color: #333;
+      }
+      .icon-warning .swal2-icon {
+        background-color: #FF8800 !important; /* Warna latar belakang ikon */
+        color: white !important; /* Warna ikon */
+      }
+        .btn-ya {
+        background-color: #FF885B !important;
+        color: white !important;
+      }
+
+      .btn-tidak {
+        background-color: #B31312 !important;
+        color: white !important;
+      }  
+   
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="mb-8">
   <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/penilaianPeserta">
       <i class="fas fa-arrow-left">
@@ -25,9 +46,7 @@
       <p class="text-lg font-medium">12/02/2025 - 02/01/2025</p>
     </div>
     <div class="flex items-start justify-end">
-      <button class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-        Unduh Laporan Magang
-      </button>
+
     </div>
   </div>
 </div>
@@ -155,7 +174,7 @@
 <div class="flex justify-end mr-9 inter-font">
     <button id="actionButton" 
     class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-    onclick="toggleEdit()">
+    onclick="handleSave()" >
     Simpan
     </button>
 </div>
@@ -164,18 +183,62 @@
   let isEditable = true; // Status input apakah editable atau tidak
 
 // Fungsi untuk mengubah status edit
-function toggleEdit() {
-  const inputs = document.querySelectorAll('.score-input');
-  const actionButton = document.getElementById('actionButton');
+  function toggleEdit() {
+    const inputs = document.querySelectorAll('.score-input');
+    const actionButton = document.getElementById('actionButton');
+    
+    if (isEditable) {
+        // Jika sedang editable dan tombol diklik, kunci input
+        inputs.forEach(input => input.disabled = true);
+        actionButton.style.display='none';
+    }
 
-  if (isEditable) {
-      // Jika sedang editable dan tombol diklik, kunci input
-      inputs.forEach(input => input.disabled = true);
-      actionButton.style.display='none';
+    isEditable = false; // Toggle status
   }
 
-  isEditable = false; // Toggle status
-}
+  function handleSave() {
+    const inputs = document.querySelectorAll('.score-input');
+    let allFilled = true;
+
+    inputs.forEach(input => {
+      if (!input.value) {
+        allFilled = false;
+      }
+    });
+
+    if (!allFilled) {
+      Swal.fire({
+        icon: "warning",
+        title: "Nilai tidak boleh kosong!",
+        text: "Harap isi semua nilai sebelum menyimpan.",
+        customClass:{
+          confirmButton:'btn-ok',
+          icon:'icon-warning'
+        }
+      });
+      return;
+    }
+
+    Swal.fire({
+      title: "Apakah anda yakin ingin menyimpan?",
+      showCancelButton: true,
+      confirmButtonText: "Ya, Simpan",
+      cancelButtonText: `Batal`,
+      customClass:{
+        confirmButton:'btn-ya',
+        cancelButton:'btn-tidak',
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Nilai berhasil disimpan", "", "success").then(() => {
+          toggleEdit(); // Panggil fungsi untuk menghilangkan tombol
+        });
+      } else if (result.isDenied) {
+        Swal.fire("Nilai batal disimpan", "", "info");
+      }
+    });
+  }
+
   // Fungsi validasi input dan perhitungan total
   function validateAndCalculate(input, max) {
     const value = parseFloat(input.value); // Gunakan parseFloat untuk menangani angka desimal

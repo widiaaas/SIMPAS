@@ -34,4 +34,17 @@ class Mentor extends Model
     {
         return $this->hasMany(Penilaian::class, 'nip_mentor', 'nip_mentor');
     }
+
+
+public function index()
+{
+    $mentors = Mentor::with(['user', 'user.pesertaMagang.pendaftaran'])
+        ->whereHas('user.pesertaMagang.pendaftaran', function ($query) {
+            $query->whereNotNull('tanggal_mulai');
+        })
+        ->get();
+
+    return view('mentor.daftarPeserta', compact('mentors'));
+}
+
 }
