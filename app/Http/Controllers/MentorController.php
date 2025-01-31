@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Mentor;
 use Illuminate\Http\Request;
 use App\Models\PesertaMagang;
+use App\Models\PendaftaranMagang;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,16 +87,52 @@ class MentorController extends Controller
         return redirect()->route('mentor.profil')->with('success', 'Profil berhasil diperbarui');
     }
 
-
-    public function daftarPeserta(){
+    //untuk menampilkan daftar peserta beserta untuk fitur pencarian peserta
+    public function daftarPeserta(Request $request){
         $mentor=Mentor::where('user_id',Auth::id())->first();
         if (!$mentor){
             return redirect()->back()->with('error','Anda bukan mentor');
         }
+        //ambil nilai dari input pencarian
+        $search = $request->input('search');
         
-        $peserta_magangs=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)->with('pendaftaran')->get();
-        return view('mentor.daftarPeserta',compact('peserta_magangs'));
+        $peserta_magangs=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)
+                        //menampilkan peserta yang tanggal selesainya bukan hari ini
+                        ->whereHas('pendaftaran', function ($query) {
+                            $query->where('tanggal_selesai', '>', Carbon::today());
+                        })
+                        ->with('pendaftaran')
+                        //query pencarian
+                        ->when($search,function($query)use($search){
+                            $query->where(function($q)use($search){
+                                $q->where('nama_peserta','LIKE',"%{$search}%")
+                                  ->orWhere('asal_sekolah','LIKE',"%{$search}%");
+                            });
+                        })
+                        ->orderBy(
+                            PendaftaranMagang ::select('tanggal_mulai')
+                                ->whereColumn('pendaftaran_magangs.nip_peserta', 'peserta_magangs.nip_peserta')
+                                ->limit(1),
+                            'asc' // Gunakan 'desc' jika ingin dari terbaru ke terlama
+                        )
+                        ->paginate(10);
+        return view('mentor.daftarPeserta',compact('peserta_magangs','search'));
     }
+
+    //menampilkan detail tiap peserta
+    public function detailPeserta($nip_peserta){
+        // Cari peserta berdasarkan NIP
+        $peserta = PesertaMagang::where('nip_peserta', $nip_peserta)
+            ->with(['pendaftaran.instansi']) // Ambil data pendaftaran magang
+            ->first();
+
+        if (!$peserta) {
+            return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
+        }
+
+        return view('mentor.detail', compact('peserta'));
+    }
+
 
     
 

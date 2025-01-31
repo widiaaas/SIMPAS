@@ -72,32 +72,31 @@ Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
 //Mentor
 Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
+    //menampilkan profil mentor
+    Route::get('/profil', [MentorController::class, 'showProfile'])->name('mentor.profil');
+    //menampilkan form edit profil
+    Route::get('/edit/{nip_mentor}',[MentorController::class,'showProfileEdit'])->name('mentor.profilEdit');
+    //meyimpan perubahan profil
+    Route::put('/edit/{nip_mentor}',[MentorController::class,'update'])->name('mentor.update');
+    //halaman profil
+    Route::get('/profil',[MentorController::class,'showProfile'])->name('mentor.profil');
+    //daftar peserta
+    Route::get('/daftarPeserta',[MentorController::class,'daftarPeserta'])->name('mentor.daftarPeserta');
+    //detail tiap peserta
+    Route::get("/detail/{nip_peserta}",[MentorController::class,'detailPeserta'])->name('mentor.detail');
 }); 
 
-Route::get('/mentor/profil', [MentorController::class, 'showProfile'])->middleware('auth')->name('mentor.profil');
-//menampilkan form edit profil
-Route::get('/mentor/edit/{nip_mentor}',[MentorController::class,'showProfileEdit'])->middleware('auth')->name('mentor.profilEdit');
-//meyimpan perubahan profil
-Route::put('/mentor/edit/{nip_mentor}',[MentorController::class,'update'])->middleware('auth')->name('mentor.update');
-//halaman profil
-Route::get('/mentor/profil',[MentorController::class,'showProfile'])->middleware('auth')->name('mentor.profil');
-//daftar peserta
-Route::get('/mentor/daftarPeserta',[MentorController::class,'daftarPeserta'])->middleware('auth');
 
 
 
 
-// Route::get('mentor/daftarPeserta', function () {
-//     return view('mentor.daftarPeserta');
-// });
+
+
 
 Route::get('mentor/penilaianPeserta', function () {
     return view('mentor.penilaianPeserta');
 });
 
-Route::get('mentor/detail', function () {
-    return view('mentor.detail');
-});
 
 Route::get('mentor/beriNilai', function () {
     return view('mentor.beriNilai');
