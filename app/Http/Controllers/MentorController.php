@@ -85,6 +85,17 @@ class MentorController extends Controller
         return redirect()->route('mentor.profil')->with('success', 'Profil berhasil diperbarui');
     }
 
+
+    public function daftarPeserta(){
+        $mentor=Mentor::where('user_id',Auth::id())->first();
+        if (!$mentor){
+            return redirect()->back()->with('error','Anda bukan mentor');
+        }
+        
+        $peserta_magangs=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)->with('pendaftaran')->get();
+        return view('mentor.daftarPeserta',compact('peserta_magangs'));
+    }
+
     
 
 

@@ -9,6 +9,12 @@ class PendaftaranMagang extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string'; // Pastikan dianggap string
+
+    protected $casts = [
+        'nip_peserta' => 'string', // Memastikan nip_peserta selalu string
+    ];
+    
     protected $fillable = [
         'nip_peserta', 'kode_instansi', 'kode_bidang', 'tanggal_mulai', 'tanggal_selesai', 
         'file_spkl', 'file_cv', 'file_proposal'

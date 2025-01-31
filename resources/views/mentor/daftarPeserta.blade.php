@@ -31,46 +31,22 @@
         </tr>
     </thead>
     <tbody class="bg-[#F4EDEB] rounded-bl-lg rounded-br-lg">
-        @foreach ($mentors as $index => $mentor)
-        @foreach ($mentor->user->pesertaMagang as $peserta)
-            @if ($peserta->pendaftaran)
+        @forelse ($peserta_magangs as $key => $peserta)
                 <tr>
-                    <td class="p-2 border border-[#FF885B] text-center">{{ $index + 1 }}</td>
-                    <td class="p-2 border border-[#FF885B]">{{ $mentor->user->name }}</td>
+                    <td class="p-2 border border-[#FF885B] text-center">{{ $key + 1 }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ $peserta->nama_peserta ?? '-' }}</td>
                     <td class="p-2 border border-[#FF885B]">{{ $peserta->asal_sekolah }}</td>
-                    <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') }}</td>
-                    <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y') }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{ optional($peserta->pendaftaran)->tanggal_mulai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
+                    <td class="p-2 border border-[#FF885B]">{{  optional($peserta->pendaftaran)->tanggal_selesai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y') : '-'}}</td>
                     <td class="p-4 border border-[#FF885B] text-center">
-                        <a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail/{{ $mentor->id }}">Detail</a>
+                        <a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail">Detail</a>
                     </td>
                 </tr>
-            @endif
-        @endforeach
-    @endforeach
-        <tr>
-            <td class="p-2 border border-[#FF885B]">2</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail">Detail</a></td>
-        </tr>
-        <tr>
-            <td class="p-2 border border-[#FF885B]">3</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail">Detail</a></td>
-        </tr>
-        <tr>
-            <td class="p-2 border border-[#FF885B]">4</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/detail">Detail</a></td>
-        </tr>
+            @empty
+            <tr>
+                <td colspan="6" class="p-4 text-center">Tidak ada peserta magang yang ditampilkan disini</td>
+            </tr>
+        @endforelse
     </tbody >
 </table>
 

@@ -81,13 +81,15 @@ Route::get('/mentor/edit/{nip_mentor}',[MentorController::class,'showProfileEdit
 Route::put('/mentor/edit/{nip_mentor}',[MentorController::class,'update'])->middleware('auth')->name('mentor.update');
 //halaman profil
 Route::get('/mentor/profil',[MentorController::class,'showProfile'])->middleware('auth')->name('mentor.profil');
+//daftar peserta
+Route::get('/mentor/daftarPeserta',[MentorController::class,'daftarPeserta'])->middleware('auth');
 
 
 
 
-Route::get('mentor/daftarPeserta', function () {
-    return view('mentor.daftarPeserta');
-});
+// Route::get('mentor/daftarPeserta', function () {
+//     return view('mentor.daftarPeserta');
+// });
 
 Route::get('mentor/penilaianPeserta', function () {
     return view('mentor.penilaianPeserta');

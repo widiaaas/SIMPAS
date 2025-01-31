@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'username' => 'ratiherawati',
-                'email' => 'ratierawati@gmail.com',
+                'email' => 'ratiherawati@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,
