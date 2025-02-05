@@ -164,8 +164,7 @@
         ☰
     </button>
 
-<<<<<<< HEAD
-    {{-- <div class="sidebar">
+{{-- <div class="sidebar">
     @if(Auth::user()->role === 'peserta')
         <a href="#" class="active">Beranda</a>
         <a href="#">Profil</a>
@@ -185,10 +184,10 @@
     @if(Auth::check())
         @if(Auth::user()->role === 'peserta')
             <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-            <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-            <a href="/pesertaMagang/pendaftaran_magang" class="{{ Request::is('pendaftaran_magang') ? 'active' : '' }}">Daftar Magang</a>
+            <a href="/pesertaMagang/profile" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+            <a href="/pesertaMagang/pendaftaran-magang" class="{{ Request::is('pendaftaran-magang') ? 'active' : '' }}">Daftar Magang</a>
             <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
-            <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
+            <a href="/pesertaMagang/penilaian" class="{{ Request::is('penilaian') ? 'active' : '' }}">Penilaian</a>
         
         @elseif(Auth::user()->role == 'koordinator')
             <a href="/koordinator/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
@@ -214,7 +213,7 @@
     @yield('sidebar')
 </div>
 
-=======
+
     <div class="sidebar">
         @if(Auth::user()->role==='pesertaMagang')
         <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
@@ -231,7 +230,7 @@
         @endif
         @yield('sidebar')
     </div>
->>>>>>> b79e236d652fa59fa11e79be6dbb79efb133174f
+
     
     <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>

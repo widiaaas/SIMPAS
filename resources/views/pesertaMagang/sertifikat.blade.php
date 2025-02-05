@@ -77,16 +77,17 @@
 <body>
     <div class="container">
     <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" >
-        <div class="header">DINAS KOMUNIKASI DAN INFORMATIKA</div>
+        <div class="header">Pemerintahan Kota Semarang</div>
+        <p class="header">Jawa Tengah</p>
         <div class="title">SERTIFIKAT</div>
         <div class="body">
             Sertifikat ini diberikan kepada:
-            <div class="name">{{ $name }}</div>
-            Sebagai bentuk penghargaan atas partisipasi dan pencapaian dalam program magang di Dinas Komunikasi dan Informatika.
+            <div class="name">{{ $pesertaMagang->nama_peserta }}</div>
+            Sebagai bentuk penghargaan atas partisipasi dan pencapaian dalam program magang di {{ $instansi->nama_instansi }}.
         </div>
-        <div class="date">Tanggal: {{ $date }}</div>
+        <div class="date">Tanggal: {{ now()->format('d-m-Y') }}</div>
         <div class="signature">
-            <div class="signature-name">Nama Kepala Diskominfo</div>
+            <div class="signature-name">Koordinator Magang</div>
         </div>
         <div class="line"></div>
     </div>

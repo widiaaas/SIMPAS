@@ -119,6 +119,11 @@ class PendaftaranMagangController extends Controller
             'tanggal_selesai' => $request->tanggal_selesai,
         ]);
 
+        $pesertaMagang->status_pendaftaran = 'Diproses'; 
+        $pesertaMagang->status_magang = 'Tidak aktif'; 
+        $pesertaMagang->status_skl = 'Belum diterbitkan'; 
+        $pesertaMagang->save();
+
         return redirect()->back()->with('success', 'Pendaftaran magang berhasil!');
 
         

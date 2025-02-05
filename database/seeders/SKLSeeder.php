@@ -16,16 +16,16 @@ class SKLSeeder extends Seeder
         DB::table('skls')->insert([
             [
                 'nip_peserta' => '000001', // Ganti dengan nip_peserta yang valid
-                'file_skl' => 'file_skl_000001.pdf', // Nama file SKL yang sesuai
+                'skl' => null, // Nama file SKL yang sesuai
             ],
-            [
-                'nip_peserta' => '000002', // Ganti dengan nip_peserta yang valid
-                'file_skl' => 'file_skl_000002.pdf', // Nama file SKL yang sesuai
-            ],
-            [
-                'nip_peserta' => '000003', // Ganti dengan nip_peserta yang valid
-                'file_skl' => 'file_skl_000003.pdf', // Nama file SKL yang sesuai
-            ],
+            // [
+            //     'nip_peserta' => '000002', // Ganti dengan nip_peserta yang valid
+            //     'file_skl' => 'file_skl_000002.pdf', // Nama file SKL yang sesuai
+            // ],
+            // [
+            //     'nip_peserta' => '000003', // Ganti dengan nip_peserta yang valid
+            //     'file_skl' => 'file_skl_000003.pdf', // Nama file SKL yang sesuai
+            // ],
         ]);
     }
 }

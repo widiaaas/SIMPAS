@@ -8,16 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PendaftaranMagang extends Model
 {
     use HasFactory;
-
-    protected $keyType = 'string'; // Pastikan dianggap string
-
-    protected $casts = [
-        'nip_peserta' => 'string', // Memastikan nip_peserta selalu string
-    ];
-    
+    protected $table = 'pendaftaran_magangs';
     protected $fillable = [
-        'nip_peserta', 'kode_instansi', 'kode_bidang', 'tanggal_mulai', 'tanggal_selesai', 
-        'file_spkl', 'file_cv', 'file_proposal'
+        'nip_peserta', 'kode_instansi', 'tanggal_mulai', 'tanggal_selesai', 
+        'spkl', 'cv', 'proposal'
     ];
 
     public function pesertaMagang()
@@ -29,4 +23,5 @@ class PendaftaranMagang extends Model
     {
         return $this->belongsTo(Instansi::class, 'kode_instansi', 'kode_instansi');
     }
+
 }

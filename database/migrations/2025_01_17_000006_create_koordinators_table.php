@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('koordinators', function (Blueprint $table) {
             $table->string('nip_koor')->primary();
+            $table->string('email')->unique();
             $table->string('nama');
+            $table->timestamps();
             $table->string('no_telp');
             $table->string('email')->unique();
             $table->string('alamat');

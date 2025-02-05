@@ -6,8 +6,8 @@ use App\Models\Mentor;
 use Illuminate\Http\Request;
 use App\Models\PesertaMagang;
 use App\Models\PendaftaranMagang;
+use App\Models\Penilaian;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
@@ -27,7 +27,13 @@ class MentorController extends Controller
             $mentor=null;
         }
 
-        return view('mentor.dashboard', compact('mentor','mentorName'));
+         //untuk menghitung jumlah peserta agar tampil di dashboard
+            $jumlah_peserta=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)
+            ->whereHas('pendaftaran',function($query){
+                $query->where('tanggal_selesai','>',Carbon::today());
+            })
+            ->count();
+        return view('mentor.dashboard', compact('mentor','mentorName','jumlah_peserta'));
     }
 
     public function showProfile(){
@@ -53,7 +59,7 @@ class MentorController extends Controller
     }
 
     //update profil
-    public function update(Request $request, $nip_mentor){
+    public function update(Request $data, $nip_mentor){
         //berdasarkan nip
         $mentor=Mentor::where('nip_mentor',$nip_mentor)->first();
         if (!$mentor) {
@@ -61,7 +67,7 @@ class MentorController extends Controller
             return redirect()->route('mentor.profil')->with('error', 'Mentor tidak ditemukan.');
         }
         //validasi input
-        $request->validate([
+        $data->validate([
             'nomor_telp' => 'required|string|max:15|regex:/^[0-9]+$/',
             'email' => 'required|email|max:255 | unique:users,email,' .$mentor->user->id,
             'alamat' => 'required|string|max:255',
@@ -75,26 +81,26 @@ class MentorController extends Controller
             return redirect()->route('mentor.profil')->with('error', 'User terkait mentor tidak ditemukan.');
         }
         $mentor->update([
-            'nomor_telp' => $request->nomor_telp,
-            'email' => $request->email,
-            'alamat' => $request->alamat,
+            'nomor_telp' => $data->nomor_telp,
+            'email' => $data->email,
+            'alamat' => $data->alamat,
         ]);
 
         $user->update([
-            'email' => $request->email,
+            'email' => $data->email,
         ]);
 
         return redirect()->route('mentor.profil')->with('success', 'Profil berhasil diperbarui');
     }
 
     //untuk menampilkan daftar peserta beserta untuk fitur pencarian peserta
-    public function daftarPeserta(Request $request){
+    public function daftarPeserta(Request $data){
         $mentor=Mentor::where('user_id',Auth::id())->first();
         if (!$mentor){
             return redirect()->back()->with('error','Anda bukan mentor');
         }
         //ambil nilai dari input pencarian
-        $search = $request->input('search');
+        $search = $data->input('search');
         
         $peserta_magangs=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)
                         //menampilkan peserta yang tanggal selesainya bukan hari ini
@@ -116,7 +122,8 @@ class MentorController extends Controller
                             'asc' // Gunakan 'desc' jika ingin dari terbaru ke terlama
                         )
                         ->paginate(10);
-        return view('mentor.daftarPeserta',compact('peserta_magangs','search'));
+
+    return view('mentor.daftarPeserta',compact('peserta_magangs','search'));
     }
 
     //menampilkan detail tiap peserta
@@ -132,6 +139,120 @@ class MentorController extends Controller
 
         return view('mentor.detail', compact('peserta'));
     }
+
+    //page penilaian peserta
+    public function penilaianPeserta(Request $data){
+        $mentor=Mentor::where('user_id',Auth::id())->first();
+        if (!$mentor){
+            return redirect()->back()->with('error','Anda bukan mentor');
+        }
+        //ambil nilai dari input pencarian
+        $search = $data->input('search');
+        
+        $peserta_magangs=PesertaMagang::where('nip_mentor',$mentor->nip_mentor)
+                        //menampilkan peserta yang tanggal selesainya bukan hari ini
+                        ->whereHas('pendaftaran', function ($query) {
+                            $query->where('tanggal_selesai', '<=', Carbon::today());
+                        })
+                        ->with('pendaftaran')
+                        //query pencarian
+                        ->when($search,function($query)use($search){
+                            $query->where(function($q)use($search){
+                                $q->where('nama_peserta','LIKE',"%{$search}%")
+                                  ->orWhere('asal_sekolah','LIKE',"%{$search}%");
+                            });
+                        })
+                        ->orderBy(
+                            PendaftaranMagang ::select('tanggal_mulai')
+                                ->whereColumn('pendaftaran_magangs.nip_peserta', 'peserta_magangs.nip_peserta')
+                                ->limit(1),
+                            'desc' // Gunakan 'desc' jika ingin dari terbaru ke terlama
+                        )
+                        ->paginate(10);
+        return view('mentor.penilaianPeserta',compact('peserta_magangs','search'));
+    }
+
+    //menampilkan penilaian
+    public function beriNilai($nip_peserta){
+        // Cari peserta berdasarkan NIP
+        $peserta = PesertaMagang::where('nip_peserta', $nip_peserta)
+            ->with(['pendaftaran.instansi']) // Ambil data pendaftaran magang
+            ->first();
+
+        if (!$peserta) {
+            return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
+        }
+
+        return view('mentor.beriNilai', compact('peserta'));
+    }
+
+    public function simpanPenilaian(Request $request)
+{
+    try {
+        $validatedData = $request->validate([
+            'nip_peserta' => 'required|string',
+            'nilai1' => 'required|integer|min:1|max:5',
+            'nilai2' => 'required|integer|min:1|max:5',
+            'nilai3' => 'required|integer|min:1|max:10',
+            'nilai4' => 'required|integer|min:1|max:10',
+            'nilai5' => 'required|integer|min:1|max:10',
+            'nilai6' => 'required|integer|min:1|max:15',
+            'nilai7' => 'required|integer|min:1|max:15',
+            'nilai8' => 'required|integer|min:1|max:20',
+            'nilai9' => 'required|integer|min:1|max:5',
+            'nilai10' => 'required|integer|min:1|max:5',
+        ]);
+
+        // Mengambil nip mentor melalui relasi
+        $nip_mentor = auth()->user()->mentor->nip_mentor;
+        $validatedData['nip_mentor'] = $nip_mentor;
+
+        $nilaiTotal = $validatedData['nilai1'] + $validatedData['nilai2'] + 
+                     $validatedData['nilai3'] + $validatedData['nilai4'] + 
+                     $validatedData['nilai5'] + $validatedData['nilai6'] + 
+                     $validatedData['nilai7'] + $validatedData['nilai8'] + 
+                     $validatedData['nilai9'] + $validatedData['nilai10'];
+
+        $penilaian = Penilaian::updateOrCreate(
+            
+            ['nip_peserta' => $validatedData['nip_peserta'],
+                'nip_mentor' => $validatedData['nip_mentor'],
+                'nilai1' => $validatedData['nilai1'],
+                'nilai2' => $validatedData['nilai2'],
+                'nilai3' => $validatedData['nilai3'],
+                'nilai4' => $validatedData['nilai4'],
+                'nilai5' => $validatedData['nilai5'],
+                'nilai6' => $validatedData['nilai6'],
+                'nilai7' => $validatedData['nilai7'],
+                'nilai8' => $validatedData['nilai8'],
+                'nilai9' => $validatedData['nilai9'],
+                'nilai10' => $validatedData['nilai10'],
+                'nilai_total' => $nilaiTotal
+            ]
+        );
+
+        return response()->json([
+            'message' => 'Penilaian berhasil disimpan!',
+            'data' => $penilaian
+        ], 200);
+
+    } catch (ValidationException $e) {
+        return response()->json([
+            'message' => 'Validation error',
+            'errors' => $e->errors()
+        ], 422);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Gagal menyimpan penilaian',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+    
+
+
+
+    //menyimpan penilaian
 
 
     

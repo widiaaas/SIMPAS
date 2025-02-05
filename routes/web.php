@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\SKLController;
-use App\Http\Controllers\PesertaMagangController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\PesertaMagangController;
 use App\Http\Controllers\PendaftaranMagangController;
 
 Route::get('/', function () {
@@ -21,34 +21,30 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 //Peserta Magang 
 Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [PesertaMagangController::class, 'index'])->name('pesertaMagang.dashboard');
+    Route::get('/dashboard', [PesertaMagangController::class, 'showDashboard'])->name('pesertaMagang.dashboard');
+    Route::get('/profile', [PesertaMagangController::class, 'showProfile'])->name('pesertaMagang.profile');
+    Route::post('/profile', [PesertaMagangController::class, 'updateProfile'])->name('pesertaMagang.updateProfile');
+    Route::get('/pendaftaran-magang', [PendaftaranMagangController::class, 'create'])->name('pendaftaran.magang.create');
+    Route::post('/pendaftaran-magang', [PendaftaranMagangController::class, 'store'])->name('pendaftaran.magang.store');
+    Route::get('/penilaian', [SKLController::class, 'showPenilaian'])->name('penilaian');
+    Route::get('/unduh-sksm', [SKLController::class, 'unduhSKSM'])->name('unduh-sksm');
+    Route::get('/unduh-skl', [SKLController::class, 'unduhSertifikat'])->name('unduh-skl');
 }); 
 // Route::get('pesertaMagang/dashboard', function () {
 //     return view('pesertaMagang.dashboard');
 // });      
-Route::get('pesertaMagang/profil', function () {
-    return view('pesertaMagang.profil');});
-Route::get('pesertaMagang/daftar-magang', function () {
-    return view('pesertaMagang.daftar-magang');});
-Route::get('pesertaMagang/kumpul-laporan', function () {
-    return view('pesertaMagang.kumpul-laporan');});
-Route::get('pesertaMagang/skl', function () {
-    return view('pesertaMagang.skl');});
-Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');
-
-Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [PesertaMagangController::class, 'showDashboard'])->name('pesertaMagang.dashboard');
-    Route::get('/profile', [PesertaMagangController::class, 'showProfile'])->name('pesertaMagang.profile');
-    Route::post('/profile', [PesertaMagangController::class, 'updateProfile'])->name('pesertaMagang.updateProfile');
-    Route::get('/pendaftaran_magang', [PendaftaranMagangController::class, 'create'])->name('pendaftaran.magang.create');
-    Route::post('/pendaftaran_magang', [PendaftaranMagangController::class, 'store'])->name('pendaftaran.magang.store');
-});
-
-//Koor
-Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');   
-Route::get('/detail-pendaftaran', function () {
-    return view('pesertaMagang.detail-pendaftaran');
-});
+// Route::get('pesertaMagang/profil', function () {
+//     return view('pesertaMagang.profil');});
+// Route::get('pesertaMagang/daftar-magang', function () {
+//     return view('pesertaMagang.daftar-magang');});
+// Route::get('pesertaMagang/kumpul-laporan', function () {
+//     return view('pesertaMagang.kumpul-laporan');});
+// Route::get('pesertaMagang/skl', function () {
+//     return view('pesertaMagang.skl');});
+// Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');   
+// Route::get('/detail-pendaftaran', function () {
+//     return view('pesertaMagang.detail-pendaftaran');
+// });
 
 // KOORDINATOR
 Route::prefix('koordinator')->middleware('auth')->group(function () {
@@ -87,6 +83,13 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/daftarPeserta',[MentorController::class,'daftarPeserta'])->name('mentor.daftarPeserta');
     //detail tiap peserta
     Route::get("/detail/{nip_peserta}",[MentorController::class,'detailPeserta'])->name('mentor.detail');
+    //page penilaian peserta
+    Route::get('/penilaianPeserta',[MentorController::class,'penilaianPeserta'])->name('mentor.penilaianPeserta');
+    //page pemberian nilai
+    Route::get("/beriNilai/{nip_peserta}",[MentorController::class,'beriNilai'])->name('mentor.beriNilai');
+    Route::post('/mentor/simpanPenilaian', [MentorController::class, 'simpanPenilaian'])->name('mentor.simpanPenilaian')->middleware('web');
+
+
 }); 
 
 
@@ -96,11 +99,11 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
 
 
 
-Route::get('mentor/penilaianPeserta', function () {
-    return view('mentor.penilaianPeserta');
-});
+// Route::get('mentor/penilaianPeserta', function () {
+//     return view('mentor.penilaianPeserta');
+// });
 
 
-Route::get('mentor/beriNilai', function () {
-    return view('mentor.beriNilai');
-});
+// Route::get('mentor/beriNilai', function () {
+//     return view('mentor.beriNilai');
+// });

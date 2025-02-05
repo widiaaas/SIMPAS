@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('skls', function (Blueprint $table) {
             $table->id();
             $table->string('nip_peserta');
-            $table->string('file_skl');
+            $table->string('skl')-> nullable();
+            
             $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs')->onDelete('cascade');
             $table->timestamps();
         });

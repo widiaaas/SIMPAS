@@ -5,16 +5,19 @@
 @section('content')
 <h1 class="header">Penilaian Peserta Magang </h1>
 <div class="mt-10 mb-6 ml-10 inter-font">
-    <div class="flex items-center">
-        <input 
-            type="text" 
-            placeholder="Cari Nama / Institusi Peserta" 
-            class=" bg-[#EBE4E1] p-2 border border-gray-300 rounded-l-md w-full md:w-1/2" 
-        />
-        <button class="bg-[#B23A3A] p-2.5 rounded-r-md text-white">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
+    <form method="GET" action="{{ route('mentor.penilaianPeserta') }}">
+        <div class="flex items-center">
+            <input 
+                type="text" 
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Cari Nama / Institusi Peserta" 
+                class="bg-[#EBE4E1] p-2 border border-gray-300 rounded-l-md w-full md:w-1/2" 
+            />
+            <button class="bg-[#B23A3A] p-2.5 rounded-r-md text-white">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
 </div>
 
 <!-- Tabel -->
@@ -30,55 +33,45 @@
         </tr>
     </thead>
     <tbody class="bg-[#F4EDEB] rounded-bl-lg rounded-br-lg">
+        @forelse ($peserta_magangs as $key => $peserta)
         <tr>
-            <td class="p-2 border border-[#FF885B] text-center">1</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
+            <td class="p-2 border border-[#FF885B] text-center">{{ $key + 1 }}</td>
+            <td class="p-2 border border-[#FF885B]">{{ $peserta->nama_peserta ?? '-' }}</td>
+            <td class="p-2 border border-[#FF885B]">{{ $peserta->asal_sekolah }}</td>
+            <td class="p-2 border border-[#FF885B]">{{ optional($peserta->pendaftaran)->tanggal_mulai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
+            <td class="p-2 border border-[#FF885B]">{{  optional($peserta->pendaftaran)->tanggal_selesai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y') : '-'}}</td>
+            <td class="p-4 border border-[#FF885B] text-center">
+                <a class="bg-[#282A4C] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">Beri Nilai</a>
+            </td>
         </tr>
+        @empty
         <tr>
-            <td class="p-2 border border-[#FF885B]">2</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
+            <td colspan="6" class="p-4 border border-[#FF885B] text-center">Tidak ada peserta magang yang ditampilkan disini</td>
         </tr>
-        <tr>
-            <td class="p-2 border border-[#FF885B]">3</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
-        </tr>
-        <tr>
-            <td class="p-2 border border-[#FF885B]">4</td>
-            <td class="p-2 border border-[#FF885B]">Widiawati Sihaloho</td>
-            <td class="p-2 border border-[#FF885B]">Universitas Diponegoro</td>
-            <td class="p-2 border border-[#FF885B]">02/01/2025</td>
-            <td class="p-2 border border-[#FF885B]">12/02/2025</td>
-            <td class="p-4 border border-[#FF885B] text-center"><a class="bg-[#282A4C] text-white p-2 rounded" href="/mentor/beriNilai">Beri Nilai</a></td>
-        </tr>
+        @endforelse
     </tbody >
 </table>
 
 
 <!-- Pagination -->
 <div class="flex justify-between items-center mt-4 inter-font">
-    <div class="text-[#B23A3A] ml-10"> Menampilkan 1 sampai 10 dari 50</div>
-    <div class="flex items-center">
-        <button class="bg-[#B23A3A] text-white p-2 rounded-l-md"> Sebelumnya</button>
-        <button class="bg-[#EBE4E1] text-black p-2">1</button>
-        <button class="bg-[#EBE4E1] text-black p-2">2</button>
-        <button class="bg-[#EBE4E1] text-black p-2">3</button>
-        <button class="bg-[#EBE4E1] text-black p-2">4</button>
-        <button class="bg-[#EBE4E1] text-black p-2">5</button>
-        <button class="bg-[#B23A3A] text-white p-2 rounded-r-md">Berikutnya</button>
+    <div class="ml-9 text-[#B23A3A]"> Menampilkan {{ $peserta_magangs->firstItem() }} sampai {{ $peserta_magangs->lastItem() }} dari {{$peserta_magangs->total() }}</div>
+    <div class="ml-24 flex items-center">
+        @if($peserta_magangs->onFirstPage())
+            <button class="bg-gray-400 text-white p-2 rounded-l-md cursor-not-allowed">Sebelumnya</button>
+        @else
+            <a href="{{ $peserta_magangs->previousPageUrl() }}" class="bg-[#B23A3A] text-white p-2 rounded-l-md"> Sebelumnya</a>
+        @endif
+        @for($i=1;$i<=$peserta_magangs->lastPage();$i++)
+            <a href="{{ $peserta_magangs->url($i) }}" class="bg-{{ $peserta_magangs->currentPage() == $i ? '[#EBE4E1] text-gray-900' : '[#EBE4E1] text-black' }} p-2">{{$i }}</a>
+        @endfor
+
+        @if($peserta_magangs->hasMorePages())
+            <a href="{{ $peserta_magangs->nextPageUrl() }}" class="bg-[#B23A3A] text-white p-2 rounded-r-md">Berikutnya</a>
+        @else
+            <button class="bg-gray-400 text-white p-2 rounded-r-md cursor-not-allowed">Berikutnya</button>
+        @endif
     </div>
-</div>
 </div>
 </div>
 
