@@ -123,9 +123,9 @@ class KoordinatorController extends Controller
                 'instansis.nama_instansi',
                 'pendaftaran_magangs.tanggal_mulai',
                 'pendaftaran_magangs.tanggal_selesai',
-                'pendaftaran_magangs.file_spkl',
-                'pendaftaran_magangs.file_cv',
-                'pendaftaran_magangs.file_proposal'
+                'pendaftaran_magangs.spkl',
+                'pendaftaran_magangs.cv',
+                'pendaftaran_magangs.proposal'
             )
             ->where('peserta_magangs.nip_peserta', $nip_peserta) // Berikan alias tabel pada kolom
             ->first(); // Gunakan first() agar data berupa objek, bukan array
@@ -135,9 +135,10 @@ class KoordinatorController extends Controller
             abort(404, 'Data tidak ditemukan');
         }
 
-        $pendaftar->file_cv_url = Storage::url($pendaftar->file_cv);
-        $pendaftar->file_proposal_url = Storage::url($pendaftar->file_proposal);
-        $pendaftar->file_spkl_url = Storage::url($pendaftar->file_spkl);
+        $pendaftar->file_cv_url = Storage::url($pendaftar->cv);
+        $pendaftar->file_proposal_url = Storage::url($pendaftar->proposal);
+        $pendaftar->file_spkl_url = Storage::url($pendaftar->spkl);
+
 
         // Kembalikan ke view
         return view('koordinator.detailPendaftarMagang', compact('pendaftar'));

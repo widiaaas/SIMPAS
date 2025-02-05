@@ -107,11 +107,7 @@ class PesertaMagangController extends Controller
                             . $pesertaMagang->nip_peserta . ',nip_peserta';
         }
 
-<<<<<<< HEAD
-        $request->validate($rules);
-=======
     $request->validate($rules);
->>>>>>> 2006b368b12242e4ef7e7e99c2c312526e58e085
         
         // Update data peserta magang
         $pesertaMagang->update([
@@ -119,25 +115,10 @@ class PesertaMagangController extends Controller
             'email_peserta' => $request->input('email'),
         ]);
 
-<<<<<<< HEAD
-        // Update email di tabel users
-        if ($user->email !== $request->input('email')) {
-            $user->update([
-                'email' => $request->input('email'),
-            ]);
-        }
-
-=======
->>>>>>> 2006b368b12242e4ef7e7e99c2c312526e58e085
         return redirect()->route('pesertaMagang.profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
 
-<<<<<<< HEAD
-    
-
-=======
->>>>>>> 2006b368b12242e4ef7e7e99c2c312526e58e085
     // public function store(Request $request)
     // {   
     //     // dd($request);
@@ -206,8 +187,4 @@ class PesertaMagangController extends Controller
     //     }
     // }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2006b368b12242e4ef7e7e99c2c312526e58e085

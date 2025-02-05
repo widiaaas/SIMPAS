@@ -213,8 +213,4 @@
     });
 </script>
 
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> 2006b368b12242e4ef7e7e99c2c312526e58e085
