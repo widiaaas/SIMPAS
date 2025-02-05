@@ -41,9 +41,9 @@ class PesertaMagang extends Model
         return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
 
-    public function penilaians()
+    public function penilaian()
     {
-        return $this->hasMany(Penilaian::class, 'nip_peserta', 'nip_peserta');
+        return $this->hasOne(Penilaian::class, 'nip_peserta', 'nip_peserta');
     }
 
     public function skls()

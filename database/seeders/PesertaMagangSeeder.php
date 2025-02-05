@@ -52,7 +52,7 @@ class PesertaMagangSeeder extends Seeder
                 'status_pendaftaran' => null,
                 'status_magang' => null,
                 'status_skl' => null,
-                'nip_mentor' => null,
+                'nip_mentor' => '1979026152',
                 'kode_instansi' => null,
                 'user_id' => 7,
             ],

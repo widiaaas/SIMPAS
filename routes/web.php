@@ -84,6 +84,13 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/daftarPeserta',[MentorController::class,'daftarPeserta'])->name('mentor.daftarPeserta');
     //detail tiap peserta
     Route::get("/detail/{nip_peserta}",[MentorController::class,'detailPeserta'])->name('mentor.detail');
+    //page penilaian peserta
+    Route::get('/penilaianPeserta',[MentorController::class,'penilaianPeserta'])->name('mentor.penilaianPeserta');
+    //page pemberian nilai
+    Route::get("/beriNilai/{nip_peserta}",[MentorController::class,'beriNilai'])->name('mentor.beriNilai');
+    Route::post('/mentor/simpanPenilaian', [MentorController::class, 'simpanPenilaian'])->name('mentor.simpanPenilaian')->middleware('web');
+
+
 }); 
 
 
@@ -93,11 +100,11 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
 
 
 
-Route::get('mentor/penilaianPeserta', function () {
-    return view('mentor.penilaianPeserta');
-});
+// Route::get('mentor/penilaianPeserta', function () {
+//     return view('mentor.penilaianPeserta');
+// });
 
 
-Route::get('mentor/beriNilai', function () {
-    return view('mentor.beriNilai');
-});
+// Route::get('mentor/beriNilai', function () {
+//     return view('mentor.beriNilai');
+// });
