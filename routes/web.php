@@ -51,59 +51,25 @@ Route::get('/detail-pendaftaran', function () {
 });
 
 // KOORDINATOR
-
 Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::get('/dashboard', [KoordinatorController::class, 'dashboard'])->name('koordinator.dashboard');
-});
+    Route::get('/profil', [KoordinatorController::class, 'profil'])->name('koordinator.profil');
 
-Route::get('/koordinator/profil', function () {
-    return view('koordinator.profil');
-});
+    Route::get('/koordinator/pembagianMagang', [KoordinatorController::class, 'pembagianMagang'])->name('koordinator.pembagianMagang');
+    Route::get('/koordinator/pembagianMagang/detailPendaftarMagang/{nip_peserta}', [KoordinatorController::class, 'detailPendaftar'])->name('detailPendaftar');
+    Route::post('/update-status', [KoordinatorController::class, 'updateStatus'])->name('update.status');
 
-Route::get('/koordinator/profil', [KoordinatorController::class, 'profil']);
+    Route::get('/koordinator/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor']);
+    Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
+    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor');
 
-Route::get('/koordinator/pembagianMagang', [KoordinatorController::class, 'pembagianMagang']);
+    Route::get('/koordinator/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
+    Route::get('/koordinator/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');
 
-Route::get('/koordinator/pembagianMagang/detailPendaftarMagang', function () {
-    return view('koordinator.detailPendaftarMagang');
-});
-
-<<<<<<< HEAD
-Route::get('/koordinator/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor']);
-Route::get('/koordinator/pembagianMagang/detailPendaftarMagang/{nip_peserta}', [KoordinatorController::class, 'detailPendaftar'])->name('detailPendaftar');
-Route::post('/update-status', [KoordinatorController::class, 'updateStatus'])->name('update.status');
-Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
-Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor');
-
-Route::get('/koordinator/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
-Route::get('/koordinator/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');
-Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian']);
-
-Route::get('/koordinator/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta']);
-Route::get('/koordinator/penilaianPeserta/detailNilaiPeserta/{nip_peserta}', [KoordinatorController::class, 'detailNilaiPeserta'])->name('detailNilaiPeserta');
-Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta']);
-
-//Mentor
-Route::prefix('mentor')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
-}); 
-
-Route::get('/mtrProfil', function () {
-    return view('mentor.profil');
-});
-=======
-
-
-Route::get('/koor/pembagianMagang/plottingMentor', function () {
-    return view('koordinator.plottingMentor');
-});
-
-Route::get('/koor/penilaianPeserta', function () {
-    return view('koordinator.penilaianPeserta');
-});
-
-Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
-    return view('koordinator.detailNilaiPeserta');
+    Route::get('/koordinator/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta']);
+    Route::get('/koordinator/penilaianPeserta/detailNilaiPeserta/{nip_peserta}', [KoordinatorController::class, 'detailNilaiPeserta'])->name('detailNilaiPeserta');
+    Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta']);
+    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian']);
 });
 
 //Mentor
@@ -126,7 +92,6 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
 
 
 
->>>>>>> b79e236d652fa59fa11e79be6dbb79efb133174f
 
 
 
