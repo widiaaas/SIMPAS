@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -18,12 +19,6 @@ class AuthController extends Controller
     public function index() 
     {
         return view('auth.login', ['title' => 'Login']);
-    }
-
-    // Show the sign-up form
-    public function showSignUpForm() 
-    {
-        return view('auth.daftar', ['title' => 'Daftar Akun']);
     }
 
     // Handle login logic
@@ -57,8 +52,6 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Login gagal! Periksa email dan kata sandi Anda.'])->withInput();
     }
-
-    
 
     // Handle logout logic
     public function logout(Request $request)

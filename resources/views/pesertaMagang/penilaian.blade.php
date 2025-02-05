@@ -167,6 +167,11 @@
             </p>
         </div>
 
+        <!-- Tombol Unduh SK selesai magang -->
+        <div class="mt-6 text-right">
+        <a href="{{ route('unduh-sksm') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh SK selesai Magang</a>
+        </div>
+
         <!-- Tombol Unduh SKL -->
         <div class="mt-6 text-right">
         <a href="{{ route('unduh-skl') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh Sertifikat</a>

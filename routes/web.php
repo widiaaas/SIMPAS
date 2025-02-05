@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoorController;
 use App\Http\Controllers\SKLController;
 use App\Http\Controllers\PesertaMagangController;
+use App\Http\Controllers\PendaftaranMagangController;
 
 Route::get('/', function () {
     return view('auth.login'); 
@@ -17,24 +18,31 @@ Route::post('/login', [AuthController::class, 'authenticate'])->name('authentica
 Route::get('/daftarakun', [AuthController::class, 'showSignUpForm'])->name('daftarakun');
 
 //Peserta Magang 
-Route::prefix('mahasiswa')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [PesertaMagangController::class, 'index'])->name('pesertaMagang.dashboard');
+Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [PesertaMagangController::class, 'showDashboard'])->name('pesertaMagang.dashboard');
+    Route::get('/profile', [PesertaMagangController::class, 'showProfile'])->name('pesertaMagang.profile');
+    Route::post('/profile', [PesertaMagangController::class, 'updateProfile'])->name('pesertaMagang.updateProfile');
+    Route::get('/pendaftaran-magang', [PendaftaranMagangController::class, 'create'])->name('pendaftaran.magang.create');
+    Route::post('/pendaftaran-magang', [PendaftaranMagangController::class, 'store'])->name('pendaftaran.magang.store');
+    Route::get('/penilaian', [SKLController::class, 'showPenilaian'])->name('penilaian');
+    Route::get('/unduh-sksm', [SKLController::class, 'unduhSKSM'])->name('unduh-sksm');
+    Route::get('/unduh-skl', [SKLController::class, 'unduhSertifikat'])->name('unduh-skl');
 }); 
 // Route::get('pesertaMagang/dashboard', function () {
 //     return view('pesertaMagang.dashboard');
 // });      
-Route::get('pesertaMagang/profil', function () {
-    return view('pesertaMagang.profil');});
-Route::get('pesertaMagang/daftar-magang', function () {
-    return view('pesertaMagang.daftar-magang');});
-Route::get('pesertaMagang/kumpul-laporan', function () {
-    return view('pesertaMagang.kumpul-laporan');});
-Route::get('pesertaMagang/skl', function () {
-    return view('pesertaMagang.skl');});
-Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');   
-Route::get('/detail-pendaftaran', function () {
-    return view('pesertaMagang.detail-pendaftaran');
-});
+// Route::get('pesertaMagang/profil', function () {
+//     return view('pesertaMagang.profil');});
+// Route::get('pesertaMagang/daftar-magang', function () {
+//     return view('pesertaMagang.daftar-magang');});
+// Route::get('pesertaMagang/kumpul-laporan', function () {
+//     return view('pesertaMagang.kumpul-laporan');});
+// Route::get('pesertaMagang/skl', function () {
+//     return view('pesertaMagang.skl');});
+// Route::get('/unduh-skl', [SKLController::class, 'unduhSKL'])->name('unduh-skl');   
+// Route::get('/detail-pendaftaran', function () {
+//     return view('pesertaMagang.detail-pendaftaran');
+// });
 
 // Koor
 Route::get('/koor/dashboard', function () {

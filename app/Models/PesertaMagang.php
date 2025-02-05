@@ -9,16 +9,20 @@ class PesertaMagang extends Model
 {
     use HasFactory;
 
+    
     protected $primaryKey = 'nip_peserta';
-
     protected $fillable = [
-        'nip_peserta', 'email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
+        'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
         'status_magang', 'status_skl', 'nip_mentor', 'kode_instansi', 'user_id'
     ];
+    protected $casts = [
+        'nip_peserta' => 'string',
+    ];
+    
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 
     public function instansi()

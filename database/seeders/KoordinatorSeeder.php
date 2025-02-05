@@ -17,6 +17,7 @@ class KoordinatorSeeder extends Seeder
             [
                 'nip_koor' => 'KOORD1',
                 'email' => 'koordinator1@example.com',
+                'nama' => 'Hanry',
                 'no_telp' => '081234567890',
                 'user_id' => 8,  // Sesuaikan dengan ID user yang sudah ada
             ],

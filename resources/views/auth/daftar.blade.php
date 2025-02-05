@@ -180,8 +180,8 @@
                         <form action="{{ route('daftarakun') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
-                                <label for="nim" class="form-label" style="font-style: italic;">NIM/NISN</label>
-                                <input type="nim" name="nim" id="nim" class="form-control" required value="{{ old('nim') }}">
+                                <label for="nip_peserta" class="form-label" style="font-style: italic;">NIM/NISN</label>
+                                <input type="nip_peserta" name="nip_peserta" id="nip_peserta" class="form-control" required value="{{ old('nip_peserta') }}">
 
                                 <label for="nama" class="form-label" style="font-style: italic;">Nama Lengkap</label>
                                 <input type="nama" name="nama" id="nama" class="form-control"  value="{{ old('nama') }}">

@@ -23,7 +23,7 @@ class User extends Authenticatable
 
     public function pesertaMagang()
     {
-        return $this->hasOne(PesertaMagang::class,'user_id');
+        return $this->hasOne(PesertaMagang::class,'user_id', 'id');
     }
 
     public function mentor()

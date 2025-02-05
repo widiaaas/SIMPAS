@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Instansi extends Model
 {
     use HasFactory;
-
+    protected $table = 'instansis';
     protected $fillable = [
         'kode_instansi', 'nama_instansi'
     ];
@@ -22,4 +22,10 @@ class Instansi extends Model
     {
         return $this->hasMany(PesertaMagang::class, 'kode_instansi', 'kode_instansi');
     }
+    
+    public function pendaftaranMagang()
+    {
+        return $this->hasMany(PendaftaranMagang::class, 'kode_instansi', 'kode_instansi');
+    }
+    
 }

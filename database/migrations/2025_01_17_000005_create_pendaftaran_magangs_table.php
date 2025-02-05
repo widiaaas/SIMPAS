@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('kode_instansi');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->string('file_spkl');
-            $table->string('file_cv');
-            $table->string('file_proposal');
+            $table->string('spkl')->nullable();
+            $table->string('cv')->nullable();
+            $table->string('proposal')->nullable();
             $table->timestamps();
 
             $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');

@@ -4,8 +4,9 @@
 
 @section('content')
 <h1 class="header mb-20">Beranda</h1>
-<p class="mb-6 text-xl" style="margin-left: 40px;">Selamat Datang <strong>Widiawati Sihaloho</strong></p>
-
+<p class="mb-6 text-xl" style="margin-left: 40px;">
+    Selamat Datang <strong>{{ $pesertaMagang->nama_peserta }}</strong>
+</p>
 <style>
     .card-custom {
         width: 33.33%;
@@ -42,32 +43,41 @@
     <div class="card card-custom">
         <h3>Status Pendaftaran</h3>
         <hr>
-        @php
-            $statusPendaftaran = 'Diterima'; // Contoh status, ini bisa berasal dari database
-        @endphp
-        <p>{{ $statusPendaftaran }}</p>
-        @if (strtolower($statusPendaftaran) === 'diterima' || strtolower($statusPendaftaran) === 'ditolak')
-        <a href="/detail-pendaftaran" class="button-detail">Lihat Detail</a>
-        @endif
-    </div>
-    <div class="card card-custom">
-        <h3>Status Magang</h3>
-        <hr>
-        @php
-            $statusMagang = 'Aktif'; // Contoh status, ini bisa berasal dari database
-            $tanggalMulaiMagang = '02-01-2025'; // Contoh tanggal mulai
-            $tanggalSelesaiMagang = '13-02-2025'; // Contoh tanggal selesai
-        @endphp
-        <p>{{ $statusMagang }}</p>
-        @if (strtolower($statusMagang) === 'aktif')
-        <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulaiMagang }}</p>
-        <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesaiMagang }}</p>
-        @endif
-    </div>
-    <div class="card card-custom">
-        <h3>Status SKL</h3>
-        <hr>
-        <p>Belum diterbitkan</p>
-    </div>
+            @if ($pesertaMagang)
+                @if ($pesertaMagang->status_pendaftaran)
+                    <p>{{ $pesertaMagang->status_pendaftaran }}</p>
+
+                    @if (strtolower($pesertaMagang->status_pendaftaran) === 'disetujui' || strtolower($pesertaMagang->status_pendaftaran) === 'ditolak')
+                        <a href="/detail-pendaftaran" class="button-detail">Lihat Detail</a>
+                    @endif
+                @else
+                    <p>Anda belum mendaftar</p>
+                @endif
+            @else
+                <p>Anda belum mendaftar</p>
+            @endif
+        </div>
+        <div class="card card-custom">
+            <h3>Status Magang</h3>
+            <hr>
+            @if ($pesertaMagang && $statusMagang)
+                <p>{{ $statusMagang }}</p>
+                @if (strtolower($statusMagang) === 'aktif')
+                    <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
+                    <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
+                @endif
+            @else
+                <p>Anda belum mendaftar</p>
+            @endif
+        </div>
+        <div class="card card-custom">
+            <h3>Status SKL</h3>
+            <hr>
+            @if ($pesertaMagang && $statusSKL)
+                <p>{{ $statusSKL }}</p>
+            @else
+                <p>Anda belum mendaftar</p>
+            @endif
+        </div>
 </div>
 @endsection
