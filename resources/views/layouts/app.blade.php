@@ -164,74 +164,45 @@
         ☰
     </button>
 
-{{-- <div class="sidebar">
-    @if(Auth::user()->role === 'peserta')
-        <a href="#" class="active">Beranda</a>
-        <a href="#">Profil</a>
-        <a href="#">Daftar Magang</a>
-        <a href="#">SKL</a>
-    @elseif(Auth::user()->role === 'admin')
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">Kelola Peserta</a>
-        <a href="#">Kelola Magang</a>
-    @elseif(Auth::user()->role === 'pembimbing')
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">Peserta Bimbingan</a>
-        <a href="#">Evaluasi</a>
-    @endif
-</div> --}}
-<div class="sidebar">
-    @if(Auth::check())
-        @if(Auth::user()->role === 'peserta')
-            <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-            <a href="/pesertaMagang/profile" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-            <a href="/pesertaMagang/pendaftaran-magang" class="{{ Request::is('pendaftaran-magang') ? 'active' : '' }}">Daftar Magang</a>
-            <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
-            <a href="/pesertaMagang/penilaian" class="{{ Request::is('penilaian') ? 'active' : '' }}">Penilaian</a>
-        
-        @elseif(Auth::user()->role == 'koordinator')
-            <a href="/koordinator/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-            <a href="/koordinator/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-            <!-- Navigasi Pembagian Magang dengan toggle subnavigasi -->
-            <div class="nav-item" id="pembagianMagangNav">
-                <a href="#" class="nav-link {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'active' : '' }}" id="pembagianMagangToggle">
-                    Pembagian Magang
-                </a>
-                <div class="subnav {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'show' : '' }}">
-                    <a href="/koordinator/pembagianMagang" class="{{ Request::is('pembagianMagang') ? 'active' : '' }}">Pendaftar Magang</a>
-                    <a href="/koordinator/pembagianMagang/plottingMentor" class="{{ Request::is('pembagianMagang/plottingMentor') ? 'active' : '' }}">Plotting Mentor</a>
-                </div>
-            </div>
-            <a href="/koordinator/daftarPeserta" class="{{ Request::is('daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
-            <a href="/koordinator/penilaianPeserta" class="{{ Request::is('penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
-        @endif
-        
-    @else
-        <a href="/login">Login</a>
-        <p>Silakan login untuk mengakses fitur lengkap.</p>
-    @endif
-    @yield('sidebar')
-</div>
-
-
     <div class="sidebar">
-        @if(Auth::user()->role==='pesertaMagang')
-        <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-        <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-        <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
-        <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
-        <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
-        @endif
-        @if(Auth::user()->role==='mentor')
-        <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-        <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-        <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
-        <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
+        @if(Auth::check())
+            @if(Auth::user()->role === 'peserta')
+            <a href="{{ route('pesertaMagang.dashboard') }}" class="{{ Request::routeIs('pesertaMagang.dashboard') ? 'active' : '' }}">Beranda</a>
+            <a href="{{ route('pesertaMagang.profile') }}" class="{{ Request::routeIs('pesertaMagang.profile') ? 'active' : '' }}">Profil</a>
+            <a href="{{ route('pendaftaran.magang.create') }}" class="{{ Request::routeIs('pendaftaran.magang.create') ? 'active' : '' }}">Daftar Magang</a>
+            <a href="{{ route('penilaian') }}" class="{{ Request::routeIs('penilaian') ? 'active' : '' }}">Penilaian</a>
+        
+            
+            @elseif(Auth::user()->role == 'koordinator')
+                <a href="/koordinator/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+                <a href="/koordinator/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+                <!-- Navigasi Pembagian Magang dengan toggle subnavigasi -->
+                <div class="nav-item" id="pembagianMagangNav">
+                    <a href="#" class="nav-link {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'active' : '' }}" id="pembagianMagangToggle">
+                        Pembagian Magang
+                    </a>
+                    <div class="subnav {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'show' : '' }}">
+                        <a href="/koordinator/pembagianMagang" class="{{ Request::is('pembagianMagang') ? 'active' : '' }}">Pendaftar Magang</a>
+                        <a href="/koordinator/pembagianMagang/plottingMentor" class="{{ Request::is('pembagianMagang/plottingMentor') ? 'active' : '' }}">Plotting Mentor</a>
+                    </div>
+                </div>
+                <a href="/koordinator/daftarPeserta" class="{{ Request::is('daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
+                <a href="/koordinator/penilaianPeserta" class="{{ Request::is('penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+
+            @elseif(Auth::user()->role === 'mentor')
+                <a href="{{ route('mentor.dashboard') }}" class="{{ Request::routeIs('mentor.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('mentor.profil') }}" class="{{ Request::routeIs('mentor.profil') ? 'active' : '' }}">Profil</a>
+                <a href="{{ route('mentor.daftarPeserta') }}" class="{{ Request::routeIs('mentor.daftarPeserta') ? 'active' : '' }}">Daftar Peserta Magang</a>
+                <a href="{{ route('mentor.penilaianPeserta') }}" class="{{ Request::routeIs('mentor.penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+            @endif
+            
+        @else
+            <a href="/login">Login</a>
+            <p>Silakan login untuk mengakses fitur lengkap.</p>
         @endif
         @yield('sidebar')
     </div>
 
-    
     <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>
         <span class="corner-text2">Kota Semarang</span>
@@ -256,7 +227,6 @@
             const subnav = this.nextElementSibling;
             subnav.classList.toggle('show');  // Toggle kelas 'show' untuk menampilkan atau menyembunyikan subnavigasi
         });
-
     </script>
 </body>
 </html>

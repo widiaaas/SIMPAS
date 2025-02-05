@@ -96,66 +96,66 @@
                     <td class="border px-4 py-2">1</td>
                     <td class="border px-4 py-2">Kehadiran</td>
                     <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>4</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai1}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">2</td>
                     <td class="border px-4 py-2">Ketepatan Waktu</td>
                     <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>5</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai2}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">3</td>
                     <td class="border px-4 py-2">Sikap Kerja / Prosedur Kerja</td>
                     <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>8</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai3}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">4</td>
                     <td class="border px-4 py-2">Kemampuan bekerja dalam Tim</td>
                     <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>7</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai4}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">5</td>
                     <td class="border px-4 py-2">Kreatifitas Kerja</td>
                     <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>9</span></td>
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai5}}</span></td>
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">6</td>
                     <td class="border px-4 py-2">Inisiatif Kerja</td>
                     <td class="border px-4 py-2">15</td>
-                    <td class="border px-4 py-2"><span>12</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai6}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">7</td>
                     <td class="border px-4 py-2">Kemampuan Komunikasi</td>
                     <td class="border px-4 py-2">15</td>
-                    <td class="border px-4 py-2"><span>14</span></td>
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai7}}</span></td>
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">8</td>
                     <td class="border px-4 py-2">Kemampuan Teknikal</td>
                     <td class="border px-4 py-2">20</td>
-                    <td class="border px-4 py-2"><span>18</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai8}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">9</td>
                     <td class="border px-4 py-2">Kepercayaan Diri</td>
                     <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>3</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai9}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2">10</td>
                     <td class="border px-4 py-2">Penampilan / Kerapihan</td>
                     <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>4</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai10}}</span></td> 
                 </tr>
                 <tr>
                     <td class="border px-4 py-2 font-bold" colspan="2">Nilai Total</td>
                     <td class="border px-4 py-2">100</td>
-                    <td class="border px-4 py-2"><span>4</span></td> 
+                    <td class="border px-4 py-2"><span>{{ $nilai->nilai_total}}</span></td> 
                 </tr>
             </tbody>
         </table>

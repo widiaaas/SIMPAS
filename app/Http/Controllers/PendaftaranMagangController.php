@@ -27,9 +27,14 @@ class PendaftaranMagangController extends Controller
         $pesertaMagang = Auth::user()->pesertaMagang;
         
         if (!$pesertaMagang) {
-            return redirect()->route('home')->with('error', 'Data peserta magang tidak ditemukan.');
+            return redirect()->route('pesertaMagang.dashboard')->with('error', 'Data peserta magang tidak ditemukan.');
         }
 
+        // Cek status pendaftaran magang
+        if ($pesertaMagang->status_pendaftaran == 'Diproses' || $pesertaMagang->status_pendaftaran == 'Disetujui') {
+            return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang'))
+                ->with('error', 'Pendaftaran magang sudah ditutup karena status Anda sedang ' . $pesertaMagang->status_pendaftaran);
+        }
         return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang'));
     }
 
@@ -52,8 +57,8 @@ class PendaftaranMagangController extends Controller
         // Validasi input
         $validateData = $request->validate([
             'dinas' => 'required',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai|after_or_equal:'.now()->addDays(30)->format('Y-m-d'),
             'spkl' => 'required|file|mimes:pdf|max:1024', // Maksimal 1MB
             'cv' => 'required|file|mimes:pdf|max:1024', // Maksimal 1MB
             'proposal' => 'required|file|mimes:pdf|max:102400', // Maksimal 100MB
@@ -126,7 +131,15 @@ class PendaftaranMagangController extends Controller
 
         return redirect()->back()->with('success', 'Pendaftaran magang berhasil!');
 
-        
+    }
+
+    public function detailPendaftaran (){
+        $pesertaMagang = Auth::user()->pesertaMagang;
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->first();
+        $instansi = $pendaftaranMagang->instansi;
+        $mentor = $pesertaMagang->mentor;
+
+        return view('pesertaMagang.detail_pendaftaran', compact('instansi', 'pesertaMagang','pendaftaranMagang','mentor'));
     }
 
 }

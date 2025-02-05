@@ -48,7 +48,7 @@
                     <p>{{ $pesertaMagang->status_pendaftaran }}</p>
 
                     @if (strtolower($pesertaMagang->status_pendaftaran) === 'disetujui' || strtolower($pesertaMagang->status_pendaftaran) === 'ditolak')
-                        <a href="/detail-pendaftaran" class="button-detail">Lihat Detail</a>
+                        <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
                     @endif
                 @else
                     <p>Anda belum mendaftar</p>
