@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('peserta_magangs', function (Blueprint $table) {
             $table->string('nip_peserta')->primary();
+            $table->string('nama_peserta')->unique();
             $table->string('email_peserta')->unique();
             $table->string('no_telp_peserta')->unique();
             $table->string('nama_peserta');

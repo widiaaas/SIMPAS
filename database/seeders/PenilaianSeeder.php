@@ -28,6 +28,7 @@ class PenilaianSeeder extends Seeder
                 'nilai10' => null,
                 'nilai_total' => null, // Jumlahkan semua nilai untuk mendapatkan nilai_total
                 'nip_mentor' => null, // Ganti dengan nip_mentor yang valid
+                'status'=> null
             ],
             [
                 'nip_peserta' => '000002', // Ganti dengan nip_peserta yang valid
@@ -43,6 +44,7 @@ class PenilaianSeeder extends Seeder
                 'nilai10' => null,
                 'nilai_total' => null, // Jumlahkan semua nilai untuk mendapatkan nilai_total
                 'nip_mentor' => null, // Ganti dengan nip_mentor yang valid
+                'status'=> null
             ],
             [
                 'nip_peserta' => '000003', // Ganti dengan nip_peserta yang valid
@@ -57,7 +59,8 @@ class PenilaianSeeder extends Seeder
                 'nilai9' => null,
                 'nilai10' => null,
                 'nilai_total' => null, // Jumlahkan semua nilai untuk mendapatkan nilai_total
-                'nip_mentor' => '1979026152', // Ganti dengan nip_mentor yang valid
+                'nip_mentor' => null, // Ganti dengan nip_mentor yang valid
+                'status'=> null
             ],
         ]);
     }

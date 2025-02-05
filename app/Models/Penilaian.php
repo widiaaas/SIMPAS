@@ -10,7 +10,7 @@ class Penilaian extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nip_peserta', 'nilai1', 'nilai2', 'nilai3', 'nilai4', 'nilai5', 'nilai6', 'nilai7', 'nilai8', 'nilai9', 'nilai10', 'nilai_total', 'nip_mentor'
+        'nip_peserta', 'nilai1', 'nilai2', 'nilai3', 'nilai4', 'nilai5', 'nilai6', 'nilai7', 'nilai8', 'nilai9', 'nilai10', 'nilai_total', 'nip_mentor', 'status'
     ];
 
     public function pesertaMagang()

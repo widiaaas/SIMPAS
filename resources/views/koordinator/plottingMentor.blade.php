@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Plotting Mentor')
+@section('title', 'Pembagian Magang')
 
 @section('content')
 
@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <style>
@@ -290,15 +291,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(range(1, 10) as $index)
+                @foreach($peserta as $index => $p)
                     <tr>
-                        <td>{{ $index }}</td>
-                        <td>Nama Siswa {{ $index }}</td>
-                        <td>Universitas {{ $index }}</td>
-                        <td class="dinas-cell">Dinas {{ $index }}</td>
-                        <td>{{ date('d/m/Y', strtotime('+' . $index . ' days')) }} - {{ date('d/m/Y', strtotime('+' . ($index + 10) . ' days')) }}</td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $p->nama_peserta }}</td>
+                        <td>{{ $p->asal_sekolah }}</td>
+                        <td class="dinas-cell" value="{{ $p->kode_instansi }}">{{ $p->nama_instansi }}</td>
+                        <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
-                            <button class="btn-detail pilih-mentor-btn" data-index="{{ $index }}">Pilih Mentor</button>
+                            <!-- Button for selecting a mentor -->
+                            <button class="btn-detail pilih-mentor-btn" 
+                                    data-index="{{ $index }}" 
+                                    data-instansi="{{ $p->kode_instansi }}"
+                                    data-nip="{{ $p->nip_peserta }}">
+                                Pilih Mentor
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -321,55 +328,13 @@
         <span class="close">&times;</span>
         <h2 style="font-size: 30px; text-align:center; padding-bottom:50px;">Pilih Mentor</h2>
         <div style="display: flex; justify-content: center">
-            <select id="mentorDropdown">
-                <!-- Options akan diisi oleh JavaScript -->
+            <select id="mentorDropdown" disabled>
+                <option value="" disabled selected>Pilih Mentor</option>
             </select>
-            
         </div>
-        <button id="confirmMentorBtn" class="btn-confmentor" style="justify-content: center">Konfirmasi</button>
+        <button id="confirmMentorBtn" class="btn-confmentor" style="justify-content: center">Simpan</button>
     </div>
 </div>
-
-{{-- Script untuk Sweet Alert --}}
-<script>
-    function confirmApproval() {
-        Swal.fire({
-            title: 'Setujui Pengajuan?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            customClass: {
-                confirmButton: 'btn-ya',
-                cancelButton: 'btn-tidak',
-                icon: 'icon-approval'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Pengajuan disetujui!', '', 'success');
-            }
-        });
-    }
-
-    function confirmRejection() {
-        Swal.fire({
-            title: 'Tolak Pengajuan?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            customClass: {
-                confirmButton: 'btn-ya',
-                cancelButton: 'btn-tidak',
-                icon: 'icon-rejection'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Pengajuan ditolak!', '', 'success');
-            }
-        });
-    }
-</script>
 
 {{-- Script untuk Search bar dan Pagination --}}
 <script>
@@ -496,26 +461,13 @@ function updatePageInfo() {
 
 {{-- Mentor --}}
 <script>
-    const mentorData = {
-        "Dinas 1": ["Mentor A1", "Mentor B1", "Mentor C1"],
-        "Dinas 2": ["Mentor A2", "Mentor B2", "Mentor C2"],
-        "Dinas 3": ["Mentor A3", "Mentor B3", "Mentor C3"],
-        "Dinas 4": ["Mentor A4", "Mentor B4", "Mentor C4"],
-        "Dinas 5": ["Mentor A5", "Mentor B5", "Mentor C5"],
-        "Dinas 6": ["Mentor A6", "Mentor B6", "Mentor C6"],
-        "Dinas 7": ["Mentor A7", "Mentor B7", "Mentor C7"],
-        "Dinas 8": ["Mentor A8", "Mentor B8", "Mentor C8"],
-        "Dinas 9": ["Mentor A9", "Mentor B9", "Mentor C9"],
-        "Dinas 10": ["Mentor A10", "Mentor B10", "Mentor C10"],
-        // Tambahkan data dinas dan mentor lainnya sesuai kebutuhan
-    };
 
     document.addEventListener('DOMContentLoaded', () => {
         const rows = document.querySelectorAll('.table tbody tr');
         rows.forEach(row => {
             const dinasCell = row.querySelector('.dinas-cell').textContent.trim();
             const mentorDropdown = row.querySelector('.mentor-dropdown');
-            const mentors = mentorData[dinasCell] || [];
+            const mentors = data-instansi[dinasCell] || [];
 
             mentors.forEach(mentor => {
                 const option = document.createElement('option');
@@ -528,70 +480,130 @@ function updatePageInfo() {
 </script>
 
 <script>
-    // Script untuk modal dan pilihan mentor
-    document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('mentorModal');
-        const closeModal = document.querySelector('.close');
-        const mentorDropdown = document.getElementById('mentorDropdown');
-        const confirmMentorBtn = document.getElementById('confirmMentorBtn');
-        const pilihMentorBtns = document.querySelectorAll('.pilih-mentor-btn');
+document.addEventListener('DOMContentLoaded', function () {
+    const mentorModal = document.getElementById('mentorModal');
+    const mentorDropdown = document.getElementById('mentorDropdown');
+    const confirmMentorBtn = document.getElementById('confirmMentorBtn');
+    const closeModalBtn = document.querySelector('.close'); 
 
-        pilihMentorBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const dinas = btn.closest('tr').querySelector('.dinas-cell').textContent.trim();
-                fillMentorDropdown(dinas);
-                modal.style.display = 'block';
-            });
-        });
+    let selectedParticipantNIP = null;
+    let previousMentor = null;  // Menyimpan mentor sebelumnya
 
-        closeModal.onclick = () => {
-            modal.style.display = 'none';
-        };
+    document.querySelectorAll('.pilih-mentor-btn').forEach(button => {
+        button.addEventListener('click', async function () {
+            const kodeInstansi = this.getAttribute('data-instansi');
+            selectedParticipantNIP = this.getAttribute('data-nip'); 
 
-        window.onclick = (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
+            if (!selectedParticipantNIP) {
+                alert("Peserta tidak ditemukan! Mohon periksa kembali.");
+                return;
             }
-        };
 
-        confirmMentorBtn.addEventListener('click', () => {
-            Swal.fire({
-                title: 'Konfirmasi Plotting Mentor?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                customClass: {
-                    confirmButton: 'btn-ya',
-                    cancelButton: 'btn-tidak',
+            mentorDropdown.innerHTML = '<option value="" disabled selected>Pilih Mentor</option>';
+            mentorDropdown.disabled = true;
+
+            try {
+                const response = await fetch(`/get-mentors?kode_instansi=${kodeInstansi}`);
+                const data = await response.json();
+
+                if (!data.mentors || data.mentors.length === 0) {
+                    alert('Tidak ada mentor tersedia untuk instansi ini.');
+                    return;
                 }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire('Mentor telah dipilih!', '', 'success');
-                }
-            });
-            modal.style.display = 'none';
+
+                // Simpan mentor yang sudah dipilih sebelumnya
+                previousMentor = mentorDropdown.value || null;
+
+                // Mengisi dropdown dengan mentor yang tersedia
+                data.mentors.forEach(mentor => {
+                    mentorDropdown.innerHTML += `<option value="${mentor.nip_mentor}">${mentor.nama}</option>`;
+                });
+
+                mentorDropdown.disabled = false;
+                mentorModal.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching mentors:', error);
+                alert('Gagal mengambil data mentor.');
+            }
         });
     });
 
-    function fillMentorDropdown(dinas) {
-        const mentors = mentorData[dinas] || [];
-        mentorDropdown.innerHTML = '';
-
-        // Tambahkan opsi default "Pilih Mentor"
-        const defaultOption = document.createElement('option');
-        defaultOption.textContent = 'Pilih Mentor';
-        defaultOption.disabled = true; // Tidak dapat dipilih
-        defaultOption.selected = true; // Terpilih secara default
-        mentorDropdown.appendChild(defaultOption);
-
-        mentors.forEach(mentor => {
-            const option = document.createElement('option');
-            option.value = mentor;
-            option.textContent = mentor;
-            mentorDropdown.appendChild(option);
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function () {
+            mentorModal.style.display = 'none';
         });
     }
+
+    confirmMentorBtn.addEventListener('click', async function () {
+        const selectedMentor = mentorDropdown.value;
+
+        if (!selectedMentor) {
+            alert('Pilih mentor terlebih dahulu!');
+            return;
+        }
+
+        if (!selectedParticipantNIP) {
+            alert('Peserta tidak ditemukan!');
+            return;
+        }
+
+        // Cek jika mentor yang dipilih berbeda dengan mentor sebelumnya
+        if (selectedMentor === previousMentor) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Tidak ada perubahan!',
+                text: 'Mentor yang dipilih sama dengan yang sebelumnya.',
+                confirmButtonColor: '#B31312',
+            });
+            return;
+        }
+
+        try {
+            // Kirim request untuk memilih mentor (Anda bisa tetap menggunakan POST jika diperlukan)
+            const response = await fetch('/plot-mentor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    nip_peserta: selectedParticipantNIP,
+                    nip_mentor: selectedMentor
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mentor berhasil dipilih!',
+                    text: result.message,
+                    confirmButtonColor: '#FF885B',
+                }).then(() => {
+                    mentorModal.style.display = 'none';
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal memilih mentor!',
+                    text: result.message || 'Terjadi kesalahan.',
+                    confirmButtonColor: '#B31312',
+                });
+            }
+        } catch (error) {
+            console.error('Error plotting mentor:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal memilih mentor!',
+                text: 'Terjadi kesalahan saat menyimpan data.',
+                confirmButtonColor: '#B31312',
+            });
+        }
+    });
+});
+
 
 </script>
 

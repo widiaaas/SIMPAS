@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembagian Magang')
+@section('title', 'Daftar Peserta Magang')
 
 @section('content')
 
@@ -111,8 +111,12 @@
     }
 
     .btn-detail {
-        background-color: #FFDD55;
-        color: #333;
+        background-color: #FF885B;
+        color: white;
+    }
+
+    .btn-setujui:hover {
+        background-color: #FFC107;
     }
 
     .btn-tolak:hover {
@@ -120,7 +124,7 @@
     }
 
     .btn-detail:hover {
-        background-color: #ebbf13;
+        background-color: #E57373;
     }
     
     .btn-ya {
@@ -187,7 +191,7 @@
     }
 
     .pagination-controls button:last-child {
-        border-top-right-radius: 15px; /* Roundness for Next button */
+        border-top-right-radius: 15px;
         border-bottom-right-radius: 15px;
     }
 
@@ -199,13 +203,13 @@
 
 </style>
 
-<h1 class="header">Pembagian Magang</h1>
+<h1 class="header">Penilaian Peserta Magang</h1>
 
 <div class="card">
     <div class="input-group">
         <input type="text" class="form-control searchInput" id="searchInput" placeholder="Pencarian">
         <button class="btn" type="button" id="button-addon2">
-            <span class="material-icons">search</span> <!-- Ganti dengan ikon pencarian -->
+            <span class="material-icons">search</span>
         </button>
     </div>    
     
@@ -230,22 +234,22 @@
                     <th>Sekolah / Perguruan Tinggi</th>
                     <th>Dinas</th>
                     <th>Periode</th>
-                    <th>Setujui</th>
+                    <th>Detail</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(range(1, 100) as $index)
+                @foreach($peserta as $index => $p)
                     <tr>
                         <td>{{ $index }}</td>
-                        <td>Nama Siswa {{ $index }}</td>
-                        <td>Universitas {{ $index }}</td>
-                        <td>Dinas {{ $index }}</td>
-                        <td>{{ date('d/m/Y', strtotime('+' . $index . ' days')) }} - {{ date('d/m/Y', strtotime('+' . ($index + 10) . ' days')) }}</td>
+                        <td>{{ $p->nama_peserta }}</td>
+                        <td>{{ $p->asal_sekolah }}</td>
+                        <td>{{ $p->nama_instansi }}</td>
+                        <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
-                            <button class="btn-detail">
-                                <a href="/koor/penilaianPeserta/detailNilaiPeserta">Detail Nilai</a>
+                            <button class="btn-tolak">
+                                <a href="/koordinator/penilaianPeserta/detailNilaiPeserta/{{ $p->nip_peserta }}" style="color: white;">Lihat Detail</a>
                             </button>
-                        </td>
+                        </td>                        
                     </tr>
                 @endforeach
             </tbody>
@@ -423,6 +427,53 @@ function updatePageInfo() {
     pageInfo.textContent = `Menampilkan halaman ${currentPage} dari ${totalPages} halaman`;
 }
 
+</script>
+
+{{-- Setujui Pendaftaran Magang --}}
+<script>
+    function updateStatus(nipPeserta, statusPendaftaran) {
+        const setujuOrTolak = statusPendaftaran.toLowerCase() === 'disetujui' ? 'setujui' : 'tolak';
+        const title = `Apakah Anda yakin ingin ${setujuOrTolak} pengajuan ini?`;
+
+        Swal.fire({
+            title: title,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+            customClass: {
+                confirmButton: 'btn-ya',
+                cancelButton: 'btn-tidak'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('{{ route('update.status') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ 
+                        nip_peserta: nipPeserta, 
+                        status_pendaftaran: statusPendaftaran 
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Berhasil!', data.message, 'success').then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire('Gagal!', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
+                });
+            }
+        });
+    }
 </script>
 
 @endsection

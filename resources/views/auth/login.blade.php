@@ -183,7 +183,7 @@
                         <form action="{{ route('authenticate') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label" style="font-style: italic;">NIM/NISN</label>
+                                <label for="email" class="form-label" style="font-style: italic;">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
