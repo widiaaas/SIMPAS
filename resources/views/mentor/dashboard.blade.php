@@ -7,7 +7,7 @@
         <p class="aoboshi-one-regular text-xl mb-16 mt-16 ml-10">
         Selamat Datang,
         <span class="aoboshi-one-regular font-bold text-[#b12a2f]">
-        Arif Budiman, S.Kom.
+            {{ $mentorName ?? 'mentor' }}
         </span>
         !
         </p>

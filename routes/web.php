@@ -68,6 +68,7 @@ Route::get('/koordinator/pembagianMagang/detailPendaftarMagang', function () {
     return view('koordinator.detailPendaftarMagang');
 });
 
+<<<<<<< HEAD
 Route::get('/koordinator/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor']);
 Route::get('/koordinator/pembagianMagang/detailPendaftarMagang/{nip_peserta}', [KoordinatorController::class, 'detailPendaftar'])->name('detailPendaftar');
 Route::post('/update-status', [KoordinatorController::class, 'updateStatus'])->name('update.status');
@@ -90,26 +91,50 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
 Route::get('/mtrProfil', function () {
     return view('mentor.profil');
 });
+=======
 
-Route::get('mentor/profil', function () {
-    return view('mentor.profil');
+
+Route::get('/koor/pembagianMagang/plottingMentor', function () {
+    return view('koordinator.plottingMentor');
 });
 
-Route::get('mentor/editProfil', function () {
-    return view('mentor.profilEdit');
+Route::get('/koor/penilaianPeserta', function () {
+    return view('koordinator.penilaianPeserta');
 });
 
-Route::get('mentor/daftarPeserta', function () {
-    return view('mentor.daftarPeserta');
+Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
+    return view('koordinator.detailNilaiPeserta');
 });
+
+//Mentor
+Route::prefix('mentor')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
+    //menampilkan profil mentor
+    Route::get('/profil', [MentorController::class, 'showProfile'])->name('mentor.profil');
+    //menampilkan form edit profil
+    Route::get('/edit/{nip_mentor}',[MentorController::class,'showProfileEdit'])->name('mentor.profilEdit');
+    //meyimpan perubahan profil
+    Route::put('/edit/{nip_mentor}',[MentorController::class,'update'])->name('mentor.update');
+    //halaman profil
+    Route::get('/profil',[MentorController::class,'showProfile'])->name('mentor.profil');
+    //daftar peserta
+    Route::get('/daftarPeserta',[MentorController::class,'daftarPeserta'])->name('mentor.daftarPeserta');
+    //detail tiap peserta
+    Route::get("/detail/{nip_peserta}",[MentorController::class,'detailPeserta'])->name('mentor.detail');
+}); 
+
+
+
+
+>>>>>>> b79e236d652fa59fa11e79be6dbb79efb133174f
+
+
+
 
 Route::get('mentor/penilaianPeserta', function () {
     return view('mentor.penilaianPeserta');
 });
 
-Route::get('mentor/detail', function () {
-    return view('mentor.detail');
-});
 
 Route::get('mentor/beriNilai', function () {
     return view('mentor.beriNilai');

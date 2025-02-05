@@ -164,6 +164,7 @@
         ☰
     </button>
 
+<<<<<<< HEAD
     {{-- <div class="sidebar">
     @if(Auth::user()->role === 'peserta')
         <a href="#" class="active">Beranda</a>
@@ -213,6 +214,24 @@
     @yield('sidebar')
 </div>
 
+=======
+    <div class="sidebar">
+        @if(Auth::user()->role==='pesertaMagang')
+        <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+        <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+        <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
+        <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
+        <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
+        @endif
+        @if(Auth::user()->role==='mentor')
+        <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+        <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+        <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
+        <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
+        @endif
+        @yield('sidebar')
+    </div>
+>>>>>>> b79e236d652fa59fa11e79be6dbb79efb133174f
     
     <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>

@@ -17,29 +17,29 @@ class UserSeeder extends Seeder
         //Mentor
         DB::table('users')->insert([
             [
-                'username' => 'johndoe',
-                'email' => 'johndoe@example.com',
+                'username' => 'ratiherawati',
+                'email' => 'ratiherawati@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,
             ],
             [
-                'username' => 'janesmith',
-                'email' => 'janesmith@example.com',
+                'username' => 'nusadhani',
+                'email' => 'nusadhani@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,
             ],
             [
-                'username' => 'alicejohnson',
-                'email' => 'alicejohnson@example.com',
+                'username' => 'hariyantoo',
+                'email' => 'hariyantoo@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,
             ],
             [
-                'username' => 'boblee',
-                'email' => 'boblee@example.com',
+                'username' => 'mhashari',
+                'email' => 'mhashari@gmail.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'mentor',
                 'remember_token' => null,

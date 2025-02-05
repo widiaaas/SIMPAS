@@ -280,7 +280,7 @@
             cancelButtonText: 'Tidak',
             customClass: {
                 confirmButton: 'btn-ya',
-                cancelButton: 'btn-tidak',
+                cancelButton:'btn-tidak',
                 icon: 'icon-approval'
             }
         }).then((result) => {

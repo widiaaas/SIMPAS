@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class PesertaMagang extends Model
 {
     use HasFactory;
-
+    protected $table = 'peserta_magangs';
     protected $primaryKey = 'nip_peserta';
+    protected $keyType = 'string'; // Pastikan dianggap string
+
+    protected $casts = [
+        'nip_peserta' => 'string', // Memastikan nip_peserta selalu string
+    ];
 
     protected $fillable = [
-        'nip_peserta', 'email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
+        'nip_peserta', 'email_peserta','nama_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
         'status_magang', 'status_skl', 'nip_mentor', 'kode_instansi', 'user_id'
     ];
 
@@ -31,7 +36,7 @@ class PesertaMagang extends Model
         return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
     }
 
-    public function pendaftaranMagangs()
+    public function pendaftaranMagang()
     {
         return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
@@ -44,5 +49,10 @@ class PesertaMagang extends Model
     public function skls()
     {
         return $this->hasMany(Skl::class, 'nip_peserta', 'nip_peserta');
+    }
+
+    public function pendaftaran()
+    {
+        return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
 }
