@@ -95,92 +95,124 @@
     }
 
     .card-custom h1 {
-        font-size: 1.25rem;
-        color: #B31314;
+        font-size: 50px;
+        color: #403333;
+    }
+
+    .card-custom p {
+        color: #b31312;
     }
 
     .container-custom {
         display: flex;
         justify-content: space-between;
     }
+    
+    .stat-peserta-diagram {
+        /* padding: 0px;
+        height: 300px; */
+        flex: 1;
+        display: flex;
+        justify-content: end;
+        justify-items: end;
+        /* background-color:#403333 */
+    }
+
 </style>
 
 <h1 class="header">Beranda</h1>
-<p class="text-xl" style="margin-left: 40px">Selamat Datang <strong style="color:#b31312">Wihajun</strong></p>
+<p class="text-xl" style="margin-left: 40px">Selamat Datang <strong style="color:#b31312">{{ $koordinator->nama }}</strong></p>
 
 <div class="card">
-    <div class= stat-peserta>
-        <div>
-            <p style="font-size: 30px">Total Peserta</p>
-            <h1 style="font-size: 100px">1257</h1>
-            <p>Peserta</p>
-        </div>
-        
-        <button class="btn btn-detail-peserta mt-3">Lihat Detail Peserta</button>
+    <div class="stat-container">
+        <div class="stat-peserta">
+            <div class="container-custom" style="gap: 40px">
+                <div>
+                    <p style="font-size: 30px">Total Peserta</p>
+                    <h1 style="font-size: 100px">{{ $totalPeserta }}</h1>
+                    <p>Peserta</p>
+                </div>
+                <div class="stat-peserta-diagram" style="height: 250px">
+                    <canvas id="pesertaChart" width="250" height="250px"></canvas>
+                </div>
+            </div>
+            <button class="btn btn-detail-peserta mt-3">
+                <a href="/koordinator/daftarPeserta">Lihat Detail Peserta</a>
+            </button>
+        </div>        
     </div>
-    
     <div class="stat-pendaftar">
         <p style="font-size: 30px; color:#b31312">Pendaftar Magang</p>
         <div class="container-custom" style="background-color:#FFDED5">
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $totalPendaftar }}</h1>
                 <p style="text-align: center; color:#b31312">Total</p>
             </div>
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $diterima }}</h1>
                 <p style="text-align: center; color:#b31312">Diterima</p>
             </div>
             <div class="card-custom">
-                <h1 style="font-size: 50px; text-align:center; color:#403333">1257</h1>
+                <h1 style="font-size: 50px; text-align:center; color:#403333">{{ $diproses }}</h1>
                 <p style="text-align: center; color:#b31312">Belum Diterima</p>
             </div>
         </div>
         <button class="btn btn-detail-pendaftar" style="margin: 25px;" >
-            <a href="/koor/pembagianMagang">Detail</a>
+            <a href="/koordinator/pembagianMagang">Detail</a>
         </button>        
     </div>
 </div>
 
 <script>
-    var ctx = document.getElementById('pendaftarChart').getContext('2d');
-    var pendaftarChart = new Chart(ctx, {
-        type: 'pie',
+    var ctx = document.getElementById('pesertaChart').getContext('2d');
+    var pesertaChart = new Chart(ctx, {
+        type: 'doughnut',
         data: {
-            labels: ['DISPERKIM', 'DISKOMINFO', 'DLH', 'DISPERTAN', 'DISHUB', 'dll.'],
+            labels: @json($instansiLabels),  // Menampilkan label dari instansi
             datasets: [{
-                label: 'Jumlah Pendaftar',
-                data: [300, 250, 200, 180, 127], // Ganti dengan jumlah peserta aktual di setiap dinas
+                data: @json($instansiCounts),  // Menampilkan jumlah peserta per instansi
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)', // Warna untuk DISPERKIM
-                    'rgba(255, 159, 64, 0.2)', // Warna untuk DISKOMINFO
-                    'rgba(255, 205, 86, 0.2)', // Warna untuk DLH
-                    'rgba(54, 162, 235, 0.2)', // Warna untuk DISPERTAN
-                    'rgba(153, 102, 255, 0.2)', // Warna untuk DISHUB
-                    'rgba(201, 203, 207, 0.2)'  // Warna untuk lainnya
+                    'rgba(75, 192, 192, 0.2)', // Warna untuk instansi pertama
+                    'rgba(153, 102, 255, 0.2)', // Warna untuk instansi kedua
+                    'rgba(255, 159, 64, 0.2)',  // Warna untuk instansi ketiga
+                    'rgba(54, 162, 235, 0.2)',  // Warna untuk instansi keempat
+                    'rgba(255, 99, 132, 0.2)',  // Warna untuk instansi kelima
+                    'rgba(201, 203, 207, 0.2)' // Warna untuk 'dll.'
                 ],
-
+                borderColor: [
+                    'rgba(75, 192, 192, 1)', // Border untuk instansi pertama
+                    'rgba(153, 102, 255, 1)', // Border untuk instansi kedua
+                    'rgba(255, 159, 64, 1)',  // Border untuk instansi ketiga
+                    'rgba(54, 162, 235, 1)',  // Border untuk instansi keempat
+                    'rgba(255, 99, 132, 1)',  // Border untuk instansi kelima
+                    'rgba(201, 203, 207, 1)'  // Border untuk 'dll.'
+                ],
+                borderWidth: 1
             }]
         },
+        plugins: [ChartDataLabels],
         options: {
-            responsive: true,
-            plugins: [ChartDataLabels],
-            options: {
-                plugins: {
-                    legend: {
-                        position: 'right', // Menempatkan legenda di sebelah kanan
-                    },
-                    datalabels: {
-                        color: '#000',
-                        formatter: (value, ctx) => {
-                            let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                            let percentage = (value * 100 / sum).toFixed(2) + "%";
-                            return percentage;
-                        }
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'left',
+                    labels: {
+                        padding: 0 // Mengurangi padding antara legend dan chart
                     }
+                },
+                title: {
+                    display: false // Pastikan title tidak ditampilkan
+                }
+            },
+            layout: {
+                padding: {
+                    top: 0,
+                    bottom: 0
                 }
             }
         }
     });
 </script>
+
 
 @endsection

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('nilai10')->nullable();
             $table->integer('nilai_total')->nullable();
             $table->string('nip_mentor')->nullable();
-            $table->enum('status', ['Sudah disetujui','Belum disetujui'])->nullable()-> default('Belum disetujui');
+            $table->enum('status',['Sudah disetujui','Belum disetujui'])->nullable()-> default('Belum disetujui');
 
             $table->foreign('nip_mentor')->references('nip_mentor')->on('mentors')->onDelete('cascade');
             $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs');

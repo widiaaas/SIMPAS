@@ -29,6 +29,7 @@ class InstansiSeeder extends Seeder
             ['kode_instansi' => 'Dispi', 'nama_instansi' => 'Dinas Perikanan'],
             ['kode_instansi' => 'Dinkes', 'nama_instansi' => 'Dinas Kesehatan'],
             ['kode_instansi' => 'Disdik', 'nama_instansi' => 'Dinas Pendidikan'],
+            ['kode_instansi' => 'Pemkot', 'nama_instansi' => 'Pemerintahan Kota Semarang'],
         ]);
     }
 }

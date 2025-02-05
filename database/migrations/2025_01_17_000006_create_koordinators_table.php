@@ -17,9 +17,14 @@ return new class extends Migration
             $table->string('nama');
             $table->timestamps();
             $table->string('no_telp');
+            $table->string('email')->unique();
+            $table->string('alamat');
+            $table->string('kode_instansi');
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');
+            $table->timestamps();
         });
     }
 

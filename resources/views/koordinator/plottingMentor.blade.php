@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <style>
@@ -90,7 +91,7 @@
         gap: 5px; /* Jarak antara tombol */
     }
 
-    .btn-setujui, .btn-tolak, .btn-detail {
+    .btn-setujui, .btn-tolak, .btn-detail, .btn-confmentor {
         width: 80%; /* Mengatur lebar tombol agar proporsional dengan sel tabel */
         padding: 5px 0;
         font-size: 12px;
@@ -98,6 +99,19 @@
         text-align: center;
         font-weight: bold;
         border: none;
+        justify-content: center
+    }
+
+    .btn-confmentor {
+        font-size: 15px;
+        font-family: 'Inter', serif;
+        background-color: #FF885B;
+        color: white;
+        padding: 10px;
+        display: inline-block; /* Memastikan tombol hanya mengambil ruang yang diperlukan */
+        width: auto; /* Membiarkan tombol menyesuaikan dengan teksnya */
+        margin-top: 40px;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
     }
 
     .btn-setujui {
@@ -111,20 +125,22 @@
     }
 
     .btn-detail {
-        background-color: #FF885B;
-        color: white;
+        background-color: #FFDD55;
+        color: #403333;
+        padding:5px;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
     }
 
     .btn-setujui:hover {
         background-color: #FFC107;
     }
 
-    .btn-tolak:hover {
-        background-color: #C62828;
+    .btn-confmentor:hover {
+        background-color: #e2693d;
     }
 
     .btn-detail:hover {
-        background-color: #E57373;
+        background-color: #FFC107;
     }
     
     .btn-ya {
@@ -191,7 +207,7 @@
     }
 
     .pagination-controls button:last-child {
-        border-top-right-radius: 15px;
+        border-top-right-radius: 15px; /* Roundness for Next button */
         border-bottom-right-radius: 15px;
     }
 
@@ -201,15 +217,52 @@
         margin-top: 10px;
     }
 
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 500px;
+        border-radius: 10px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 </style>
 
-<h1 class="header">Pendaftar Magang</h1>
+<h1 class="header">Plotting Mentor</h1>
 
 <div class="card">
     <div class="input-group">
         <input type="text" class="form-control searchInput" id="searchInput" placeholder="Pencarian">
         <button class="btn" type="button" id="button-addon2">
-            <span class="material-icons">search</span>
+            <span class="material-icons">search</span> <!-- Ganti dengan ikon pencarian -->
         </button>
     </div>    
     
@@ -234,26 +287,26 @@
                     <th>Sekolah / Perguruan Tinggi</th>
                     <th>Dinas</th>
                     <th>Periode</th>
-                    <th>Setujui</th>
+                    <th>Mentor</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($pendaftarMagang as $index => $pendaftar)
+                @foreach($peserta as $index => $p)
                     <tr>
-                        <td>{{ $index }}</td>
-                        <td>{{ $pendaftar->nama_peserta }}</td>
-                        <td>{{ $pendaftar->asal_sekolah }}</td>
-                        <td>{{ $pendaftar->nama_instansi }}</td>
-                        <td>{{ date('d/m/Y', strtotime($pendaftar->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($pendaftar->tanggal_selesai)) }}</td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $p->nama_peserta }}</td>
+                        <td>{{ $p->asal_sekolah }}</td>
+                        <td class="dinas-cell" value="{{ $p->kode_instansi }}">{{ $p->nama_instansi }}</td>
+                        <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
-                            <div class="btn-group">
-                                <button class="btn-setujui" onclick="updateStatus('{{ $pendaftar->nip_peserta }}', 'Disetujui')">Setujui</button>
-                                <button class="btn-tolak" onclick="updateStatus('{{ $pendaftar->nip_peserta }}', 'Ditolak')">Tolak</button>
-                                <button class="btn-detail">
-                                    <a href="/koordinator/pembagianMagang/detailPendaftarMagang/{{ $pendaftar->nip_peserta }}" style="color: white;">Lihat Detail</a>
-                                </button>
-                            </div>
-                        </td>                        
+                            <!-- Button for selecting a mentor -->
+                            <button class="btn-detail pilih-mentor-btn" 
+                                    data-index="{{ $index }}" 
+                                    data-instansi="{{ $p->kode_instansi }}"
+                                    data-nip="{{ $p->nip_peserta }}">
+                                Pilih Mentor
+                            </button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
@@ -269,46 +322,19 @@
     </div>
 </div>
 
-{{-- Script untuk Sweet Alert --}}
-<script>
-    function confirmApproval() {
-        Swal.fire({
-            title: 'Setujui Pengajuan?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            customClass: {
-                confirmButton: 'btn-ya',
-                cancelButton:'btn-tidak',
-                icon: 'icon-approval'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Pengajuan disetujui!', '', 'success');
-            }
-        });
-    }
-
-    function confirmRejection() {
-        Swal.fire({
-            title: 'Tolak Pengajuan?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            customClass: {
-                confirmButton: 'btn-ya',
-                cancelButton: 'btn-tidak',
-                icon: 'icon-rejection'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Pengajuan ditolak!', '', 'success');
-            }
-        });
-    }
-</script>
+<!-- Modal -->
+<div id="mentorModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 style="font-size: 30px; text-align:center; padding-bottom:50px;">Pilih Mentor</h2>
+        <div style="display: flex; justify-content: center">
+            <select id="mentorDropdown" disabled>
+                <option value="" disabled selected>Pilih Mentor</option>
+            </select>
+        </div>
+        <button id="confirmMentorBtn" class="btn-confmentor" style="justify-content: center">Simpan</button>
+    </div>
+</div>
 
 {{-- Script untuk Search bar dan Pagination --}}
 <script>
@@ -433,51 +459,152 @@ function updatePageInfo() {
 
 </script>
 
-{{-- Setujui Pendaftaran Magang --}}
+{{-- Mentor --}}
 <script>
-    function updateStatus(nipPeserta, statusPendaftaran) {
-        const setujuOrTolak = statusPendaftaran.toLowerCase() === 'disetujui' ? 'setujui' : 'tolak';
-        const title = `Apakah Anda yakin ingin ${setujuOrTolak} pengajuan ini?`;
 
-        Swal.fire({
-            title: title,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            customClass: {
-                confirmButton: 'btn-ya',
-                cancelButton: 'btn-tidak'
+    document.addEventListener('DOMContentLoaded', () => {
+        const rows = document.querySelectorAll('.table tbody tr');
+        rows.forEach(row => {
+            const dinasCell = row.querySelector('.dinas-cell').textContent.trim();
+            const mentorDropdown = row.querySelector('.mentor-dropdown');
+            const mentors = data-instansi[dinasCell] || [];
+
+            mentors.forEach(mentor => {
+                const option = document.createElement('option');
+                option.value = mentor;
+                option.textContent = mentor;
+                mentorDropdown.appendChild(option);
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const mentorModal = document.getElementById('mentorModal');
+    const mentorDropdown = document.getElementById('mentorDropdown');
+    const confirmMentorBtn = document.getElementById('confirmMentorBtn');
+    const closeModalBtn = document.querySelector('.close'); 
+
+    let selectedParticipantNIP = null;
+    let previousMentor = null;  // Menyimpan mentor sebelumnya
+
+    document.querySelectorAll('.pilih-mentor-btn').forEach(button => {
+        button.addEventListener('click', async function () {
+            const kodeInstansi = this.getAttribute('data-instansi');
+            selectedParticipantNIP = this.getAttribute('data-nip'); 
+
+            if (!selectedParticipantNIP) {
+                alert("Peserta tidak ditemukan! Mohon periksa kembali.");
+                return;
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch('{{ route('update.status') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ 
-                        nip_peserta: nipPeserta, 
-                        status_pendaftaran: statusPendaftaran 
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('Berhasil!', data.message, 'success').then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire('Gagal!', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
+
+            mentorDropdown.innerHTML = '<option value="" disabled selected>Pilih Mentor</option>';
+            mentorDropdown.disabled = true;
+
+            try {
+                const response = await fetch(`/get-mentors?kode_instansi=${kodeInstansi}`);
+                const data = await response.json();
+
+                if (!data.mentors || data.mentors.length === 0) {
+                    alert('Tidak ada mentor tersedia untuk instansi ini.');
+                    return;
+                }
+
+                // Simpan mentor yang sudah dipilih sebelumnya
+                previousMentor = mentorDropdown.value || null;
+
+                // Mengisi dropdown dengan mentor yang tersedia
+                data.mentors.forEach(mentor => {
+                    mentorDropdown.innerHTML += `<option value="${mentor.nip_mentor}">${mentor.nama}</option>`;
                 });
+
+                mentorDropdown.disabled = false;
+                mentorModal.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching mentors:', error);
+                alert('Gagal mengambil data mentor.');
             }
         });
+    });
+
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function () {
+            mentorModal.style.display = 'none';
+        });
     }
+
+    confirmMentorBtn.addEventListener('click', async function () {
+        const selectedMentor = mentorDropdown.value;
+
+        if (!selectedMentor) {
+            alert('Pilih mentor terlebih dahulu!');
+            return;
+        }
+
+        if (!selectedParticipantNIP) {
+            alert('Peserta tidak ditemukan!');
+            return;
+        }
+
+        // Cek jika mentor yang dipilih berbeda dengan mentor sebelumnya
+        if (selectedMentor === previousMentor) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Tidak ada perubahan!',
+                text: 'Mentor yang dipilih sama dengan yang sebelumnya.',
+                confirmButtonColor: '#B31312',
+            });
+            return;
+        }
+
+        try {
+            // Kirim request untuk memilih mentor (Anda bisa tetap menggunakan POST jika diperlukan)
+            const response = await fetch('/plot-mentor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    nip_peserta: selectedParticipantNIP,
+                    nip_mentor: selectedMentor
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mentor berhasil dipilih!',
+                    text: result.message,
+                    confirmButtonColor: '#FF885B',
+                }).then(() => {
+                    mentorModal.style.display = 'none';
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal memilih mentor!',
+                    text: result.message || 'Terjadi kesalahan.',
+                    confirmButtonColor: '#B31312',
+                });
+            }
+        } catch (error) {
+            console.error('Error plotting mentor:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal memilih mentor!',
+                text: 'Terjadi kesalahan saat menyimpan data.',
+                confirmButtonColor: '#B31312',
+            });
+        }
+    });
+});
+
+
 </script>
 
 @endsection

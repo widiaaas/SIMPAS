@@ -19,6 +19,9 @@ class KoordinatorSeeder extends Seeder
                 'email' => 'koordinator1@example.com',
                 'nama' => 'Hanry',
                 'no_telp' => '081234567890',
+                'email' => 'koordinator1@example.com',
+                'alamat' => 'Jl. Contoh No. 1, Semarang',
+                'kode_instansi' => 'Pemkot',
                 'user_id' => 8,  // Sesuaikan dengan ID user yang sudah ada
             ],
             

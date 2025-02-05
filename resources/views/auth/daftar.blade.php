@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Daftar Akun</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap');
@@ -177,34 +177,37 @@
                                 </ul>
                             </div>
                         @endif -->
-                        <form action="{{ route('daftarakun') }}" method="POST" autocomplete="on">
+                        <form action="{{ route('register') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
-                                <label for="nip_peserta" class="form-label" style="font-style: italic;">NIM/NISN</label>
-                                <input type="nip_peserta" name="nip_peserta" id="nip_peserta" class="form-control" required value="{{ old('nip_peserta') }}">
-
-                                <label for="nama" class="form-label" style="font-style: italic;">Nama Lengkap</label>
-                                <input type="nama" name="nama" id="nama" class="form-control"  value="{{ old('nama') }}">
-
+                                <label for="nip_peserta" class="form-label" style="font-style: italic;">NIP/NISN</label>
+                                <input type="text" name="nip_peserta" id="nip_peserta" class="form-control" required value="{{ old('nip_peserta') }}">
+                        
+                                <label for="nama_peserta" class="form-label" style="font-style: italic;">Nama Lengkap</label>
+                                <input type="text" name="nama_peserta" id="nama_peserta" class="form-control" required value="{{ old('nama_peserta') }}">
+                        
                                 <label for="email" class="form-label" style="font-style: italic;">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" required value="{{ old('email') }}">
-                                
-                                <label for="notelp" class="form-label" style="font-style: italic;">Nomor Telepon</label>
-                                <input type="notelp" name="notelp" id="notelp" class="form-control" required value="{{ old('notelp') }}">
-                                
-                                <label for="sekolah" class="form-label" style="font-style: italic;">Asal Sekolah / Perguruan Tinggi</label>
-                                <input type="sekolah" name="sekolah" id="sekolah" class="form-control" required value="{{ old('sekolah') }}">
-                                
+                        
+                                <label for="no_telp_peserta" class="form-label" style="font-style: italic;">Nomor Telepon</label>
+                                <input type="text" name="no_telp_peserta" id="no_telp_peserta" class="form-control" required value="{{ old('no_telp_peserta') }}">
+                        
+                                <label for="asal_sekolah" class="form-label" style="font-style: italic;">Asal Sekolah / Perguruan Tinggi</label>
+                                <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control" required value="{{ old('asal_sekolah') }}">
+                        
                                 <label for="jurusan" class="form-label" style="font-style: italic;">Jurusan</label>
-                                <input type="jurusan" name="jurusan" id="jurusan" class="form-control" required value="{{ old('jurusan') }}">
-
+                                <input type="text" name="jurusan" id="jurusan" class="form-control" required value="{{ old('jurusan') }}">
+                        
                                 <label for="password" class="form-label" style="font-style: italic;">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" required value="{{ old('password') }}">
+                                <input type="password" name="password" id="password" class="form-control" required>
+                        
+                                <label for="password_confirmation" class="form-label" style="font-style: italic;">Konfirmasi Password</label>
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-daftar aoboshi-one-regular">Daftar</button>
                             </div>
-                        </form>
+                        </form>                        
                     </div>
                 </div>
             </div>
@@ -220,4 +223,63 @@
     <!-- Bootstrap JS bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("{{ route('daftarakun') }}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                }
+            })
+            .then(response => response.json().catch(() => response))
+            .then(data => {
+                console.log("Response dari server:", data);
+                if (data.status === "success") {
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: data.message,
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.href = "/login"; // Redirect ke halaman login
+                    });
+                } else if (data.errors) {
+                    let errorMessages = Object.values(data.errors).flat().join("\n");
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: errorMessages,
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: "Terjadi kesalahan, coba lagi nanti.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                Swal.fire({
+                    title: "Error!",
+                    text: "Gagal mengirim data, periksa koneksi Anda.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        });
+    });
+</script>
+
 </html>

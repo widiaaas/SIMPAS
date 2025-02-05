@@ -9,7 +9,6 @@ class PesertaMagang extends Model
 {
     use HasFactory;
 
-    
     protected $primaryKey = 'nip_peserta';
     protected $fillable = [
         'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
@@ -35,18 +34,23 @@ class PesertaMagang extends Model
         return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
     }
 
-    public function pendaftaranMagangs()
+    public function pendaftaranMagang()
     {
         return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
 
-    public function penilaians()
+    public function penilaian()
     {
-        return $this->hasMany(Penilaian::class, 'nip_peserta', 'nip_peserta');
+        return $this->hasOne(Penilaian::class, 'nip_peserta', 'nip_peserta');
     }
 
     public function skls()
     {
         return $this->hasMany(Skl::class, 'nip_peserta', 'nip_peserta');
+    }
+
+    public function pendaftaran()
+    {
+        return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
 }

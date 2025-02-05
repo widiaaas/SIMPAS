@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('kode_instansi');
             $table->string('jabatan');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');

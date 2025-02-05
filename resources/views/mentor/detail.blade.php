@@ -16,7 +16,7 @@
   <div class="flex space-x-4 justify-between">
     <div>
       <p class="text-sm font-semibold text-gray-600">Nama:</p>
-      <p class="text-lg font-medium">Widiawati Sihaloho</p>
+      <p class="text-lg font-medium">{{ $peserta->nama_peserta }}</p>
     </div>
     <div >
       <p class="text-sm font-semibold text-gray-600">Detail CV:</p>
@@ -28,7 +28,7 @@
   <div class="flex space-x-4 justify-between">
       <div>
           <p class="text-sm font-semibold text-gray-600">Sekolah/Universitas Asal:</p>
-          <p class="text-lg font-medium">Universitas Diponegoro</p>
+          <p class="text-lg font-medium">{{ $peserta->asal_sekolah }}</p>
         </div>
       <div >
         <p class="text-sm font-semibold text-gray-600">Detail Proposal:</p>
@@ -39,32 +39,29 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">NIM/NISN:</p>
-      <p class="text-lg font-medium">24060122130037</p>
+      <p class="text-lg font-medium">{{ $peserta->nip_peserta}}</p>
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Jurusan:</p>
-      <p class="text-lg font-medium">Informatika</p>
+      <p class="text-lg font-medium">{{ $peserta->jurusan }}</p>
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Email:</p>
-      <p class="text-lg font-medium">widiawatiscollege@gmail.com</p>
+      <p class="text-lg font-medium">{{ $peserta->email_peserta }}</p>
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Diterima Magang di:</p>
-      <p class="text-lg font-medium">Dinas Komunikasi, Informasi, Statistik, dan Persandian Kota Semarang</p>
+      <p class="text-lg font-medium"> {{ optional($peserta->pendaftaran->instansi)->nama_instansi ?? '-' }}</p>
     </div>
-    <div>
-      <p class="text-sm font-semibold text-gray-600">Bidang:</p>
-      <p class="text-lg font-medium">Statistik</p>
-    </div>
+
     <div class="flex space-x-4">
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Mulai:</p>
-        <p class="text-lg font-medium">02/01/2025</p>
+        <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') }}</p>
       </div>
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Selesai:</p>
-        <p class="text-lg font-medium">12/02/2025</p>
+        <p class="text-lg font-medium">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y')}}</p>
       </div>
     </div>
 

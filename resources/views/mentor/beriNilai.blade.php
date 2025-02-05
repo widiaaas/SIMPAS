@@ -3,6 +3,31 @@
 @section('title', 'Beri Nilai Peserta - SIMPAS')
 
 @section('content')
+<head>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+
+<style>
+      .btn-ok{
+        background-color: #FFDD55;
+        color: #333;
+      }
+      .icon-warning .swal2-icon {
+        background-color: #FF8800 !important; /* Warna latar belakang ikon */
+        color: white !important; /* Warna ikon */
+      }
+        .btn-ya {
+        background-color: #FF885B !important;
+        color: white !important;
+      }
+
+      .btn-tidak {
+        background-color: #B31312 !important;
+        color: white !important;
+      }  
+   
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="mb-8">
   <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/mentor/penilaianPeserta">
       <i class="fas fa-arrow-left">
@@ -16,23 +41,23 @@
   <div class="grid grid-cols-2 gap-6">
     <div>
       <p class="text-sm font-semibold text-gray-600">Nama/NIM:</p>
-      <p class="text-lg font-medium">Widiawati Sihaloho/24060122130037</p>
+      <p class="text-lg font-medium">{{ $peserta->nama_peserta ??'-' }}/{{ $peserta->nip_peserta ??'-' }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Sekolah/Universitas:</p>
-      <p class="text-lg font-medium">Universitas Diponegoro</p>
+      <p class="text-lg font-medium">{{ $peserta->asal_sekolah ??'-' }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
-      <p class="text-lg font-medium">Informatika</p>
-      <p class="text-sm font-semibold text-gray-600 mt-2">Divisi Kerja:</p>
-      <p class="text-lg font-medium">Statistik</p>
+      <p class="text-lg font-medium">{{ $peserta->jurusan ??'-'  }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
-      <p class="text-lg font-medium">12/02/2025 - 02/01/2025</p>
+      <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') ??'-'}} - {{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y')??'-' }}</p>
     </div>
     <div class="flex items-start justify-end">
-      <button class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-        Unduh Laporan Magang
-      </button>
+
     </div>
   </div>
 </div>
+<form id="formPenilaian" method="POST" action="{{ route('mentor.simpanPenilaian') }}">
+  @csrf
+  <input type="hidden" name="nip_peserta" value="{{ $peserta->nip_peserta }}">
+  <input type="hidden" name="nip_mentor" value="{{ auth()->user()->nip }}">
 
 <!-- Tabel Penilaian -->
 <div class="overflow-x-auto mt-6 ml-9 mr-7">
@@ -52,8 +77,9 @@
         <td class="border px-4 py-2">Kehadiran</td>
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="5" onchange="validateAndCalculate(this, 5)" />
+          <input type="number" name="nilai1" class="score-input w-20 px-2 py-1 border rounded-lg" 
+            min="1" max="5"  value="{{ $penilaian->nilai1 ?? '' }}" 
+            {{ isset($penilaian->nilai1) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
       <tr>
@@ -61,7 +87,7 @@
         <td class="border px-4 py-2">Ketepatan Waktu</td>
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai2" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="5" onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
@@ -70,7 +96,7 @@
         <td class="border px-4 py-2">Sikap Kerja/Prosedur Kerja</td>
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai3" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="10" onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
@@ -79,7 +105,7 @@
         <td class="border px-4 py-2">Kemampuan Bekerja dalam Tim</td>
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai4" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="10" onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
@@ -88,7 +114,7 @@
         <td class="border px-4 py-2">Kreatifitas Kerja</td>
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai5" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="10" onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
@@ -97,7 +123,7 @@
         <td class="border px-4 py-2">Insitatif Kerja</td>
         <td class="border px-4 py-2">15</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai6" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="15" onchange="validateAndCalculate(this, 15)" />
         </td>
       </tr>
@@ -106,7 +132,7 @@
         <td class="border px-4 py-2">Kemampuan Komunikasi</td>
         <td class="border px-4 py-2">15</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai7" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="15" onchange="validateAndCalculate(this, 15)" />
         </td>
       </tr>
@@ -115,7 +141,7 @@
         <td class="border px-4 py-2">Kemampuan Teknikal</td>
         <td class="border px-4 py-2">20</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai8" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="20" onchange="validateAndCalculate(this, 20)" />
         </td>
       </tr>
@@ -124,7 +150,7 @@
         <td class="border px-4 py-2">Kepercayaan Diri</td>
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai9" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="5" onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
@@ -133,7 +159,7 @@
         <td class="border px-4 py-2">Penampilan/Kerapihan</td>
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
-          <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
+          <input type="number" name="nilai10" class="score-input w-20 px-2 py-1 border rounded-lg" 
             min="1" max="5" onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
@@ -152,12 +178,12 @@
   <p class="text-sm text-gray-600">Keterangan:</p>
   <p class="text-sm text-gray-600">Nilai dalam bentuk angka dari 1 sampai nilai bobot.</p>
 </div>
-
+</form>
 <!-- Tombol Simpan -->
 <div class="flex justify-end mr-9 inter-font">
     <button id="actionButton" 
     class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-    onclick="toggleEdit()">
+    onclick="handleSave()">
     Simpan
     </button>
 </div>
@@ -166,22 +192,101 @@
   let isEditable = true; // Status input apakah editable atau tidak
 
 // Fungsi untuk mengubah status edit
-function toggleEdit() {
-  const inputs = document.querySelectorAll('.score-input');
-  const actionButton = document.getElementById('actionButton');
+  function toggleEdit() {
+    const inputs = document.querySelectorAll('.score-input');
+    const actionButton = document.getElementById('actionButton');
+    
+    if (isEditable) {
+        // Jika sedang editable dan tombol diklik, kunci input
+        inputs.forEach(input => input.disabled = true);
+        actionButton.style.display='none';
+    }
 
-  if (isEditable) {
-      // Jika sedang editable dan tombol diklik, kunci input
-      inputs.forEach(input => input.disabled = true);
-      actionButton.textContent = 'Edit';
-  } else {
-      // Jika tidak editable, aktifkan input
-      inputs.forEach(input => input.disabled = false);
-      actionButton.textContent = 'Simpan';
+    isEditable = false; // Toggle status
   }
 
-  isEditable = !isEditable; // Toggle status
+  function handleSave() {
+    const inputs = document.querySelectorAll('.score-input');
+    let allFilled = true;
+
+    inputs.forEach((input) => {
+        if (!input.value) {
+            allFilled = false;
+        }
+    });
+
+    if (!allFilled) {
+        Swal.fire({
+            icon: "warning",
+            title: "Nilai tidak boleh kosong!",
+            text: "Harap isi semua nilai sebelum menyimpan.",
+            customClass: {
+                confirmButton: 'btn-ok',
+                icon: 'icon-warning'
+            }
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: "Apakah anda yakin ingin menyimpan?",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Simpan",
+        cancelButtonText: `Batal`,
+        customClass: {
+            confirmButton: 'btn-ya',
+            cancelButton: 'btn-tidak',
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Create FormData object
+            const form = document.getElementById('formPenilaian');
+            const formData = new FormData(form);
+            
+            // Send as regular form data
+            fetch("{{ route('mentor.simpanPenilaian') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                    "Accept": "application/json"  // Add this line
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.headers.get("content-type")?.includes("application/json")) {
+                        return response.json().then(err => Promise.reject(err));
+                    }
+                    return Promise.reject({ message: 'Server error' });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message === 'Penilaian berhasil disimpan!') {
+                    Swal.fire({
+                        title: "Nilai berhasil disimpan",
+                        icon: "success"
+                    }).then(() => {
+                        toggleEdit();
+                    });
+                } else {
+                    throw new Error(data.message || 'Terjadi kesalahan');
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                Swal.fire({
+                    title: "Terjadi kesalahan",
+                    text: error.message || "Gagal menyimpan penilaian",
+                    icon: "error"
+                });
+            });
+        }
+    });
 }
+
+
+
   // Fungsi validasi input dan perhitungan total
   function validateAndCalculate(input, max) {
     const value = parseFloat(input.value); // Gunakan parseFloat untuk menangani angka desimal
