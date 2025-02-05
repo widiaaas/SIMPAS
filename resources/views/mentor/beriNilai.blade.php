@@ -88,7 +88,8 @@
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai2" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="5" onchange="validateAndCalculate(this, 5)" />
+            min="1" max="5"  value="{{ $penilaian->nilai2 ?? '' }}" 
+            {{ isset($penilaian->nilai2) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
       <tr>
@@ -97,7 +98,8 @@
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai3" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="10" onchange="validateAndCalculate(this, 10)" />
+            min="1" max="10"  value="{{ $penilaian->nilai3 ?? '' }}" 
+            {{ isset($penilaian->nilai3) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
       <tr>
@@ -106,7 +108,8 @@
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai4" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="10" onchange="validateAndCalculate(this, 10)" />
+            min="1" max="10"  value="{{ $penilaian->nilai4 ?? '' }}" 
+            {{ isset($penilaian->nilai4) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
       <tr>
@@ -115,7 +118,8 @@
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai5" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="10" onchange="validateAndCalculate(this, 10)" />
+            min="1" max="10"  value="{{ $penilaian->nilai5 ?? '' }}" 
+            {{ isset($penilaian->nilai5) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 10)" />
         </td>
       </tr>
       <tr>
@@ -124,7 +128,8 @@
         <td class="border px-4 py-2">15</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai6" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="15" onchange="validateAndCalculate(this, 15)" />
+            min="1" max="15"  value="{{ $penilaian->nilai6 ?? '' }}" 
+            {{ isset($penilaian->nilai6) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 15)" />
         </td>
       </tr>
       <tr>
@@ -133,7 +138,8 @@
         <td class="border px-4 py-2">15</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai7" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="15" onchange="validateAndCalculate(this, 15)" />
+            min="1" max="15" value="{{ $penilaian->nilai7 ?? '' }}" 
+            {{ isset($penilaian->nilai7) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 15)" />
         </td>
       </tr>
       <tr>
@@ -142,7 +148,8 @@
         <td class="border px-4 py-2">20</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai8" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="20" onchange="validateAndCalculate(this, 20)" />
+            min="1" max="20"  value="{{ $penilaian->nilai8 ?? '' }}" 
+            {{ isset($penilaian->nilai8) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 20)" />
         </td>
       </tr>
       <tr>
@@ -151,7 +158,8 @@
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai9" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="5" onchange="validateAndCalculate(this, 5)" />
+            min="1" max="5"  value="{{ $penilaian->nilai9 ?? '' }}" 
+            {{ isset($penilaian->nilai9) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
       <tr>
@@ -160,14 +168,21 @@
         <td class="border px-4 py-2">5</td>
         <td class="border px-4 py-2">
           <input type="number" name="nilai10" class="score-input w-20 px-2 py-1 border rounded-lg" 
-            min="1" max="5" onchange="validateAndCalculate(this, 5)" />
+            min="1" max="5"  value="{{ $penilaian->nilai10 ?? '' }}" 
+            {{ isset($penilaian->nilai10) ? 'disabled' : '' }} onchange="validateAndCalculate(this, 5)" />
         </td>
       </tr>
       <!-- Tambahkan parameter lainnya di sini -->
       <!-- Nilai Total -->
       <tr class="bg-gray-200">
         <td class="border px-4 py-2 font-bold" colspan="3">Nilai Total</td>
-        <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">0</td>
+        <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">
+          @if($penilaian)
+            {{ $penilaian->nilai_total }}
+          @else
+            0
+          @endif
+        </td>
       </tr>
     </tbody>
   </table>
@@ -181,11 +196,13 @@
 </form>
 <!-- Tombol Simpan -->
 <div class="flex justify-end mr-9 inter-font">
+  @if(!$penilaian)
     <button id="actionButton" 
     class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
     onclick="handleSave()">
     Simpan
     </button>
+  @endif
 </div>
 </div>
 <script>

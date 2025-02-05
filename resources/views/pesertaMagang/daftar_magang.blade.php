@@ -289,5 +289,4 @@
     });
 </script>
 
-
 @endsection

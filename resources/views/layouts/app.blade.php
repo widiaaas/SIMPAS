@@ -188,12 +188,11 @@
                 </div>
                 <a href="/koordinator/daftarPeserta" class="{{ Request::is('daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
                 <a href="/koordinator/penilaianPeserta" class="{{ Request::is('penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
-
-            @elseif(Auth::user()->role === 'mentor')
-                <a href="{{ route('mentor.dashboard') }}" class="{{ Request::routeIs('mentor.dashboard') ? 'active' : '' }}">Beranda</a>
-                <a href="{{ route('mentor.profil') }}" class="{{ Request::routeIs('mentor.profil') ? 'active' : '' }}">Profil</a>
-                <a href="{{ route('mentor.daftarPeserta') }}" class="{{ Request::routeIs('mentor.daftarPeserta') ? 'active' : '' }}">Daftar Peserta Magang</a>
-                <a href="{{ route('mentor.penilaianPeserta') }}" class="{{ Request::routeIs('mentor.penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+            @elseif(Auth::user()->role==='mentor')
+                <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+                <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+                <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
+                <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
             @endif
             
         @else
@@ -202,7 +201,6 @@
         @endif
         @yield('sidebar')
     </div>
-
     <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>
         <span class="corner-text2">Kota Semarang</span>

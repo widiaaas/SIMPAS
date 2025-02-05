@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama_peserta');
             $table->string('email_peserta')->unique();
             $table->string('no_telp_peserta')->unique();
-            $table->string('nama_peserta');
             $table->string('asal_sekolah');
             $table->string('jurusan');
             $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();

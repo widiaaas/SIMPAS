@@ -103,9 +103,15 @@
     </div>    
 
     <div class="buttons">
-        <button class="btn" onclick="openPdf('{{ $pendaftar->file_cv_url }}')">Lihat CV</button>
-        <button class="btn" onclick="openPdf('{{ $pendaftar->file_proposal_url }}')">Lihat Proposal</button>
-        <button class="btn" onclick="openPdf('{{ $pendaftar->file_spkl_url }}')">Lihat Surat Pengantar</button>
+        <button class="btn">
+            <a href="{{ asset('storage/' . $pendaftar->cv) }}" target="_blank">Lihat CV</a>
+        </button>
+        <button class="btn">
+            <a href="{{ asset('storage/' . $pendaftar->proposal) }}" target="_blank">Lihat Proposal</a>
+        </button>
+        <button class="btn">
+            <a href="{{ asset('storage/' . $pendaftar->spkl) }}" target="_blank">Lihat Surat Pengantar</a>
+        </button>
     </div>    
 </div>
 
