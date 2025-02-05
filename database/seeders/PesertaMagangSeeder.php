@@ -16,6 +16,7 @@ class PesertaMagangSeeder extends Seeder
         DB::table('peserta_magangs')->insert([
             [
                 'nip_peserta' => '000001',
+                'nama_peserta' => 'asep',
                 'email_peserta' => 'peserta1@example.com',
                 'no_telp_peserta' => '085123456789',
                 'asal_sekolah' => 'SMK Negeri 1 Semarang',
@@ -29,6 +30,7 @@ class PesertaMagangSeeder extends Seeder
             ],
             [
                 'nip_peserta' => '000002',
+                'nama_peserta' => 'budi',
                 'email_peserta' => 'peserta2@example.com',
                 'no_telp_peserta' => '085234567890',
                 'asal_sekolah' => 'SMK Negeri 2 Semarang',
@@ -42,6 +44,7 @@ class PesertaMagangSeeder extends Seeder
             ],
             [
                 'nip_peserta' => '000003',
+                'nama_peserta' => 'lili',
                 'email_peserta' => 'peserta3@example.com',
                 'no_telp_peserta' => '085345678901',
                 'asal_sekolah' => 'SMK Negeri 3 Semarang',

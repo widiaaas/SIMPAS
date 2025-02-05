@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembagian Magang')
+@section('title', 'Daftar Peserta Magang')
 
 @section('content')
 
@@ -203,7 +203,7 @@
 
 </style>
 
-<h1 class="header">Pendaftar Magang</h1>
+<h1 class="header">Daftar Peserta Magang</h1>
 
 <div class="card">
     <div class="input-group">
@@ -234,25 +234,21 @@
                     <th>Sekolah / Perguruan Tinggi</th>
                     <th>Dinas</th>
                     <th>Periode</th>
-                    <th>Setujui</th>
+                    <th>Detail</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($pendaftarMagang as $index => $pendaftar)
+                @foreach($peserta as $index => $p)
                     <tr>
                         <td>{{ $index }}</td>
-                        <td>{{ $pendaftar->nama_peserta }}</td>
-                        <td>{{ $pendaftar->asal_sekolah }}</td>
-                        <td>{{ $pendaftar->nama_instansi }}</td>
-                        <td>{{ date('d/m/Y', strtotime($pendaftar->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($pendaftar->tanggal_selesai)) }}</td>
+                        <td>{{ $p->nama_peserta }}</td>
+                        <td>{{ $p->asal_sekolah }}</td>
+                        <td>{{ $p->nama_instansi }}</td>
+                        <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
-                            <div class="btn-group">
-                                <button class="btn-setujui" onclick="updateStatus('{{ $pendaftar->nip_peserta }}', 'Disetujui')">Setujui</button>
-                                <button class="btn-tolak" onclick="updateStatus('{{ $pendaftar->nip_peserta }}', 'Ditolak')">Tolak</button>
-                                <button class="btn-detail">
-                                    <a href="/koordinator/pembagianMagang/detailPendaftarMagang/{{ $pendaftar->nip_peserta }}" style="color: white;">Lihat Detail</a>
-                                </button>
-                            </div>
+                            <button class="btn-tolak">
+                                <a href="/koordinator/daftarPeserta/detailPeserta/{{ $p->nip_peserta }}" style="color: white;">Lihat Detail</a>
+                            </button>
                         </td>                        
                     </tr>
                 @endforeach

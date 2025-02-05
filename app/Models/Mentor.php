@@ -9,6 +9,8 @@ class Mentor extends Model
 {
     use HasFactory;
 
+    protected $table = 'mentors';
+
     protected $primaryKey = 'nip_mentor';
 
     protected $fillable = [

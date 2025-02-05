@@ -19,9 +19,9 @@ class PendaftaranMagangSeeder extends Seeder
                 'kode_instansi' => 'DPU', // Contoh kode instansi
                 'tanggal_mulai' => '2025-02-01',
                 'tanggal_selesai' => '2025-08-01',
-                'file_spkl' => 'spkl_000001.pdf',
-                'file_cv' => 'cv_000001.pdf',
-                'file_proposal' => 'proposal_000001.pdf',
+                'file_spkl' => 'SP_Asep.pdf',
+                'file_cv' => 'CV_Asep.pdf',
+                'file_proposal' => 'Proposal_Asep.pdf',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

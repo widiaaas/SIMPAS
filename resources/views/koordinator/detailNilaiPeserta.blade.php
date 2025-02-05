@@ -3,6 +3,27 @@
 @section('title', 'Detail Nilai Peserta - SIMPAS')
 
 @section('content')
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<style>
+    .btn-setujui {
+        margin-left: 5px;
+        font-size: 16px;
+        border-radius: 7px;
+        text-align: center;
+        border: none;
+        background-color: #FFDD55;
+        color: #333;
+    }
+
+    .btn-setujui:hover {
+        background-color: #FFC107;
+    }
+</style>
+
 <div class="mb-8">
   <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/koor/penilaianPeserta">
       <i class="fas fa-arrow-left">
@@ -16,15 +37,13 @@
   <div class="grid grid-cols-2 gap-6">
     <div>
       <p class="text-sm font-semibold text-gray-600">Nama/NIM:</p>
-      <p class="text-lg font-medium">Widiawati Sihaloho/24060122130037</p>
+      <p class="text-lg font-medium">{{ $peserta->nama }} / {{ $peserta->nip }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Sekolah/Universitas:</p>
-      <p class="text-lg font-medium">Universitas Diponegoro</p>
+      <p class="text-lg font-medium">{{ $peserta->asal_sekolah }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
-      <p class="text-lg font-medium">Informatika</p>
-      <p class="text-sm font-semibold text-gray-600 mt-2">Divisi Kerja:</p>
-      <p class="text-lg font-medium">Statistik</p>
+      <p class="text-lg font-medium">{{ $peserta->jurusan }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
-      <p class="text-lg font-medium">12/02/2025 - 02/01/2025</p>
+      <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_mulai)) }}</p>
     </div>
     <div class="flex items-start justify-end">
       <button class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
@@ -160,74 +179,140 @@
     onclick="toggleEdit()">
     Simpan
     </button>
+    <button id="confirmButton" class="px-6 py-2 btn-setujui">Konfirmasi</button>
 </div>
-</div>
+
 <script>
-    // Contoh data nilai awal
-    const initialScores = [4, 5, 7, 8, 9, 12, 13, 17, 4, 5]; // Nilai awal yang diambil dari data
-  
-    let isEditable = false; // Status input apakah editable atau tidak (default 'false' = tidak editable)
-  
-    document.addEventListener('DOMContentLoaded', () => {
-      // Mengisi input dengan nilai awal saat halaman dimuat
-      const inputs = document.querySelectorAll('.score-input');
-      inputs.forEach((input, index) => {
-        input.value = initialScores[index] || 0; // Mengisi input dengan nilai awal
-        input.disabled = !isEditable; // Pastikan input terkunci (disabled) saat awal
-      });
-  
-      // Set tombol untuk pertama kali menjadi "Edit"
-      const actionButton = document.getElementById('actionButton');
-      actionButton.textContent = 'Edit';
-  
-      // Menghitung nilai total pada saat halaman dimuat
-      calculateTotal();
+  document.addEventListener('DOMContentLoaded', () => {
+    const initialScores = [
+      {{ $peserta->nilai1 ?? 0 }},
+      {{ $peserta->nilai2 ?? 0 }},
+      {{ $peserta->nilai3 ?? 0 }},
+      {{ $peserta->nilai4 ?? 0 }},
+      {{ $peserta->nilai5 ?? 0 }},
+      {{ $peserta->nilai6 ?? 0 }},
+      {{ $peserta->nilai7 ?? 0 }},
+      {{ $peserta->nilai8 ?? 0 }},
+      {{ $peserta->nilai9 ?? 0 }},
+      {{ $peserta->nilai10 ?? 0 }}
+    ];
+
+    let isEditable = false;
+    let nipPeserta = "{{ $peserta->nip }}";
+
+    const inputs = document.querySelectorAll('.score-input');
+    inputs.forEach((input, index) => {
+      input.value = initialScores[index] || 0;
+      input.disabled = !isEditable;
     });
-  
-    function toggleEdit() {
-      const inputs = document.querySelectorAll('.score-input');
-      const actionButton = document.getElementById('actionButton');
-  
+
+    const actionButton = document.getElementById('actionButton');
+    const confirmButton = document.getElementById('confirmButton');
+    actionButton.textContent = 'Edit';
+
+    calculateTotal();
+
+    actionButton.addEventListener('click', function() {
       if (isEditable) {
-        // Jika sudah dalam mode edit, kunci input dan ubah tombol menjadi "Edit"
-        inputs.forEach(input => input.disabled = true);
-        actionButton.textContent = 'Edit';
+        const updatedScores = Array.from(inputs).map(input => parseInt(input.value, 10));
+
+        // Kirim data ke server dengan fetch
+        fetch(`/update-nilai-peserta/${nipPeserta}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+          },
+          body: JSON.stringify({
+            nilai1: updatedScores[0],
+            nilai2: updatedScores[1],
+            nilai3: updatedScores[2],
+            nilai4: updatedScores[3],
+            nilai5: updatedScores[4],
+            nilai6: updatedScores[5],
+            nilai7: updatedScores[6],
+            nilai8: updatedScores[7],
+            nilai9: updatedScores[8],
+            nilai10: updatedScores[9]
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: data.message
+          }).then(() => {
+            location.reload();
+          });
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan!',
+            text: 'Periksa kembali nilai yang dimasukkan.'
+          });
+        });
       } else {
-        // Jika tidak dalam mode edit, buka input dan ubah tombol menjadi "Simpan"
         inputs.forEach(input => input.disabled = false);
         actionButton.textContent = 'Simpan';
       }
-  
-      isEditable = !isEditable; // Toggle status (mode edit / simpan)
-    }
-  
-    function validateAndCalculate(input, max) {
-      const value = parseFloat(input.value);
-      if (!Number.isInteger(value)) {
-        alert('Masukkan nilai berupa bilangan bulat.');
-        input.value = '';
-      } else if (value < 1 || value > max || isNaN(value)) {
-        alert(`Masukkan nilai antara 1 dan ${max}`);
-        input.value = '';
-      } else {
-        // Hitung total nilai jika valid
-        calculateTotal();
-      }
-    }
-  
-    function calculateTotal() {
-      const inputs = document.querySelectorAll('.score-input');
-      let total = 0;
-      inputs.forEach(input => {
-        const value = parseInt(input.value, 10);
-        if (!isNaN(value)) {
-          total += value;
+
+      isEditable = !isEditable;
+    });
+    // Tombol Konfirmasi
+    confirmButton.addEventListener('click', function() {
+      Swal.fire({
+        title: 'Konfirmasi Penilaian?',
+        text: 'Nilai tidak dapat diubah kembali',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch(`/konfirmasi-penilaian/${nipPeserta}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ status: "Sudah Disetujui" })
+          })
+          .then(response => response.json())
+          .then(data => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Penilaian Disetujui!',
+              text: data.message
+            }).then(() => {
+              window.location.href = '/koordinator/penilaianPeserta';
+            });
+          })
+          .catch(error => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Terjadi Kesalahan!',
+              text: 'Gagal mengonfirmasi penilaian. Coba lagi nanti.'
+            });
+          });
         }
       });
-      document.getElementById('totalScore').innerText = total;
-    }
-  </script>
-  
+    });
+  });
+
+  function calculateTotal() {
+    const inputs = document.querySelectorAll('.score-input');
+    let total = 0;
+    inputs.forEach(input => {
+      const value = parseInt(input.value, 10);
+      if (!isNaN(value)) {
+        total += value;
+      }
+    });
+    document.getElementById('totalScore').innerText = total;
+  }
+</script>
 
 
 @endsection 

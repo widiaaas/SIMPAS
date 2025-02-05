@@ -136,7 +136,9 @@
                     <canvas id="pesertaChart" width="250" height="250px"></canvas>
                 </div>
             </div>
-            <button class="btn btn-detail-peserta mt-3">Lihat Detail Peserta</button>
+            <button class="btn btn-detail-peserta mt-3">
+                <a href="/koordinator/daftarPeserta">Lihat Detail Peserta</a>
+            </button>
         </div>        
     </div>
     <div class="stat-pendaftar">
@@ -156,7 +158,7 @@
             </div>
         </div>
         <button class="btn btn-detail-pendaftar" style="margin: 25px;" >
-            <a href="/koor/pembagianMagang">Detail</a>
+            <a href="/koordinator/pembagianMagang">Detail</a>
         </button>        
     </div>
 </div>

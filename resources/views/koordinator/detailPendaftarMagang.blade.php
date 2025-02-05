@@ -67,49 +67,53 @@
 <div class="card">
     <div class="info-section">
         <div class="info-label">Nama</div>
-        <div class="info-value">WIDIAWATI SIHALOHO</div>
+        <div class="info-value">{{ $pendaftar->nama }}</div>
     </div>
-
+    
     <div class="info-section">
         <div class="info-label">Sekolah / Universitas</div>
-        <div class="info-value">UNIVERSITAS DIPONEGORO</div>
+        <div class="info-value">{{ $pendaftar->asal_sekolah }}</div>
     </div>
-
+    
     <div class="info-section">
         <div class="info-label">NIM/NISN</div>
-        <div class="info-value">24060122130037</div>
+        <div class="info-value">{{ $pendaftar->nip }}</div>
     </div>
-
+    
     <div class="info-section">
         <div class="info-label">Jurusan</div>
-        <div class="info-value">INFORMATIKA</div>
+        <div class="info-value">{{ $pendaftar->jurusan }}</div>
     </div>
-
+    
     <div class="info-section">
         <div class="info-label">Email</div>
-        <div class="info-value"><a style="color:#b53c00" href="mailto:widiawatiscollege@gmail.com">widiawatiscollege@gmail.com</a></div>
+        <div class="info-value">
+            <a style="color:#b53c00" href="mailto:{{ $pendaftar->email }}">{{ $pendaftar->email }}</a>
+        </div>
     </div>
-
+    
     <div class="info-section">
         <div class="info-label">Dinas Tujuan</div>
-        <div class="info-value">DINAS KOMUNIKASI, INFORMASI, STATISTIK, DAN PERSANDIAN KOTA SEMARANG</div>
+        <div class="info-value">{{ $pendaftar->nama_instansi }}</div>
     </div>
-
-    <div class="info-section">
-        <div class="info-label">Bidang Tujuan</div>
-        <div class="info-value">STATISTIK</div>
-    </div>
-
+    
     <div class="info-section">
         <div class="info-label">Periode</div>
-        <div class="info-value">02/01/2025 - 12/02/2025</div>
-    </div>
+        <div class="info-value">{{ date('d/m/Y', strtotime($pendaftar->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($pendaftar->tanggal_selesai)) }}</div>
+    </div>    
 
     <div class="buttons">
-        <button class="btn">Lihat CV</button>
-        <button class="btn">Lihat Proposal</button>
-        <button class="btn">Lihat Surat Pengantar</button>
-    </div>
+        <button class="btn" onclick="openPdf('{{ $pendaftar->file_cv_url }}')">Lihat CV</button>
+        <button class="btn" onclick="openPdf('{{ $pendaftar->file_proposal_url }}')">Lihat Proposal</button>
+        <button class="btn" onclick="openPdf('{{ $pendaftar->file_spkl_url }}')">Lihat Surat Pengantar</button>
+    </div>    
 </div>
+
+{{-- Untuk PDF --}}
+<script>
+    function openPdf(url) {
+        window.open(url, '_blank');
+    }
+</script>
 
 @endsection
