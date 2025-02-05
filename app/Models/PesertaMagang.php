@@ -34,7 +34,7 @@ class PesertaMagang extends Model
         return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
     }
 
-    public function pendaftaranMagang()
+    public function pendaftaranMagangs()
     {
         return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }

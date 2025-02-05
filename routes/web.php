@@ -6,6 +6,7 @@ use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\SKLController;
 use App\Http\Controllers\PesertaMagangController;
 use App\Http\Controllers\PendaftaranMagangController;
+use App\Http\Controllers\MentorController;
 
 Route::get('/', function () {
     return view('auth.login'); 

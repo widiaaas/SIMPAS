@@ -32,7 +32,7 @@ class MentorController extends Controller
             ->whereHas('pendaftaran',function($query){
                 $query->where('tanggal_selesai','>',Carbon::today());
             })
-            ->count();
+            ->count()??0;
         return view('mentor.dashboard', compact('mentor','mentorName','jumlah_peserta'));
     }
 
@@ -179,11 +179,14 @@ class MentorController extends Controller
             ->with(['pendaftaran.instansi']) // Ambil data pendaftaran magang
             ->first();
 
+        $penilaian=Penilaian::where('nip_peserta',$nip_peserta)->first();
+        //Cek apakah nilai sudah ada
+        $isLocked=$penilaian?true:false;
         if (!$peserta) {
             return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
         }
 
-        return view('mentor.beriNilai', compact('peserta'));
+        return view('mentor.beriNilai', compact('peserta','penilaian','isLocked'));
     }
 
     public function simpanPenilaian(Request $request)
@@ -203,33 +206,23 @@ class MentorController extends Controller
             'nilai10' => 'required|integer|min:1|max:5',
         ]);
 
+        $nilai_total = array_sum(array_slice($validatedData, 1, 10)); // Menjumlahkan nilai1 - nilai10
+        $validatedData['nilai_total'] = $nilai_total;
+
         // Mengambil nip mentor melalui relasi
         $nip_mentor = auth()->user()->mentor->nip_mentor;
         $validatedData['nip_mentor'] = $nip_mentor;
 
-        $nilaiTotal = $validatedData['nilai1'] + $validatedData['nilai2'] + 
-                     $validatedData['nilai3'] + $validatedData['nilai4'] + 
-                     $validatedData['nilai5'] + $validatedData['nilai6'] + 
-                     $validatedData['nilai7'] + $validatedData['nilai8'] + 
-                     $validatedData['nilai9'] + $validatedData['nilai10'];
+        $penilaian = Penilaian::where('nip_peserta', $validatedData['nip_peserta'])->first();
 
-        $penilaian = Penilaian::updateOrCreate(
-            
-            ['nip_peserta' => $validatedData['nip_peserta'],
-                'nip_mentor' => $validatedData['nip_mentor'],
-                'nilai1' => $validatedData['nilai1'],
-                'nilai2' => $validatedData['nilai2'],
-                'nilai3' => $validatedData['nilai3'],
-                'nilai4' => $validatedData['nilai4'],
-                'nilai5' => $validatedData['nilai5'],
-                'nilai6' => $validatedData['nilai6'],
-                'nilai7' => $validatedData['nilai7'],
-                'nilai8' => $validatedData['nilai8'],
-                'nilai9' => $validatedData['nilai9'],
-                'nilai10' => $validatedData['nilai10'],
-                'nilai_total' => $nilaiTotal
-            ]
-        );
+        if ($penilaian) {
+            return response()->json([
+                'message' => 'Penilaian sudah terkunci dan tidak dapat diubah.'
+            ], 403);
+        }
+
+        // Simpan hanya jika belum ada
+        $penilaian = Penilaian::create($validatedData);
 
         return response()->json([
             'message' => 'Penilaian berhasil disimpan!',

@@ -41,8 +41,24 @@
             <td class="p-2 border border-[#FF885B]">{{ optional($peserta->pendaftaran)->tanggal_mulai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') : '-' }}</td>
             <td class="p-2 border border-[#FF885B]">{{  optional($peserta->pendaftaran)->tanggal_selesai ? \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y') : '-'}}</td>
             <td class="p-4 border border-[#FF885B] text-center">
-                <a class="bg-[#282A4C] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">Beri Nilai</a>
+                @php
+                    // Cek apakah nilai_total ada berdasarkan nip_peserta
+                    $penilaian = \App\Models\Penilaian::where('nip_peserta', $peserta->nip_peserta)->first();
+                @endphp
+            
+                @if($penilaian && $penilaian->nilai_total !== null)
+                    <!-- Jika nilai_total sudah ada, tampilkan tombol "Lihat Nilai" dengan warna hijau -->
+                    <a class="bg-[#B31312] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">
+                        Lihat Nilai
+                    </a>
+                @else
+                    <!-- Jika nilai_total belum ada, tampilkan tombol "Beri Nilai" dengan warna biru -->
+                    <a class="bg-[#2b2a4c] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">
+                        Beri Nilai
+                    </a>
+                @endif
             </td>
+            
         </tr>
         @empty
         <tr>

@@ -204,6 +204,11 @@
             </div>
             <a href="/koordinator/daftarPeserta" class="{{ Request::is('daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
             <a href="/koordinator/penilaianPeserta" class="{{ Request::is('penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+        @elseif(Auth::user()->role==='mentor')
+            <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+            <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+            <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
+            <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
         @endif
         
     @else
@@ -214,22 +219,28 @@
 </div>
 
 
-    <div class="sidebar">
-        @if(Auth::user()->role==='pesertaMagang')
+    {{-- <div class="sidebar">
+        {{-- @if(Auth::user()->role==='pesertaMagang')
         <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
         <a href="/pesertaMagang/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
         <a href="/pesertaMagang/daftar-magang" class="{{ Request::is('daftar-magang') ? 'active' : '' }}">Daftar Magang</a>
         <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
         <a href="/pesertaMagang/skl" class="{{ Request::is('skl') ? 'active' : '' }}">SKL</a>
-        @endif
-        @if(Auth::user()->role==='mentor')
+        @endif --}}
+        {{-- @if(Auth::user()->role==='mentor')
         <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
         <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
         <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
         <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
+        @elseif(Auth::user()->role === 'peserta')
+        <a href="/pesertaMagang/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+        <a href="/pesertaMagang/profile" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+        <a href="/pesertaMagang/pendaftaran-magang" class="{{ Request::is('pendaftaran-magang') ? 'active' : '' }}">Daftar Magang</a>
+        <a href="/pesertaMagang/kumpul-laporan" class="{{ Request::is('kumpul-laporan') ? 'active' : '' }}">Pengumpulan Laporan</a>
+        <a href="/pesertaMagang/penilaian" class="{{ Request::is('penilaian') ? 'active' : '' }}">Penilaian</a>
         @endif
-        @yield('sidebar')
-    </div>
+        @yield('sidebar') --}}
+    </div> 
 
     
     <div class="content overflow-auto">
