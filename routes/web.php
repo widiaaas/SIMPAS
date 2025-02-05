@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoordinatorController;
 use App\Http\Controllers\SKLController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PesertaMagangController;
 use App\Http\Controllers\PendaftaranMagangController;
 use App\Http\Controllers\MentorController;
@@ -26,7 +27,7 @@ Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
     Route::post('/profile', [PesertaMagangController::class, 'updateProfile'])->name('pesertaMagang.updateProfile');
     Route::get('/pendaftaran-magang', [PendaftaranMagangController::class, 'create'])->name('pendaftaran.magang.create');
     Route::post('/pendaftaran-magang', [PendaftaranMagangController::class, 'store'])->name('pendaftaran.magang.store');
-    Route::get('/penilaian', [SKLController::class, 'showPenilaian'])->name('penilaian');
+    Route::get('/penilaian', [SKLController::class, 'nilaiPeserta'])->name('penilaian');
     Route::get('/unduh-sksm', [SKLController::class, 'unduhSKSM'])->name('unduh-sksm');
     Route::get('/unduh-skl', [SKLController::class, 'unduhSertifikat'])->name('unduh-skl');
 }); 
@@ -47,35 +48,25 @@ Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
 // });
 
 // KOORDINATOR
-
 Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::get('/dashboard', [KoordinatorController::class, 'dashboard'])->name('koordinator.dashboard');
-});
+    Route::get('/profil', [KoordinatorController::class, 'profil'])->name('koordinator.profil');
 
-Route::get('/koordinator/profil', function () {
-    return view('koordinator.profil');
-});
+    Route::get('/pembagianMagang', [KoordinatorController::class, 'pembagianMagang'])->name('koordinator.pembagianMagang');
+    Route::get('/pembagianMagang/detailPendaftarMagang/{nip_peserta}', [KoordinatorController::class, 'detailPendaftar'])->name('detailPendaftar');
+    Route::post('/update-status', [KoordinatorController::class, 'updateStatus'])->name('update.status');
 
-Route::get('/koordinator/profil', [KoordinatorController::class, 'profil']);
+    Route::get('/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor'])->name('koordinator.plottingMentor');
+    Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
+    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor');
 
-Route::get('/koordinator/pembagianMagang', [KoordinatorController::class, 'pembagianMagang']);
+    Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
+    Route::get('/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');
 
-Route::get('/koordinator/pembagianMagang/detailPendaftarMagang', function () {
-    return view('koordinator.detailPendaftarMagang');
-});
-
-
-
-Route::get('/koor/pembagianMagang/plottingMentor', function () {
-    return view('koordinator.plottingMentor');
-});
-
-Route::get('/koor/penilaianPeserta', function () {
-    return view('koordinator.penilaianPeserta');
-});
-
-Route::get('/koor/penilaianPeserta/detailNilaiPeserta', function () {
-    return view('koordinator.detailNilaiPeserta');
+    Route::get('/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta'])->name('koordinator.penilaianPeserta');
+    Route::get('/penilaianPeserta/detailNilaiPeserta/{nip_peserta}', [KoordinatorController::class, 'detailNilaiPeserta'])->name('detailNilaiPeserta');
+    Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta']);
+    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian']);
 });
 
 //Mentor
