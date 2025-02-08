@@ -451,31 +451,65 @@ function updatePageInfo() {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch('{{ route('update.status') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ 
-                        nip_peserta: nipPeserta, 
-                        status_pendaftaran: statusPendaftaran 
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire('Berhasil!', data.message, 'success').then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire('Gagal!', data.message, 'error');
-                    }
-                })
-                .catch(error => {
-                    Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
-                });
+                if (statusPendaftaran.toLowerCase() === 'ditolak') {
+                    // Jika ditolak, minta alasan penolakan
+                    Swal.fire({
+                        title: 'Masukkan alasan penolakan',
+                        input: 'textarea',
+                        inputPlaceholder: 'Tulis alasan di sini...',
+                        inputAttributes: {
+                            'aria-label': 'Alasan penolakan'
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: 'Kirim',
+                        cancelButtonText: 'Batal',
+                        customClass: {
+                            confirmButton: 'btn-ya',
+                            cancelButton: 'btn-tidak'
+                        },
+                        inputValidator: (value) => {
+                            if (!value) {
+                                return 'Alasan penolakan harus diisi!';
+                            }
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            submitStatusUpdate(nipPeserta, statusPendaftaran, result.value);
+                        }
+                    });
+                } else {
+                    // Jika disetujui, langsung kirim tanpa alasan
+                    submitStatusUpdate(nipPeserta, statusPendaftaran, null);
+                }
             }
+        });
+    }
+
+    function submitStatusUpdate(nipPeserta, statusPendaftaran, alasan) {
+        fetch('{{ route('update.status') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ 
+                nip_peserta: nipPeserta, 
+                status_pendaftaran: statusPendaftaran,
+                alasan: alasan
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire('Berhasil!', data.message, 'success').then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire('Gagal!', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
         });
     }
 </script>

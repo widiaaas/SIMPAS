@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
@@ -467,7 +466,7 @@ function updatePageInfo() {
         rows.forEach(row => {
             const dinasCell = row.querySelector('.dinas-cell').textContent.trim();
             const mentorDropdown = row.querySelector('.mentor-dropdown');
-            const mentors = data-instansi[dinasCell] || [];
+            const mentors = kodeInstansi[dinasCell] || [];
 
             mentors.forEach(mentor => {
                 const option = document.createElement('option');
@@ -502,8 +501,8 @@ document.addEventListener('DOMContentLoaded', function () {
             mentorDropdown.innerHTML = '<option value="" disabled selected>Pilih Mentor</option>';
             mentorDropdown.disabled = true;
 
-            try {
-                const response = await fetch(`/get-mentors?kode_instansi=${kodeInstansi}`);
+            try{
+                const response = await fetch(`/koordinator/get-mentors?kode_instansi=${kodeInstansi}`); // Tambahkan backtick (`) di awal dan akhir URL
                 const data = await response.json();
 
                 if (!data.mentors || data.mentors.length === 0) {
@@ -558,9 +557,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        console.log("Data yang akan dikirim:", {
+            nip_peserta: selectedParticipantNIP,
+            nip_mentor: selectedMentor
+        });
+
         try {
             // Kirim request untuk memilih mentor (Anda bisa tetap menggunakan POST jika diperlukan)
-            const response = await fetch('/plot-mentor', {
+            const response = await fetch('/koordinator/plot-mentor', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -574,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const result = await response.json();
 
-            if (result.success) {
+            if (result.status === 'success') {
                 Swal.fire({
                     icon: 'success',
                     title: 'Mentor berhasil dipilih!',

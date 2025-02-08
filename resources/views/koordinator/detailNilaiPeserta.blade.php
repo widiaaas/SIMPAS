@@ -43,12 +43,7 @@
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
       <p class="text-lg font-medium">{{ $peserta->jurusan }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
-      <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_mulai)) }}</p>
-    </div>
-    <div class="flex items-start justify-end">
-      <button class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-        Unduh Laporan Magang
-      </button>
+      <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($peserta->tanggal_selesai)) }}</p>
     </div>
   </div>
 </div>
@@ -104,7 +99,7 @@
       </tr>
       <tr>
         <td class="border px-4 py-2">5</td>
-        <td class="border px-4 py-2">Kreatifitas Kerja</td>
+        <td class="border px-4 py-2">Kreativitas Kerja</td>
         <td class="border px-4 py-2">10</td>
         <td class="border px-4 py-2">
           <input type="number" class="score-input w-20 px-2 py-1 border rounded-lg" 
@@ -217,7 +212,8 @@
         const updatedScores = Array.from(inputs).map(input => parseInt(input.value, 10));
 
         // Kirim data ke server dengan fetch
-        fetch(`/update-nilai-peserta/${nipPeserta}`, {
+        fetch("{{ route('updateNilaiPeserta', $peserta->nip) }}", {
+
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -271,13 +267,13 @@
         cancelButtonText: 'Tidak'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch(`/konfirmasi-penilaian/${nipPeserta}`, {
+          fetch("{{ route('konfirmasiPenilaian', $peserta->nip) }}",  {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
-            body: JSON.stringify({ status: "Sudah Disetujui" })
+            body: JSON.stringify({ status: "Sudah disetujui" })
           })
           .then(response => response.json())
           .then(data => {
