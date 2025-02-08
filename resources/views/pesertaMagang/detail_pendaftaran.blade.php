@@ -2,7 +2,7 @@
 
 @section('title', 'Detail Pendaftaran')
 
-@section('content')
+@section('content') 
 <h1 class="header mb-20">Detail Pendaftaran</h1>
 
 <div class="detail-container">
@@ -10,47 +10,47 @@
     <table class="detail-table">
         <tr>
             <th>Nama</th>
-            <td>Widiawati Sihaloho</td>
+            <td>{{ $pesertaMagang->nama_peserta }}</td>
         </tr>
         <tr>
             <th>Asal Sekolah/Universitas</th>
-            <td>Universitas Diponegoro</td>
+            <td>{{ $pesertaMagang->asal_sekolah }}</td>
         </tr>
         <tr>
             <th>Tanggal Pendaftaran</th>
-            <td>02-01-2025</td>
+            <td>{{ $pendaftaranMagang->created_at -> format('d-m-Y')}}</td>
         </tr>
         <tr>
-            <th>Dinas</th>
-            <td>Dinas Pendidikan</td>
+            <th>Instansi</th>
+            <td>{{ $instansi->nama_instansi }}</td>
         </tr>
         <tr>
             <th>Tanggal Mulai Magang</th>
-            <td>02-01-2025</td>
+            <td>{{ $pendaftaranMagang->tanggal_mulai }}</td>
         </tr>
         <tr>
             <th>Tanggal Selesai Magang</th>
-            <td>13-02-2025</td>
+            <td>{{ $pendaftaranMagang->tanggal_selesai}}</td>
         </tr>
         <tr>
             <th>Status Pendaftaran</th>
-            <td><span class="status accepted">Diterima</span></td>
+            <td><span class="status accepted">{{ $pesertaMagang->status_pendaftaran}}</span></td>
         </tr>
-        <tr>
+        <!-- <tr>
             <th>Alasan</th>
             <td>Diterima karena memenuhi persyaratan.</td>
-        </tr>
+        </tr> -->
         <tr>
             <th>Mentor</th>
-            <td>Arif Kurnia Rachman</td>
+            <td>{{ $mentor->nama }}</td>
         </tr>
         <tr>
             <th>Kontak Mentor</th>
-            <td>0824392852</td>
+            <td>{{$mentor->nomor_telp}}</td>
         </tr>
     </table>
 
-    <a href="/pesertaMagang/dashboard" class="back-button">Kembali ke Dashboard</a>
+    <a href="{{ route('pesertaMagang.dashboard') }}" class="back-button">Kembali ke Dashboard</a>
 </div>
 
 <style>

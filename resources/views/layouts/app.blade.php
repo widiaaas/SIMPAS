@@ -210,7 +210,6 @@
         </div>
         @yield('sidebar')
     </div>
-    
     <div class="content overflow-auto">
         <span class="corner-text">Pemerintahan</span>
         <span class="corner-text2">Kota Semarang</span>
@@ -235,7 +234,6 @@
             const subnav = this.nextElementSibling;
             subnav.classList.toggle('show');  // Toggle kelas 'show' untuk menampilkan atau menyembunyikan subnavigasi
         });
-
     </script>
 </body>
 </html>

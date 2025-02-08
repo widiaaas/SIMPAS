@@ -107,7 +107,7 @@ class PesertaMagangController extends Controller
                             . $pesertaMagang->nip_peserta . ',nip_peserta';
         }
 
-    $request->validate($rules);
+        $request->validate($rules);
         
         // Update data peserta magang
         $pesertaMagang->update([
@@ -115,9 +115,18 @@ class PesertaMagangController extends Controller
             'email_peserta' => $request->input('email'),
         ]);
 
+        // Update email di tabel users
+        if ($user->email !== $request->input('email')) {
+            $user->update([
+                'email' => $request->input('email'),
+            ]);
+        }
+
         return redirect()->route('pesertaMagang.profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
+
+    
 
     // public function store(Request $request)
     // {   

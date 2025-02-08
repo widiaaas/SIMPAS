@@ -31,6 +31,7 @@ Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
     Route::post('/profile', [PesertaMagangController::class, 'updateProfile'])->name('pesertaMagang.updateProfile');
     Route::get('/pendaftaran-magang', [PendaftaranMagangController::class, 'create'])->name('pendaftaran.magang.create');
     Route::post('/pendaftaran-magang', [PendaftaranMagangController::class, 'store'])->name('pendaftaran.magang.store');
+    Route::get('/detail-pendaftaran', [PendaftaranMagangController::class, 'detailPendaftaran'])->name('dashboard.detailPendaftaran');
     Route::get('/penilaian', [SKLController::class, 'nilaiPeserta'])->name('penilaian');
     Route::get('/unduh-sksm', [SKLController::class, 'unduhSKSM'])->name('unduh-sksm');
     Route::get('/unduh-skl', [SKLController::class, 'unduhSertifikat'])->name('unduh-skl');
