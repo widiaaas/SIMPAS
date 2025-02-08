@@ -60,6 +60,7 @@ class SKLController extends Controller
             'pesertaMagang' => $pesertaMagang,
             'instansi' => $instansi,
             'pendaftaranMagang' => $pendaftaranMagang,
+            'logoUrl' => public_path('img/pemkot.png'),
         ];
 
         $pdf = PDF::loadView('pesertaMagang.sksm', $data);

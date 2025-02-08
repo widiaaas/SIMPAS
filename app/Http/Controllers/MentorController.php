@@ -9,6 +9,7 @@ use App\Models\PendaftaranMagang;
 use App\Models\Penilaian;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MentorController extends Controller
 {
@@ -137,6 +138,9 @@ class MentorController extends Controller
             return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
         }
 
+        $peserta->file_cv_url = Storage::url($peserta->cv);
+        $peserta->file_proposal_url = Storage::url($peserta->proposal);
+        $peserta->file_spkl_url = Storage::url($peserta->spkl);
         return view('mentor.detail', compact('peserta'));
     }
 

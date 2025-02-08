@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
                 'remember_token' => null,
             ],
             [
-                'username' => 'peserta3',
+                'username' => 'lili',
                 'email' => 'peserta3@example.com',
                 'password' => Hash::make('password123'), // Gantilah dengan password yang sesuai
                 'role' => 'peserta',

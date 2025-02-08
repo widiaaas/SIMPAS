@@ -15,7 +15,7 @@
         .container {
             position: relative;
             width: 100vh;
-            height: 100vh;
+            height: 150vh;
             padding: 50px;
             border: 10px solid #000080;
             box-sizing: border-box;
@@ -76,7 +76,7 @@
 </head>
 <body>
     <div class="container">
-    <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" >
+    <img src="{{public_path('/img/pemkot.png')}}" alt="Logo Pemkot Semarang" >
         <div class="header">Pemerintahan Kota Semarang</div>
         <p class="header">Jawa Tengah</p>
         <div class="title">SERTIFIKAT</div>
