@@ -9,6 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Selesai Magang</title>
     <style>
+        @media print{
+            img{
+                display:block !important;
+                visibility: visible !important;
+            }
+        }
         body {
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.5; /* Spasi baris 1.5 */
@@ -69,7 +75,7 @@
     <div class="container">
         <!-- Kop Surat -->
         <div class="header">
-            <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" class="corner-image">
+            <img src="{{$logoUrl}}" alt="Logo Pemkot Semarang" class="corner-image">
             <h3>PEMERINTAH KOTA SEMARANG</h3>
             <!-- <h4>DINAS KOMUNIKASI DAN INFORMATIKA</h4> -->
             <p>Alamat: Jl. Pemuda No. 148, Semarang, Jawa Tengah</p>

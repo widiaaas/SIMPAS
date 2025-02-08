@@ -157,6 +157,12 @@
             display: block;
         }
 
+        .logout-container {
+            margin-top: 150%; /* Agar logout tetap di bawah */
+            text-align: left;
+            padding: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -199,6 +205,9 @@
             <a href="/login">Login</a>
             <p>Silakan login untuk mengakses fitur lengkap.</p>
         @endif
+        <div class="logout-container">
+            <a href="/logout">Logout</a>
+        </div>
         @yield('sidebar')
     </div>
     

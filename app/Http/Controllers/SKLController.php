@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\PesertaMagang;
 use App\Models\Instansi;
 use App\Models\PendaftaranMagang;
+use Illuminate\Support\Facades\Storage;
 
 
 class SKLController extends Controller
@@ -41,6 +42,7 @@ class SKLController extends Controller
             'pesertaMagang' => $pesertaMagang,
             'instansi' => $instansi,
             'pendaftaranMagang' => $pendaftaranMagang,
+            'logoUrl' => public_path('img/pemkot.png'),
         ];
 
         $pdf = PDF::loadView('pesertaMagang.sksm', $data);
