@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
             $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
             $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
+            $table->string('alasan')->nullable();
             $table->string('nip_mentor')->nullable();
             $table->string('kode_instansi')->nullable();
             $table->unsignedBigInteger('user_id');

@@ -57,7 +57,7 @@
         }
         img.corner-image {
             position: absolute;
-            top: 20px; 
+            top: 38px; 
             right: 20px; 
             width: 50px; 
             height: auto; 
@@ -69,7 +69,7 @@
     <div class="container">
         <!-- Kop Surat -->
         <div class="header">
-            <img src="/img/pemkot.png" alt="Logo Pemkot Semarang" class="corner-image">
+            <img src="{{ public_path('img/pemkot.png') }}" alt="Logo Pemkot Semarang" class="corner-image">
             <h3>PEMERINTAH KOTA SEMARANG</h3>
             <!-- <h4>DINAS KOMUNIKASI DAN INFORMATIKA</h4> -->
             <p>Alamat: Jl. Pemuda No. 148, Semarang, Jawa Tengah</p>
@@ -78,30 +78,53 @@
         
         <div class="line"></div> <!-- Garis bawah kop surat -->
 
-        <!-- Tanggal Rata Kanan -->
         <p class="date-right">Semarang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
 
 
         <!-- Isi Surat -->
         <div class="content">
             <p>Yang bertanda tangan di bawah ini:</p>
-            <p>Nama: Hanry<br>
-            Jabatan: Koordinator Magang<br>
-            Pemerintahan Kota Semarang, Jawa Tengah</p>
+            <table>
+                <tr>
+                    <td>Nama</td>
+                    <td>: Hanry Sugihastomo, S.Sos., M. M.</td>
+                </tr>
+                <tr>
+                    <td>Jabatan</td>
+                    <td>: Koordinator Magang Pemerintahan Kota Semarang, Jawa Tengah</td>
+                </tr>
+            </table>
 
             <p>Dengan ini menyatakan bahwa:</p>
 
-            <p>Nama: {{ $pesertaMagang->nama_peserta }}<br>
-            Jurusan: {{ $pesertaMagang->jurusan }}<br>
-            Telah melaksanakan kegiatan magang di {{ $instansi->nama_instansi }} dari tanggal {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->translatedformat('d F Y') }} sampai dengan {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->translatedformat('d F Y') }}.</p>
+            <table>
+                <tr>
+                    <td>Nama</td>
+                    <td>: {{ $pesertaMagang->nama_peserta }}</td>
+                </tr>
+                <tr>
+                    <td>No Induk Peserta</td>
+                    <td>: {{ $pesertaMagang->nip_peserta }}</td>
+                </tr>
+                <tr>
+                    <td>Asal Sekolah</td>
+                    <td>: {{ $pesertaMagang->asal_sekolah }}</td>
+                </tr>
+                <tr>
+                    <td>Jurusan</td>
+                    <td>: {{ $pesertaMagang->jurusan }}</td>
+                </tr>
+            </table>
 
+            Telah melaksanakan kegiatan magang di {{ $instansi->nama_instansi }} dari tanggal {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->translatedformat('d F Y') }} sampai dengan {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->translatedformat('d F Y') }}.</p>
+            <br>
             <p>Demikian surat ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
 
             <!-- Footer dan Tanda Tangan Rata Kanan -->
             <div class="footer-signature">
                 <p>Koodinator Magang</p>
                 <br><br>
-                <p>Hanry</p>
+                <p>Hanry Sugihastomo, S.Sos., M. M.</p>
             </div>
         </div>
     </div>

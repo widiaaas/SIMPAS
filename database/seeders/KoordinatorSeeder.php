@@ -17,7 +17,7 @@ class KoordinatorSeeder extends Seeder
             [
                 'nip_koor' => 'KOORD1',
                 'email' => 'koordinator1@example.com',
-                'nama' => 'Hanry',
+                'nama' => 'Hanry Sugihastomo, S.Sos., M. M.',
                 'no_telp' => '081234567890',
                 'alamat' => 'Jl. Contoh No. 1, Semarang',
                 'kode_instansi' => 'Pemkot',

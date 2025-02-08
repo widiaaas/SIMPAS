@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Daftar Akun</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+        
         html, body {
             height: 100%; 
             margin: 0; 
@@ -152,6 +154,7 @@
 
     </style>
 </head>
+
 <body>
 
     <!-- Dark overlay -->
@@ -168,16 +171,30 @@
                         <h5 class="aoboshi-one-regular">Daftar</h5>
                     </div>
                     <div class="card-body">
-                        <!-- @if($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif -->
-                        <form action="{{ route('register') }}" method="POST" autocomplete="on">
+                    @if(session('status') == 'success')
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registrasi Berhasil!',
+                                text: "{{ session('message') }}",
+                                confirmButtonColor: '#FF885B',
+                            }).then(() => {
+                                window.location.href = "{{ route('login') }}";
+                            });
+                        </script>
+                    @endif
+
+                    @if(session('status') == 'error')
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Terjadi Kesalahan!',
+                                text: "{{ session('message') }}",
+                                confirmButtonColor: '#FF885B',
+                            });
+                        </script>
+                    @endif
+                        <form id="registerForm" action="{{ route('register') }}" method="POST" autocomplete="on">
                             @csrf
                             <div class="mb-3">
                                 <label for="nip_peserta" class="form-label" style="font-style: italic;">NIP/NISN</label>
@@ -222,64 +239,31 @@
 
     <!-- Bootstrap JS bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector("form").addEventListener("submit", function(event) {
+    
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
-            let formData = new FormData(this);
-
-            fetch("{{ route('daftarakun') }}", {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+            Swal.fire({
+                title: 'Konfirmasi Pendaftaran',
+                text: 'Apakah Anda yakin dengan data yang Anda isi?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#FF885B',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, daftar',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
                 }
-            })
-            .then(response => response.json().catch(() => response))
-            .then(data => {
-                console.log("Response dari server:", data);
-                if (data.status === "success") {
-                    Swal.fire({
-                        title: "Berhasil!",
-                        text: data.message,
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    }).then(() => {
-                        window.location.href = "/login"; // Redirect ke halaman login
-                    });
-                } else if (data.errors) {
-                    let errorMessages = Object.values(data.errors).flat().join("\n");
-                    Swal.fire({
-                        title: "Gagal!",
-                        text: errorMessages,
-                        icon: "error",
-                        confirmButtonText: "OK"
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Gagal!",
-                        text: "Terjadi kesalahan, coba lagi nanti.",
-                        icon: "error",
-                        confirmButtonText: "OK"
-                    });
-                }
-            })
-            .catch(error => {
-                console.error("Fetch Error:", error);
-                Swal.fire({
-                    title: "Error!",
-                    text: "Gagal mengirim data, periksa koneksi Anda.",
-                    icon: "error",
-                    confirmButtonText: "OK"
-                });
             });
         });
-    });
-</script>
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
+
 
 </html>

@@ -47,14 +47,12 @@
                 @if ($pesertaMagang->status_pendaftaran)
                     <p>{{ $pesertaMagang->status_pendaftaran }}</p>
 
-                    @if (strtolower($pesertaMagang->status_pendaftaran) === 'disetujui' || strtolower($pesertaMagang->status_pendaftaran) === 'ditolak')
+                    @if (strtolower($pesertaMagang->status_pendaftaran) === 'disetujui' || strtolower($pesertaMagang->status_pendaftaran) === 'diproses' || strtolower($pesertaMagang->status_pendaftaran) === 'ditolak')
                         <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
                     @endif
                 @else
-                    <p>Anda belum mendaftar</p>
+                    <p>Belum mendaftar</p>
                 @endif
-            @else
-                <p>Anda belum mendaftar</p>
             @endif
         </div>
         <div class="card card-custom">
@@ -67,7 +65,7 @@
                     <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
                 @endif
             @else
-                <p>Anda belum mendaftar</p>
+                <p>Belum mendaftar</p>
             @endif
         </div>
         <div class="card card-custom">
@@ -76,7 +74,7 @@
             @if ($pesertaMagang && $statusSKL)
                 <p>{{ $statusSKL }}</p>
             @else
-                <p>Anda belum mendaftar</p>
+                <p>Belum mendaftar</p>
             @endif
         </div>
 </div>

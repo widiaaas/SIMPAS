@@ -22,7 +22,7 @@ class MentorSeeder extends Seeder
                  'alamat' => 'Jl. Petek no.9, Semarang',
                  'kode_instansi' => 'Disdik',
                  'jabatan'=>'Kepala Bidang Pembinaan Paud dan Pnf',
-                 'user_id' =>1, // Gantilah dengan user_id yang valid
+                 'user_id' =>1, 
             ],
             [
                 'nip_mentor' => '1980013492',
@@ -172,7 +172,7 @@ class MentorSeeder extends Seeder
                  'alamat' => 'Jl. Sukun no.1, Semarang',
                  'kode_instansi' => 'DLH',
                  'jabatan'=>'Kepala Bidang Penataan Lingkungan Hidup',
-                'user_id' =>null, // Gantilah dengan user_id yang valid
+                'user_id' =>null, 
              ],
              [
                 'nip_mentor' => '1978061029',
@@ -182,7 +182,7 @@ class MentorSeeder extends Seeder
                  'alamat' => 'Jl. Durian Raya no.6, Semarang',
                  'kode_instansi' => 'DLH',
                  'jabatan'=>'Kepala Bidang Pengelolaan Sampah',
-                'user_id' =>null, // Gantilah dengan user_id yang valid
+                'user_id' =>null, 
              ],
              [
                 'nip_mentor' => '1980062278',
@@ -192,7 +192,7 @@ class MentorSeeder extends Seeder
                  'alamat' => 'Jl. Trenggiling no. 10, Semarang',
                  'kode_instansi' => 'DLH',
                  'jabatan'=>'Kepala Bidang Pengendalian Pencemaran dan Konservasi Lingkungan Hidup',
-                'user_id' =>null, // Gantilah dengan user_id yang valid
+                'user_id' =>null, 
              ],
              [
                 'nip_mentor' => '1981071872',
@@ -413,7 +413,18 @@ class MentorSeeder extends Seeder
                  'kode_instansi' => 'Disdik',
                  'jabatan'=>'Kepala Bidang Pembinaan Guru dan Tenaga Kependidikan',
                 'user_id' =>null, // Gantilah dengan user_id yang valid
-             ],            
+             ],      
+             
+             [
+               'nip_mentor' => '1978152933',
+                'nama' => 'Dr. Miftahudin, S.Pd.,M.Si.',
+                'nomor_telp' => '082394957743',
+                'email' => 'miftahudin@gmail.com',
+                'alamat' => 'Jl. Ariloka no.4, Semarang',
+                'kode_instansi' => 'Disdik',
+                'jabatan'=>'Kepala Bidang Pembinaan Guru dan Tenaga Kependidikan',
+               'user_id' =>null, // Gantilah dengan user_id yang valid
+            ], 
         ]);
     }
 }

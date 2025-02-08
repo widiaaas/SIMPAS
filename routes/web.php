@@ -7,9 +7,9 @@ use App\Http\Controllers\SKLController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\PesertaMagangController;
 use App\Http\Controllers\PendaftaranMagangController;
-use App\Http\Controllers\MentorController;
 
-Route::get('/', function () {
+
+Route::get('/', function () { 
     return view('auth.login'); 
 });
 
@@ -59,7 +59,7 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
 
     Route::get('/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor'])->name('koordinator.plottingMentor');
     Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
-    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor');
+    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor')->middleware('web');
 
     Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
     Route::get('/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');

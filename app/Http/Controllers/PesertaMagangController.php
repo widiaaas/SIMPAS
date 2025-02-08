@@ -39,10 +39,24 @@ class PesertaMagangController extends Controller
             $tanggalMulai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->format('d-m-Y') : null;
             $tanggalSelesai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->format('d-m-Y') : null;
             $statusSKL = $pesertaMagang ? $pesertaMagang->status_skl : null;
+
+            // Ambil tanggal hari ini
+            $today = \Carbon\Carbon::today();
+
+            // Tentukan status magang
+            if ($tanggalMulai && $tanggalSelesai) {
+                if ($today->gte($tanggalMulai) && $today->lte($tanggalSelesai)) {
+                    $statusMagang = 'Aktif';
+                } else {
+                    $statusMagang = 'Tidak Aktif';
+                }
+            } else {
+                $statusMagang = 'Belum Terdaftar';
+            }
             return view('pesertaMagang.dashboard', compact('pesertaMagang', 'statusMagang', 'tanggalMulai', 'tanggalSelesai','statusSKL'));
         }
 
-        return redirect()->route('home')->with('error', 'Data peserta magang tidak ditemukan.');
+        return redirect()->route('login')->with('error', 'Data peserta magang tidak ditemukan.');
     }
 
     // daftar akun 

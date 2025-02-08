@@ -29,6 +29,12 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         
+        // Cek apakah email terdaftar
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'Akun tidak terdaftar.'])->withInput();
+        }
         // dd($credentials);
         // $credentials = $request->only('email', 'password');
 
@@ -53,78 +59,93 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Login gagal! Periksa email dan kata sandi Anda.'])->withInput();
     }
 
+    public function showSignUpForm(){
+        return view('auth.daftar');
+    }
+
     public function register(Request $request)
-    {
-        // Validasi input (semua wajib diisi)
-        $validatedData = $request->validate([
-            'nip_peserta' => 'required|string',
-            'nama_peserta' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'no_telp_peserta' => 'required|string',
-            'asal_sekolah' => 'required|string',
-            'jurusan' => 'required|string',
-        ]
-        // , [
-        //     'nip_peserta.required' => 'NIM/NISN wajib diisi.',
-        //     'nip_peserta.numeric' => 'NIM/NISN hanya boleh berupa angka.',
-        //     'nip_peserta.unique' => 'NIM/NISN sudah terdaftar.',
+    {   
+        
+        // dd($request);
+        // Validasi input yang diterima
+        $validator = Validator::make($request->all(), [
+            'nip_peserta' => 'required|numeric|unique:peserta_magangs,nip_peserta', // NIP unik
+            'nama_peserta' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'no_telp_peserta' => 'required|numeric',
+            'asal_sekolah' => 'required|string|max:255',
+            'jurusan' => 'required|string|max:255',
+            'password' => 'required|min:8|confirmed',
+        ], [
+            'nip_peserta.required' => 'NIP peserta wajib diisi.',
+            'nip_peserta.numeric' => 'NIP peserta harus berupa angka.',
+            'nip_peserta.unique' => 'NIP peserta sudah terdaftar.',
 
-        //     'nama_peserta.required' => 'Nama Lengkap wajib diisi.',
-        //     'nama_peserta.regex' => 'Nama hanya boleh berisi huruf.',
+            'nama_peserta.required' => 'Nama peserta wajib diisi.',
+            'nama_peserta.string' => 'Nama peserta harus berupa teks.',
+            'nama_peserta.max' => 'Nama peserta tidak boleh lebih dari 255 karakter.',
 
-        //     'email.required' => 'Email wajib diisi.',
-        //     'email.email' => 'Format email tidak valid.',
-        //     'email.unique' => 'Email sudah terdaftar.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar. Gunakan email lain.',
 
-        //     'no_telp_peserta.required' => 'Nomor telepon wajib diisi.',
-        //     'no_telp_peserta.numeric' => 'Nomor telepon hanya boleh angka.',
-        //     'no_telp_peserta.regex' => 'Nomor telepon harus valid (diawali 08, panjang 10-13 digit).',
+            'no_telp_peserta.required' => 'Nomor telepon peserta wajib diisi.',
+            'no_telp_peserta.numeric' => 'Nomor telepon harus berupa angka.',
 
-        //     'sekolah.required' => 'Asal Sekolah / Perguruan Tinggi wajib diisi.',
+            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
+            'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
+            'asal_sekolah.max' => 'Asal sekolah tidak boleh lebih dari 255 karakter.',
 
-        //     'jurusan.required' => 'Jurusan wajib diisi.',
+            'jurusan.required' => 'Jurusan wajib diisi.',
+            'jurusan.string' => 'Jurusan harus berupa teks.',
+            'jurusan.max' => 'Jurusan tidak boleh lebih dari 255 karakter.',
 
-        //     'password.required' => 'Password wajib diisi.',
-        //     'password.min' => 'Password minimal 8 karakter.',
-        //     'password.regex' => 'Password harus terdiri dari huruf dan angka.',
-        // ]
-        );
-        dd($validatedData);
-
-        // Ambil username dari email sebelum '@'
-        $username = explode('@', $request->email)[0];
-
-        // Buat user baru di tabel users
-        $user = User::create([
-            'username' => $username,
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'role' => 'peserta',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password harus memiliki minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password.',
         ]);
 
-        // Simpan data ke tabel peserta_magangs
-        PesertaMagang::create([
-            'nip_peserta' => $validatedData['nip_peserta'],
-            'email_peserta' => $validatedData['email'],
-            'no_telp_peserta' => $validatedData['no_telp_peserta'],
-            'asal_sekolah' => $validatedData['asal_sekolah'],
-            'jurusan' => $validatedData['jurusan'],
-            'status_pendaftaran' => null,
-            'status_magang' => null,
-            'status_skl' => null,
-            'nip_dosen' => null,
-            'user_id' => $user->id, // Hubungkan dengan user yang baru dibuat
-        ]);
+        
+        // Jika validasi gagal, kirimkan error
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withInput()
+                ->with([
+                    'status' => 'error',
+                    'message' => $validator->errors()->first()
+                ]);
+        }
 
-        // Kirim response JSON untuk SweetAlert
-        return response()->json([
+        // Membuat pengguna baru
+        $user = new User();
+        $user->username = $request->nama_peserta; 
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = $request->role ?? 'peserta'; 
+        $user->save();
+
+        // Jika role pengguna adalah 'peserta', simpan data tambahan di tabel 'peserta_magangs'
+        if ($user->role == 'peserta') {
+            $pesertaMagang = new PesertaMagang();
+            $pesertaMagang->nip_peserta = $request->nip_peserta;
+            $pesertaMagang->nama_peserta = $request->nama_peserta;
+            $pesertaMagang->email_peserta = $request->email;
+            $pesertaMagang->no_telp_peserta = $request->no_telp_peserta;
+            $pesertaMagang->asal_sekolah = $request->asal_sekolah;
+            $pesertaMagang->jurusan = $request->jurusan;
+            $pesertaMagang->status_pendaftaran = null;
+            $pesertaMagang->status_magang = null; 
+            $pesertaMagang->status_skl = null; 
+            $pesertaMagang->user_id = $user->id; // Mengaitkan user ID dengan peserta_magang
+            $pesertaMagang->save();
+        }
+
+        return back()->with([
             'status' => 'success',
-            'message' => 'Akun berhasil dibuat! Silakan login kembali.'
+            'message' => 'Akun berhasil dibuat! Silakan login.'
         ]);
-}
-
-
+        
+    }
 
     // Handle logout logic
     public function logout(Request $request)

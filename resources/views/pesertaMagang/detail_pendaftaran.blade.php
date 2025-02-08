@@ -34,20 +34,38 @@
         </tr>
         <tr>
             <th>Status Pendaftaran</th>
-            <td><span class="status accepted">{{ $pesertaMagang->status_pendaftaran}}</span></td>
+            <td>
+                <span class="status 
+                    @if($pesertaMagang->status_pendaftaran == 'Disetujui') accepted 
+                    @elseif($pesertaMagang->status_pendaftaran == 'Ditolak') rejected 
+                    @else processing 
+                    @endif">
+                    {{ $pesertaMagang->status_pendaftaran }}
+                </span>
+            </td>
         </tr>
-        <!-- <tr>
-            <th>Alasan</th>
-            <td>Diterima karena memenuhi persyaratan.</td>
-        </tr> -->
         <tr>
-            <th>Mentor</th>
-            <td>{{ $mentor->nama }}</td>
+        @if ($pesertaMagang->status_pendaftaran !== 'Diproses')
+            <tr>
+                <th>Alasan</th>
+                @if ($pesertaMagang->status_pendaftaran === 'Disetujui')
+                    <td>Berkas-berkas sudah disetujui</td>
+                @else
+                    <td>{{ $pendaftaranMagang->alasan }}</td>
+                @endif
+            </tr>
+        @endif
         </tr>
-        <tr>
-            <th>Kontak Mentor</th>
-            <td>{{$mentor->nomor_telp}}</td>
-        </tr>
+        @if($pesertaMagang->status_pendaftaran != 'Ditolak' || $pesertaMagang->status_pendaftaran != 'Diproses')
+            <tr>
+                <th>Mentor</th>
+                <td>{{ $pesertaMagang->mentor->nama ?? 'Belum ditentukan' }}</td>
+            </tr>
+            <tr>
+                <th>Kontak Mentor</th>
+                <<td>{{ $pesertaMagang->mentor->nomor_telp ?? 'Belum ditentukan' }}</td>
+            </tr>
+        @endif
     </table>
 
     <a href="{{ route('pesertaMagang.dashboard') }}" class="back-button">Kembali ke Dashboard</a>

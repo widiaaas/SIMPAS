@@ -687,3 +687,195 @@
 
 
 @endsection
+
+
+// daftar akun
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            fetch("{{ route('register') }}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                }
+            })
+            .then(response => response.json().catch(() => response))
+            .then(data => {
+                console.log("Response dari server:", data);
+                if (data.status === "success") {
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: data.message,
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    }).then(() => {
+                        window.location.href = "/login"; // Redirect ke halaman login
+                    });
+                } else if (data.errors) {
+                    let errorMessages = Object.values(data.errors).flat().join("\n");
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: errorMessages,
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: "Terjadi kesalahan, coba lagi nanti.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                Swal.fire({
+                    title: "Error!",
+                    text: "Gagal mengirim data, periksa koneksi Anda.",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        });
+    });
+</script>
+
+//sksm
+
+\Carbon\Carbon::setLocale('id');
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Selesai Magang</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.5; /* Spasi baris 1.5 */
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .header img {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px; /* Sesuaikan ukuran logo */
+        }
+        .header h3, .header h4, .header p {
+            margin: 0;
+        }
+        .header p {
+            font-size: 14px;
+        }
+        .line {
+            border-bottom: 3px solid black; /* Garis bawah kop surat */
+            margin-top: 10px;
+        }
+        .content {
+            margin-top: 30px;
+        }
+        .content p {
+            text-align: justify;
+            line-height: 1.5;
+        }
+        /* Footer dan tanda tangan rata kanan */
+        .footer-signature {
+            text-align: right;
+            margin-top: 50px;
+            line-height: 1.5;
+        }
+        .date-right {
+            text-align: right; /* Membuat tanggal rata kanan */
+        }
+        img.corner-image {
+            position: absolute;
+            top: 38px; 
+            right: 20px; 
+            width: 50px; 
+            height: auto; 
+            z-index: 999; 
+        }
+        .info-container {
+            display: grid;
+            grid-template-columns: 200px auto; /* Kolom pertama lebar tetap, kolom kedua fleksibel */
+            gap: 5px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .info-value {
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Kop Surat -->
+        <div class="header">
+            <img src="{{ public_path('img/pemkot.png') }}" alt="Logo Pemkot Semarang" class="corner-image">
+            <h3>PEMERINTAH KOTA SEMARANG</h3>
+            <!-- <h4>DINAS KOMUNIKASI DAN INFORMATIKA</h4> -->
+            <p>Alamat: Jl. Pemuda No. 148, Semarang, Jawa Tengah</p>
+            <p>Email: info@diskominfo.semarangkota.go.id | Telp: (024) 3549446</p>
+        </div>
+        
+        <div class="line"></div> <!-- Garis bawah kop surat -->
+
+        <!-- Tanggal Rata Kanan -->
+        <p class="date-right">Semarang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
+
+
+        <!-- Isi Surat -->
+        <div class="content">
+            <p><strong>Yang bertanda tangan di bawah ini:</strong></p>
+            <div class="info-container">
+                <div class="info-label">Nama</div><div class="info-value">Hanry Sugihastomo, S.Sos., M.M.</div>
+                <div class="info-label">Jabatan</div><div class="info-value">Koordinator Magang Pemerintahan Kota Semarang, Jawa Tengah</div>
+            </div>
+
+            <p><strong>Dengan ini menyatakan bahwa:</strong></p>
+
+            <div class="info-container">
+                <div class="info-label">Nama</div><div class="info-value">{{ $pesertaMagang->nama_peserta }}</div>
+                <div class="info-label">No Induk Peserta</div><div class="info-value">{{ $pesertaMagang->nip_peserta }}</div>
+                <div class="info-label">Asal Sekolah</div><div class="info-value">{{ $pesertaMagang->asal_sekolah }}</div>
+                <div class="info-label">Jurusan</div><div class="info-value">{{ $pesertaMagang->jurusan }}</div>
+            </div>
+
+            Telah melaksanakan kegiatan magang di {{ $instansi->nama_instansi }} dari tanggal {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->translatedformat('d F Y') }} sampai dengan {{ \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->translatedformat('d F Y') }}.</p>
+
+            <p>Demikian surat ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
+
+            <!-- Footer dan Tanda Tangan Rata Kanan -->
+            <div class="footer-signature">
+                <p>Koodinator Magang</p>
+                <br><br>
+                <p>Hanry Sugihastomo, S.Sos., M. M.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

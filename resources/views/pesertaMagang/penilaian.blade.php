@@ -79,122 +79,125 @@
     }
 </style>
 
-<div class="container mx-auto p-6">
-    <div class="bg-white p-6 shadow-lg rounded-lg">
+@if (!isset($pesertaMagang) || !DB::table('pendaftaran_magangs')->where('nip_peserta', $pesertaMagang->nip_peserta)->exists())
+    <div class="alert alert-warning mt-3" style="font-size: 20px;" >
+        <br>
+        Nilai belum dapat ditampilkan karena anda belum terdaftar sebagai peserta Magang .
+    </div>
+@elseif ($pesertaMagang->status_skl == 'Belum diterbitkan' )
+    <div class="alert alert-warning mt-3" style="font-size: 20px;" >
+        <br>
+        Nilai belum dapat ditampilkan karena status SKL <strong>{{ $pesertaMagang->status_skl }}</strong>.
+    </div>
+@else
+    <div class="container mx-auto p-6">
+        <div class="bg-white p-6 shadow-lg rounded-lg">
         <div class="mb-4">
-            <p class="text-sm text-gray-600">
-                Mentor: {{ $nilai->mentor }}
-            </p>
-        </div>
-        <!-- Tabel Penilaian -->
-        <table class="min-w-full table-auto">
-            <thead class="bg-orange-400 text-white">
-                <tr>
-                    <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Parameter Penilaian</th>
-                    <th class="px-4 py-2">Bobot</th>
-                    <th class="px-4 py-2">Nilai</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="border px-4 py-2">1</td>
-                    <td class="border px-4 py-2">Kehadiran</td>
-                    <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai1 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">2</td>
-                    <td class="border px-4 py-2">Ketepatan Waktu</td>
-                    <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai2 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">3</td>
-                    <td class="border px-4 py-2">Sikap Kerja / Prosedur Kerja</td>
-                    <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai3 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">4</td>
-                    <td class="border px-4 py-2">Kemampuan bekerja dalam Tim</td>
-                    <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai4 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2">Kreatifitas Kerja</td>
-                    <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai5 ?? 0 }}</span></td>
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">6</td>
-                    <td class="border px-4 py-2">Inisiatif Kerja</td>
-                    <td class="border px-4 py-2">15</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai6 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">7</td>
-                    <td class="border px-4 py-2">Kemampuan Komunikasi</td>
-                    <td class="border px-4 py-2">15</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai7 ?? 0 }}</span></td>
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">8</td>
-                    <td class="border px-4 py-2">Kemampuan Teknikal</td>
-                    <td class="border px-4 py-2">20</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai8 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">9</td>
-                    <td class="border px-4 py-2">Kepercayaan Diri</td>
-                    <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai9 ?? 0 }}</span></td> 
-                </tr>
-                <tr>
-                    <td class="border px-4 py-2">10</td>
-                    <td class="border px-4 py-2">Penampilan / Kerapihan</td>
-                    <td class="border px-4 py-2">5</td>
-                    <td class="border px-4 py-2"><span>{{ $nilai->nilai10 ?? 0 }}</span></td> 
-                </tr>
-                <tr class="bg-gray-200">
-                    <td class="border px-4 py-2 font-bold" colspan="3">Nilai Total</td>
-                    <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">0</td>
-                  </tr>
-            </tbody>
-        </table>
-
-        <!-- Keterangan -->
-        <div class="mt-6 text-right">
-            <p class="text-sm text-gray-600">
-                Keterangan: Nilai dalam bentuk angka dari 1 sampai nilai bobot
-            </p>
+            <!-- <p class="text-sm text-gray-600">
+                Mentor:  
+                @if ($nilai) 
+                    {{ $nilai->mentor->nama }}
+                @else
+                    <span class="text-red-500">Belum ada penilaian</span>
+                @endif
+            </p> -->
         </div>
 
-        <!-- Tombol Unduh SK selesai magang -->
-        <div class="mt-6 text-right">
-        <a href="{{ route('unduh-sksm') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh SK selesai Magang</a>
-        </div>
+            <!-- Tabel Penilaian -->
+            <table class="min-w-full table-auto">
+                <thead class="bg-orange-400 text-white">
+                    <tr>
+                        <th class="px-4 py-2">No</th>
+                        <th class="px-4 py-2">Parameter Penilaian</th>
+                        <th class="px-4 py-2">Bobot</th>
+                        <th class="px-4 py-2">Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2">1</td>
+                        <td class="border px-4 py-2">Kehadiran</td>
+                        <td class="border px-4 py-2">5</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai1 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">2</td>
+                        <td class="border px-4 py-2">Ketepatan Waktu</td>
+                        <td class="border px-4 py-2">5</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai2 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">3</td>
+                        <td class="border px-4 py-2">Sikap Kerja / Prosedur Kerja</td>
+                        <td class="border px-4 py-2">10</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai3 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">4</td>
+                        <td class="border px-4 py-2">Kemampuan bekerja dalam Tim</td>
+                        <td class="border px-4 py-2">10</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai4 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">5</td>
+                        <td class="border px-4 py-2">Kreatifitas Kerja</td>
+                        <td class="border px-4 py-2">10</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai5 ?? 0 }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">6</td>
+                        <td class="border px-4 py-2">Inisiatif Kerja</td>
+                        <td class="border px-4 py-2">15</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai6 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">7</td>
+                        <td class="border px-4 py-2">Kemampuan Komunikasi</td>
+                        <td class="border px-4 py-2">15</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai7 ?? 0 }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">8</td>
+                        <td class="border px-4 py-2">Kemampuan Teknikal</td>
+                        <td class="border px-4 py-2">20</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai8 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">9</td>
+                        <td class="border px-4 py-2">Kepercayaan Diri</td>
+                        <td class="border px-4 py-2">5</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai9 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">10</td>
+                        <td class="border px-4 py-2">Penampilan / Kerapihan</td>
+                        <td class="border px-4 py-2">5</td>
+                        <td class="border px-4 py-2"><span>{{ $nilai->nilai10 ?? 0 }}</span></td> 
+                    </tr>
+                    <tr class="bg-gray-200">
+                        <td class="border px-4 py-2 font-bold" colspan="3">Nilai Total</td>
+                        <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">{{ $nilai->nilai_total ?? 0 }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!-- Tombol Unduh SKL -->
-        <div class="mt-6 text-right">
-        <a href="{{ route('unduh-skl') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh Sertifikat</a>
+            <!-- Keterangan -->
+            <div class="mt-6 text-right">
+                <p class="text-sm text-gray-600">
+                    Keterangan: Nilai dalam bentuk angka dari 1 sampai nilai bobot
+                </p>
+            </div>
+
+            <!-- Tombol Unduh SK selesai magang -->
+            <div class="mt-6 text-right">
+            <a href="{{ route('unduh-sksm') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh SK selesai Magang</a>
+            </div>
+
+            <!-- Tombol Unduh SKL -->
+            <div class="mt-6 text-right">
+            <a href="{{ route('unduh-skl') }}" class="bg-red-500 text-white rounded-lg hover:bg-red-600 px-6 py-2">Unduh Sertifikat</a>
+            </div>
         </div>
     </div>
-</div>
-
-<script>
-    function calculateTotal() {
-    const inputs = document.querySelectorAll('.score-input');
-    let total = 0;
-    inputs.forEach(input => {
-      const value = parseInt(input.value, 10);
-      if (!isNaN(value)) {
-        total += value;
-      }
-    });
-    document.getElementById('totalScore').innerText = total;
-  }
-</script>
-
+@endif
 @endsection

@@ -454,7 +454,7 @@ function updateEntriesPerPage() {
 function updatePageInfo() {
     const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
     const pageInfo = document.getElementById('page-info');
-    pageInfo.textContent = `Menampilkan halaman ${currentPage} dari ${totalPages} halaman`;
+    pageInfo.textContent = Menampilkan halaman ${currentPage} dari ${totalPages} halaman;
 }
 
 </script>
@@ -503,8 +503,9 @@ document.addEventListener('DOMContentLoaded', function () {
             mentorDropdown.disabled = true;
 
             try {
-                const response = await fetch(`/get-mentors?kode_instansi=${kodeInstansi}`);
+                const response = await fetch(`/koordinator/get-mentors?kode_instansi=${kodeInstansi}`);
                 const data = await response.json();
+                console.log(data);
 
                 if (!data.mentors || data.mentors.length === 0) {
                     alert('Tidak ada mentor tersedia untuk instansi ini.');
@@ -516,9 +517,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Mengisi dropdown dengan mentor yang tersedia
                 data.mentors.forEach(mentor => {
-                    mentorDropdown.innerHTML += `<option value="${mentor.nip_mentor}">${mentor.nama}</option>`;
+                    mentorDropdown.innerHTML += <option value="${mentor.nip_mentor}">${mentor.nama}</option>;
                 });
-
                 mentorDropdown.disabled = false;
                 mentorModal.style.display = 'block';
             } catch (error) {
@@ -560,48 +560,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Kirim request untuk memilih mentor (Anda bisa tetap menggunakan POST jika diperlukan)
-            const response = await fetch('/plot-mentor', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    nip_peserta: selectedParticipantNIP,
-                    nip_mentor: selectedMentor
-                })
+            const response = await fetch('/koordinator/plot-mentor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                nip_peserta: selectedParticipantNIP,
+                nip_mentor: selectedMentor
+            })
+        });
+
+        if (!response.ok) { // Check for HTTP errors (4xx or 5xx)
+            const errorData = await response.json(); // Try to get error details from the server
+            throw new Error(errorData.message || HTTP error ${response.status}); // Throw an error with a message
+        }
+
+        const result = await response.json();
+
+        if (result.status === 'success') { // Check the 'status' field
+            Swal.fire({
+                icon: 'success',
+                title: 'Mentor berhasil dipilih!',
+                text: result.message,
+                confirmButtonColor: '#FF885B',
+            }).then(() => {
+                mentorModal.style.display = 'none';
+                location.reload();
             });
-
-            const result = await response.json();
-
-            if (result.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Mentor berhasil dipilih!',
-                    text: result.message,
-                    confirmButtonColor: '#FF885B',
-                }).then(() => {
-                    mentorModal.style.display = 'none';
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal memilih mentor!',
-                    text: result.message || 'Terjadi kesalahan.',
-                    confirmButtonColor: '#B31312',
-                });
-            }
-        } catch (error) {
-            console.error('Error plotting mentor:', error);
+        } else if (result.status === 'error') { // Handle error status
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal memilih mentor!',
-                text: 'Terjadi kesalahan saat menyimpan data.',
+                text: result.message || 'Terjadi kesalahan.', // Display the error message from the server
+                confirmButtonColor: '#B31312',
+            });
+        } else { // Handle unexpected status
+            console.error('Unexpected response:', result);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal memilih mentor!',
+                text: 'Terjadi kesalahan yang tidak terduga.',
                 confirmButtonColor: '#B31312',
             });
         }
-    });
+
+    } catch (error) {
+        console.error('Error plotting mentor:', error); // Log the full error details to the console
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal memilih mentor!',
+            text: error.message || 'Terjadi kesalahan saat menyimpan data.', // Display the error message
+            confirmButtonColor: '#B31312',
+        });
+    }
+});
 });
 
 

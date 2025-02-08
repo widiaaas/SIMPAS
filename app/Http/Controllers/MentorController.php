@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mentor;
+use App\Models\Mentor; 
 use Illuminate\Http\Request;
 use App\Models\PesertaMagang;
 use App\Models\PendaftaranMagang;
