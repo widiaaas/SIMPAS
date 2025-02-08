@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KoordinatorController;
@@ -13,6 +14,9 @@ Route::get('/', function () {
     return view('auth.login'); 
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+});
 // Route::get('/', [AuthController::class, 'index'])->name('login'); 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
@@ -52,6 +56,7 @@ Route::prefix('pesertaMagang')->middleware('auth')->group(function () {
 Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::get('/dashboard', [KoordinatorController::class, 'dashboard'])->name('koordinator.dashboard');
     Route::get('/profil', [KoordinatorController::class, 'profil'])->name('koordinator.profil');
+    Route::post('/edit-profil', [KoordinatorController::class, 'editProfil'])->name('koordinator.editProfil');
 
     Route::get('/pembagianMagang', [KoordinatorController::class, 'pembagianMagang'])->name('koordinator.pembagianMagang');
     Route::get('/pembagianMagang/detailPendaftarMagang/{nip_peserta}', [KoordinatorController::class, 'detailPendaftar'])->name('detailPendaftar');
@@ -59,15 +64,15 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
 
     Route::get('/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor'])->name('koordinator.plottingMentor');
     Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
-    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor')->middleware('web');
+    Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor')->middleware('web'); 
 
     Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
     Route::get('/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');
 
     Route::get('/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta'])->name('koordinator.penilaianPeserta');
     Route::get('/penilaianPeserta/detailNilaiPeserta/{nip_peserta}', [KoordinatorController::class, 'detailNilaiPeserta'])->name('detailNilaiPeserta');
-    Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta']);
-    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian']);
+    Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta'])->name('updateNilaiPeserta')->middleware('web');
+    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian'])->name('konfirmasiPenilaian')->middleware('web');
 });
 
 //Mentor

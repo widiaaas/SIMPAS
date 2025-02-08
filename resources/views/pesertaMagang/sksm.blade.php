@@ -9,6 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Selesai Magang</title>
     <style>
+        @media print{
+            img{
+                display:block !important;
+                visibility: visible !important;
+            }
+        }
         body {
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.5; /* Spasi baris 1.5 */

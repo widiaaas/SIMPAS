@@ -230,78 +230,6 @@ class KoordinatorController extends Controller
     }
 }
 
-    public function plottingMentor()
-    {
-        // Fetching the peserta data along with instansi and mentor information
-        $peserta = DB::table('peserta_magangs')
-            ->join('pendaftaran_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
-            ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
-            ->leftJoin('mentors', 'peserta_magangs.nip_mentor', '=', 'mentors.nip_mentor') // Include mentors, if assigned
-            ->select(
-                'peserta_magangs.nip_peserta', 
-                'peserta_magangs.nama_peserta',
-                'peserta_magangs.asal_sekolah',
-                'instansis.kode_instansi',
-                'instansis.nama_instansi',
-                'pendaftaran_magangs.tanggal_mulai',
-                'pendaftaran_magangs.tanggal_selesai',
-                'mentors.nama as nama_mentor'
-            )
-            ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
-            ->where('peserta_magangs.status_magang', 'Tidak aktif')
-            ->whereNull('peserta_magangs.nip_mentor') // Participants without an assigned mentor
-            ->get();
-
-        // Fetching mentors grouped by instansi
-        $mentor = DB::table('mentors')
-            ->select('mentors.nip_mentor', 'mentors.nama as nama_mentor', 'mentors.kode_instansi')
-            ->get();
-
-        return view('koordinator.plottingMentor', compact('peserta', 'mentor'));
-    }
-
-    public function plotMentor(Request $request)
-    {
-        $request->validate([
-            'nip_peserta' => 'required|exists:peserta_magangs,nip_peserta',
-            'nip_mentor' => 'required|exists:mentors,nip_mentor',
-        ]);
-
-        try {
-            DB::beginTransaction();
-    
-            $updatedPeserta = DB::table('peserta_magangs')
-                ->where('nip_peserta', $request->nip_peserta)
-                ->update(['nip_mentor' => $request->nip_mentor]);
-    
-            $updatedPenilaian = DB::table('penilaians')
-                ->where('nip_peserta', $request->nip_peserta)
-                ->update(['nip_mentor' => $request->nip_mentor]);
-    
-    
-            if ($updatedPeserta && $updatedPenilaian) {
-                DB::commit();
-    
-                // Check if nip_mentor is now set in the database
-                $peserta = DB::table('peserta_magangs')->where('nip_peserta', $request->nip_peserta)->first();
-                if ($peserta && $peserta->nip_mentor) {
-                    return response()->json(['status' => 'success', 'message' => 'Mentor berhasil dipilih']);
-                } else {
-                    DB::rollBack(); // Rollback if nip_mentor is still not set
-                    return response()->json(['status' => 'error', 'message' => 'Gagal memplot mentor (Data tidak sesuai)'], 500);
-                }
-    
-            } else {
-                DB::rollBack();
-                return response()->json(['status' => 'error', 'message' => 'Gagal memperbarui data'], 500);
-            }
-    
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['status' => 'error', 'message' => 'Terjadi kesalahan saat memilih mentor: ' . $e->getMessage()], 500);
-        }
-    }
-
     public function getMentors(Request $request) {
         $kodeInstansi = $request->query('kode_instansi');
     
@@ -351,12 +279,6 @@ class KoordinatorController extends Controller
                 'instansis.nama_instansi',
                 'pendaftaran_magangs.tanggal_mulai',
                 'pendaftaran_magangs.tanggal_selesai',
-<<<<<<< HEAD
-=======
-                'pendaftaran_magangs.spkl',
-                'pendaftaran_magangs.cv',
-                'pendaftaran_magangs.proposal'
->>>>>>> 68e9dec34d4c8135d63005baaadd58595e1b1266
             )
             ->where('peserta_magangs.nip_peserta', $nip_peserta) // Berikan alias tabel pada kolom
             ->first(); // Gunakan first() agar data berupa objek, bukan array

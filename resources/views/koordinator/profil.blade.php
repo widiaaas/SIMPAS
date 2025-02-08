@@ -139,12 +139,13 @@
             </div>
         </div>
         <div class="mt-6 text-right">
-            <button class="edit-button" id="edit-button">
-                Edit
-            </button>
-            <button class="save-button hidden" id="save-button">
-                Save
-            </button>
+            <form action="{{ route('koordinator.editProfil') }}" method="POST" id="profile-form">
+                @csrf
+                <input type="hidden" name="phone" id="phone-input" value="">
+                <input type="hidden" name="email" id="email-input" value="">
+                <button type="button" class="edit-button" id="edit-button">Edit</button>
+                <button type="submit" class="save-button hidden" id="save-button">Save</button>
+            </form>
         </div>
     </div>
 </div>
@@ -159,35 +160,114 @@
     const emailDisplay = document.getElementById('email-display');
     const emailEdit = document.getElementById('email-edit');
 
+    const phoneInput = document.getElementById('phone-input');
+    const emailInput = document.getElementById('email-input');
+    const form = document.getElementById('profile-form');
+
     editButton.addEventListener('click', function () {
         // Toggle Edit Mode
         phoneDisplay.classList.add('hidden');
         phoneEdit.classList.remove('hidden');
-
         emailDisplay.classList.add('hidden');
         emailEdit.classList.remove('hidden');
+
+        // Set nilai input dengan nilai awal dari tampilan
+        phoneEdit.value = phoneDisplay.textContent.trim();
+        emailEdit.value = emailDisplay.textContent.trim();
 
         // Show Save Button
         saveButton.classList.remove('hidden');
         editButton.classList.add('hidden');
     });
 
-    saveButton.addEventListener('click', function () {
-        // Save Changes
-        phoneDisplay.textContent = phoneEdit.value;
-        emailDisplay.textContent = emailEdit.value;
+    saveButton.addEventListener('click', function (event) {
+        // Masukkan nilai input ke dalam form
+        phoneInput.value = phoneEdit.value;
+        emailInput.value = emailEdit.value;
 
-        // Toggle View Mode
-        phoneDisplay.classList.remove('hidden');
-        phoneEdit.classList.add('hidden');
+        // Gunakan SweetAlert2 untuk konfirmasi
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Perubahan yang Anda buat akan disimpan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, simpan!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Kembali ke mode non-edit
+                phoneDisplay.textContent = phoneEdit.value;
+                emailDisplay.textContent = emailEdit.value;
+                phoneDisplay.classList.remove('hidden');
+                phoneEdit.classList.add('hidden');
+                emailDisplay.classList.remove('hidden');
+                emailEdit.classList.add('hidden');
 
-        emailDisplay.classList.remove('hidden');
-        emailEdit.classList.add('hidden');
+                // Ubah tombol save kembali ke edit
+                saveButton.classList.add('hidden');
+                editButton.classList.remove('hidden');
+                
+                // Kirim form
+                if (result.isConfirmed) {
+                    // Kirim form setelah konfirmasi
+                    form.submit();
+                }
+            } else {
+                // Kembali ke mode non-edit saat dibatalkan
+                phoneEdit.classList.add('hidden');
+                phoneDisplay.classList.remove('hidden');
+                emailEdit.classList.add('hidden');
+                emailDisplay.classList.remove('hidden');
 
-        // Show Edit Button
-        saveButton.classList.add('hidden');
-        editButton.classList.remove('hidden');
-    });
+                // Ubah tombol save kembali ke edit
+                saveButton.classList.add('hidden');
+                editButton.classList.remove('hidden');
+            }
+        });
+
+        // Mencegah pengiriman form default saat tombol diklik
+        event.preventDefault();
+});
+
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- pesan sukses -->
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+<!-- pesan error -->
+@if ($errors->has('phone'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ $errors->first("phone") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+@if ($errors->has('email'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ $errors->first("email") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
 
 @endsection

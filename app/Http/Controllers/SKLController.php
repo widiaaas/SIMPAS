@@ -14,7 +14,6 @@ use App\Models\Penilaian;
 
 class SKLController extends Controller
 {   
-
     public function nilaiPeserta()
     {
         // Mengambil data penilaian berdasarkan peserta magang yang sedang login
@@ -38,6 +37,7 @@ class SKLController extends Controller
             'pesertaMagang' => $pesertaMagang,
             'instansi' => $instansi,
             'pendaftaranMagang' => $pendaftaranMagang,
+            'logoUrl' => public_path('img/pemkot.png'),
         ];
 
         $pdf = PDF::loadView('pesertaMagang.sksm', $data);
