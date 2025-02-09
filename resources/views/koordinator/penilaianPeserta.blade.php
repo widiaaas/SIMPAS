@@ -424,7 +424,7 @@ function updateEntriesPerPage() {
 function updatePageInfo() {
     const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
     const pageInfo = document.getElementById('page-info');
-    pageInfo.textContent = `Menampilkan halaman ${currentPage} dari ${totalPages} halaman`;
+    pageInfo.textContent = Menampilkan halaman ${currentPage} dari ${totalPages} halaman;
 }
 
 </script>
@@ -433,7 +433,7 @@ function updatePageInfo() {
 <script>
     function updateStatus(nipPeserta, statusPendaftaran) {
         const setujuOrTolak = statusPendaftaran.toLowerCase() === 'disetujui' ? 'setujui' : 'tolak';
-        const title = `Apakah Anda yakin ingin ${setujuOrTolak} pengajuan ini?`;
+        const title = Apakah Anda yakin ingin ${setujuOrTolak} pengajuan ini?;
 
         Swal.fire({
             title: title,

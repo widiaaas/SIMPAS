@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\PesertaMagang;
 use App\Models\Instansi;
 use App\Models\PendaftaranMagang;
+use App\Models\Penilaian;
 
 class PendaftaranMagangController extends Controller
 {
@@ -54,6 +55,7 @@ class PendaftaranMagangController extends Controller
             return redirect()->back()->with('error', 'Data peserta magang tidak ditemukan.');
         }
         // dd($request);
+        
         // Validasi input
         $validateData = $request->validate([
             'dinas' => 'required',
@@ -63,80 +65,63 @@ class PendaftaranMagangController extends Controller
             'cv' => 'required|file|mimes:pdf|max:1024', // Maksimal 1MB
             'proposal' => 'required|file|mimes:pdf|max:102400', // Maksimal 100MB
         ]);
-        
-        // dd($validateData);
-        // // Memastikan file berhasil di-upload dan menyimpan path-nya
-        // $spklPath = $cvPath = $proposalPath = null;
-
-        // if ($request->hasFile('spkl') && $request->file('spkl')->isValid()) {
-        //     $spklPath = $request->file('spkl')->store('spkl');
-        // }
-
-        // if ($request->hasFile('cv') && $request->file('cv')->isValid()) {
-        //     $cvPath = $request->file('cv')->store('cv');
-        // }
-
-        // if ($request->hasFile('proposal') && $request->file('proposal')->isValid()) {
-        //     $proposalPath = $request->file('proposal')->store('proposal');
-        // }
-
+    
         $spklPath = $request->file('spkl')->store('spkl');
         $cvPath = $request->file('cv')->store('cv');
         $proposalPath = $request->file('proposal')->store('proposal');
 
-
-        // Menyimpan data pendaftaran magang
-        // try {
-        //     PendaftaranMagang::create([
-        //         'nip_peserta' => $pesertaMagang->nip_peserta,
-        //         'kode_instansi' => $request->kode_instansi,
-        //         'tanggal_mulai' => $request->tanggal_mulai,
-        //         'tanggal_selesai' => $request->tanggal_selesai,
-        //         'spkl' => $spklPath,
-        //         'cv' => $cvPath,
-        //         'proposal' => $proposalPath,
-        //     ]);
-
-        //     // Redirect dengan pesan sukses jika data berhasil disimpan
-        //     return redirect()->route('pendaftaran.magang.create')->with('success', 'Pendaftaran magang berhasil dikirim!');
-        // } catch (\Exception $e) {
-        //     // Menangani error jika terjadi masalah saat menyimpan data
-        //     return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        // }
         
-        // dd([
-        //     'nip_peserta' => $pesertaMagang->nip_peserta,
-        //     'kode_instansi' => $request->dinas,
-        //     'tanggal_mulai' => $request->tanggal_mulai,
-        //     'tanggal_selesai' => $request->tanggal_selesai,
-        //     'spkl' => $spklPath,
-        //     'cv' => $cvPath,
-        //     'proposal' => $proposalPath,
-        // ]);
-        
-        PendaftaranMagang::create([
-            'nip_peserta' => $pesertaMagang->nip_peserta,
-            'kode_instansi' => $request->dinas,
-            'spkl' => $spklPath,
-            'cv' => $cvPath,
-            'proposal' => $proposalPath,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+        // Menggunakan updateOrCreate untuk memperbarui atau membuat entri baru
+        PendaftaranMagang::updateOrCreate(
+            ['nip_peserta' => $pesertaMagang->nip_peserta],
+            [
+                'kode_instansi' => $request->dinas,
+                'spkl' => $spklPath,
+                'cv' => $cvPath,
+                'proposal' => $proposalPath,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'nip_mentor'=>null
+            ]
+        );
+
+
+
+        // Mengatur kolom nilai1 hingga nilai_total menjadi null di tabel penilaian
+        Penilaian::where('nip_peserta', $pesertaMagang->nip_peserta)
+        ->update([
+            'nilai1' => null,
+            'nilai2' => null,
+            'nilai3' => null,
+            'nilai4' => null,
+            'nilai5' => null,
+            'nilai6' => null,
+            'nilai7' => null,
+            'nilai8' => null,
+            'nilai9' => null,
+            'nilai10' => null,
+            'nilai_total' => null,
+            'nip_mentor' => null,
         ]);
 
-        $pesertaMagang->status_pendaftaran = 'Diproses'; 
-        $pesertaMagang->status_magang = 'Tidak aktif'; 
-        $pesertaMagang->status_skl = 'Belum diterbitkan'; 
-        $pesertaMagang->save();
+
+        $pesertaMagang->update([
+            'kode_instansi' => $request->dinas,
+            'status_pendaftaran' => 'Diproses',
+            'status_magang' => 'Tidak aktif',
+            'status_skl' => 'Belum diterbitkan',
+            'nip_mentor'=> null,
+        ]);
 
         return redirect()->back()->with('success', 'Pendaftaran magang berhasil!');
 
     }
 
+
     public function detailPendaftaran (){
         $pesertaMagang = Auth::user()->pesertaMagang;
         $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->first();
-        $instansi = $pendaftaranMagang->instansi;
+        $instansi = $pesertaMagang->instansi;
         $mentor = $pesertaMagang->mentor;
 
         return view('pesertaMagang.detail_pendaftaran', compact('instansi', 'pesertaMagang','pendaftaranMagang','mentor'));

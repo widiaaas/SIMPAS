@@ -18,11 +18,11 @@ class SKLController extends Controller
     {
         // Mengambil data penilaian berdasarkan peserta magang yang sedang login
         $pesertaMagang = Auth::user()->pesertaMagang;
-        $nilai = Penilaian::where('nip_peserta', $pesertaMagang->nip_peserta)
-                        ->where('status', 'Sudah disetujui')
+        $nilai = PesertaMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                        ->where('status_skl', 'Sudah diterbitkan')
                         ->first(); // Mengambil satu penilaian yang sudah disetujui
-
-        return view('pesertaMagang.penilaian', compact('nilai','pesertaMagang'));
+        $penilaian = $pesertaMagang->penilaian;
+        return view('pesertaMagang.penilaian', compact('nilai','pesertaMagang','penilaian'));
     }
 
 

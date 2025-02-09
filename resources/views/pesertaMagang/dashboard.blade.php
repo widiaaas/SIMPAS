@@ -58,15 +58,13 @@
         <div class="card card-custom">
             <h3>Status Magang</h3>
             <hr>
-            @if ($pesertaMagang && $statusMagang)
-                <p>{{ $statusMagang }}</p>
-                @if (strtolower($statusMagang) === 'aktif')
-                    <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
-                    <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
-                @endif
-            @else
-                <p>Belum mendaftar</p>
-            @endif
+                <p>{{ $pesertaMagang->status_magang }}</p>
+                    @if (strtolower($pesertaMagang->status_magang) === 'aktif')
+                        <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
+                        <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
+                    @else
+                        <p>Belum mendaftar</p>
+                    @endif
         </div>
         <div class="card card-custom">
             <h3>Status SKL</h3>

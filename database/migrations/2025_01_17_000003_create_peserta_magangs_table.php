@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('asal_sekolah');
             $table->string('jurusan');
             $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
-            $table->string('alasan')->nullable();
             $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
             $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
             $table->string('alasan')->nullable();
