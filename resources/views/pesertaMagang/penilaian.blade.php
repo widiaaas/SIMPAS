@@ -176,7 +176,7 @@
                     </tr>
                     <tr class="bg-gray-200">
                         <td class="border px-4 py-2 font-bold" colspan="3">Nilai Total</td>
-                        <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">{{ $nilai->nilai_total ?? 0 }}</td>
+                        <td class="border px-4 py-2 font-bold text-red-500" id="totalScore">{{ $penilaian->nilai_total ?? 0 }}</td>
                     </tr>
                 </tbody>
             </table>

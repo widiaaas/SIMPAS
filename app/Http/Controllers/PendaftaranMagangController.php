@@ -81,8 +81,11 @@ class PendaftaranMagangController extends Controller
                 'proposal' => $proposalPath,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
+                'nip_mentor'=>null
             ]
         );
+
+
 
         // Mengatur kolom nilai1 hingga nilai_total menjadi null di tabel penilaian
         Penilaian::where('nip_peserta', $pesertaMagang->nip_peserta)
@@ -107,11 +110,13 @@ class PendaftaranMagangController extends Controller
             'status_pendaftaran' => 'Diproses',
             'status_magang' => 'Tidak aktif',
             'status_skl' => 'Belum diterbitkan',
+            'nip_mentor'=> null,
         ]);
 
         return redirect()->back()->with('success', 'Pendaftaran magang berhasil!');
 
     }
+
 
     public function detailPendaftaran (){
         $pesertaMagang = Auth::user()->pesertaMagang;

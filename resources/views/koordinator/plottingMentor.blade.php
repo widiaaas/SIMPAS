@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             mentorDropdown.innerHTML = '<option value="" disabled selected>Pilih Mentor</option>';
-            mentorDropdown.disabled = true;
+            mentorDropdown.disabled = false;
 
             try{
                 const response = await fetch(`/koordinator/get-mentors?kode_instansi=${kodeInstansi}`); // Tambahkan backtick (`) di awal dan akhir URL
