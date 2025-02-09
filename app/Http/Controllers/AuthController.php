@@ -72,7 +72,7 @@ class AuthController extends Controller
             'nip_peserta' => 'required|numeric|unique:peserta_magangs,nip_peserta', // NIP unik
             'nama_peserta' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'no_telp_peserta' => 'required|numeric',
+            'no_telp_peserta' => 'required|numeric|unique:peserta_magangs',
             'asal_sekolah' => 'required|string|max:255',
             'jurusan' => 'required|string|max:255',
             'password' => 'required|min:8|confirmed',
@@ -91,6 +91,7 @@ class AuthController extends Controller
 
             'no_telp_peserta.required' => 'Nomor telepon peserta wajib diisi.',
             'no_telp_peserta.numeric' => 'Nomor telepon harus berupa angka.',
+            'no_telp_peserta.unique' => 'Nomor telepon sudah terdaftar.',
 
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',

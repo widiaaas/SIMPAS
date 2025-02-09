@@ -138,9 +138,11 @@ class MentorController extends Controller
             return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
         }
 
-        $peserta->file_cv_url = Storage::url($peserta->cv);
-        $peserta->file_proposal_url = Storage::url($peserta->proposal);
-        $peserta->file_spkl_url = Storage::url($peserta->spkl);
+        $pendaftaran=$peserta->pendaftaran;
+
+        $peserta->file_cv_url = Storage::url($pendaftaran->cv);
+        $peserta->file_proposal_url = Storage::url($pendaftaran->proposal);
+        $peserta->file_spkl_url = Storage::url($pendaftaran->spkl);
         return view('mentor.detail', compact('peserta'));
     }
 
@@ -194,57 +196,76 @@ class MentorController extends Controller
     }
 
     public function simpanPenilaian(Request $request)
-{
-    try {
-        $validatedData = $request->validate([
-            'nip_peserta' => 'required|string',
-            'nilai1' => 'required|integer|min:1|max:5',
-            'nilai2' => 'required|integer|min:1|max:5',
-            'nilai3' => 'required|integer|min:1|max:10',
-            'nilai4' => 'required|integer|min:1|max:10',
-            'nilai5' => 'required|integer|min:1|max:10',
-            'nilai6' => 'required|integer|min:1|max:15',
-            'nilai7' => 'required|integer|min:1|max:15',
-            'nilai8' => 'required|integer|min:1|max:20',
-            'nilai9' => 'required|integer|min:1|max:5',
-            'nilai10' => 'required|integer|min:1|max:5',
-        ]);
-
-        $nilai_total = array_sum(array_slice($validatedData, 1, 10)); // Menjumlahkan nilai1 - nilai10
-        $validatedData['nilai_total'] = $nilai_total;
-
-        // Mengambil nip mentor melalui relasi
-        $nip_mentor = auth()->user()->mentor->nip_mentor;
-        $validatedData['nip_mentor'] = $nip_mentor;
-
-        $penilaian = Penilaian::where('nip_peserta', $validatedData['nip_peserta'])->first();
-
-        if ($penilaian) {
+    {
+        try {
+            // Validasi input
+            $validatedData = $request->validate([
+                'nip_peserta' => 'required|string',
+                'nilai1' => 'required|integer|min:1|max:5',
+                'nilai2' => 'required|integer|min:1|max:5',
+                'nilai3' => 'required|integer|min:1|max:10',
+                'nilai4' => 'required|integer|min:1|max:10',
+                'nilai5' => 'required|integer|min:1|max:10',
+                'nilai6' => 'required|integer|min:1|max:15',
+                'nilai7' => 'required|integer|min:1|max:15',
+                'nilai8' => 'required|integer|min:1|max:20',
+                'nilai9' => 'required|integer|min:1|max:5',
+                'nilai10' => 'required|integer|min:1|max:5',
+            ]);
+    
+            // Hitung total nilai
+            $validatedData['nilai_total'] = array_sum(array_slice($validatedData, 1, 10));
+    
+            // Ambil NIP mentor dari user yang sedang login
+            $validatedData['nip_mentor'] = auth()->user()->mentor->nip_mentor ?? null;
+    
+            // Cari data penilaian berdasarkan nip_peserta
+            $penilaian = Penilaian::where('nip_peserta', $validatedData['nip_peserta'])->first();
+    
+            if ($penilaian) {
+                // Cek apakah semua kolom masih NULL
+                $isStillEditable = collect($penilaian->only([
+                    'nilai1', 'nilai2', 'nilai3', 'nilai4', 'nilai5',
+                    'nilai6', 'nilai7', 'nilai8', 'nilai9', 'nilai10',
+                    'nilai_total', 'nip_mentor'
+                ]))->every(fn($value) => is_null($value));
+    
+                if ($isStillEditable) {
+                    // Jika masih kosong, lakukan update
+                    $penilaian->update($validatedData);
+                    return response()->json([
+                        'message' => 'Penilaian berhasil diperbarui!',
+                        'data' => $penilaian
+                    ], 200);
+                } else {
+                    // Jika sudah diisi sebelumnya, kunci penilaian
+                    return response()->json([
+                        'message' => 'Penilaian sudah terkunci dan tidak dapat diubah.'
+                    ], 403);
+                }
+            }
+    
+            // Simpan baru jika belum ada data sebelumnya
+            $penilaian = Penilaian::create($validatedData);
+    
             return response()->json([
-                'message' => 'Penilaian sudah terkunci dan tidak dapat diubah.'
-            ], 403);
+                'message' => 'Penilaian berhasil disimpan!',
+                'data' => $penilaian
+            ], 201);
+    
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Terjadi kesalahan validasi',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Gagal menyimpan penilaian',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        // Simpan hanya jika belum ada
-        $penilaian = Penilaian::create($validatedData);
-
-        return response()->json([
-            'message' => 'Penilaian berhasil disimpan!',
-            'data' => $penilaian
-        ], 200);
-
-    } catch (ValidationException $e) {
-        return response()->json([
-            'message' => 'Validation error',
-            'errors' => $e->errors()
-        ], 422);
-    } catch (\Exception $e) {
-        return response()->json([
-            'message' => 'Gagal menyimpan penilaian',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
+    
     
 
 
