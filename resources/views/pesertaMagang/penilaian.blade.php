@@ -3,7 +3,7 @@
 @section('title', 'Penilaian')
 
 @section('content')
-<h1 class="header">SKL</h1>
+<h1 class="header">Penilaian</h1>
 <style>
     .container {
         padding: 2rem;

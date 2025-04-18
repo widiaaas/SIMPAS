@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Peserta Magang')
+@section('title', 'Pendaftaran Magang')
 
 @section('sidebar')
 

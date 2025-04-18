@@ -311,7 +311,7 @@
         alert('Masukkan nilai berupa bilangan bulat.');
         input.value = ''; // Kosongkan input jika invalid
     } else if (value < 1 || value > max || isNaN(value)) {
-        alert(`Masukkan nilai antara 1 dan ${max}`);
+        alert(Masukkan nilai antara 1 dan ${max});
         input.value = ''; // Kosongkan input jika invalid
     } else {
         calculateTotal(); // Hitung total setelah input valid
@@ -335,4 +335,4 @@
 
 
     
-@endsection 
+@endsection
