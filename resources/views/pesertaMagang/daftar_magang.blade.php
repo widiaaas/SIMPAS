@@ -176,7 +176,7 @@
                     if (fileSizeMB > maxSizeMB) {
                         Swal.fire({
                             title: "Ukuran File Terlalu Besar!",
-                            text: File harus lebih kecil dari ${maxSizeMB} MB. Ukuran file saat ini adalah ${fileSizeMB.toFixed(2)} MB.,
+                            text: `File harus lebih kecil dari ${maxSizeMB} MB. Ukuran file saat ini adalah ${fileSizeMB.toFixed(2)} MB.`,
                             icon: "warning",
                             confirmButtonText: "OK"
                         });
