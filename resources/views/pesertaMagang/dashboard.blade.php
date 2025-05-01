@@ -80,27 +80,26 @@
                     <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
                 @endif
             @endif
-        @endif
-    </div>
-
-    <div class="card card-custom">
-        <h3>Status Magang</h3>
-        <hr>
-        <p>{{ $pesertaMagang->status_magang }}</p>
-        @if (strtolower($pesertaMagang->status_magang) === 'aktif')
-            <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
-            <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
-        @endif
-    </div>
-
-    <div class="card card-custom">
-        <h3>Status SKL</h3>
-        <hr>
-        @if ($pesertaMagang && $statusSKL)
-            <p>{{ $statusSKL }}</p>
-        @else
-            <p>Belum mendaftar</p>
-        @endif
-    </div>
+        </div>
+        <div class="card card-custom">
+            <h3>Status Magang</h3>
+            <hr>
+                <p>{{ $pesertaMagang->status_magang }}</p>
+                    @if (strtolower($pesertaMagang->status_magang) === 'aktif')
+                        <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
+                        <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
+                    @else
+                        <p>Belum mendaftar</p>
+                    @endif
+        </div>
+        <div class="card card-custom">
+            <h3>Status SKL</h3>
+            <hr>
+            @if ($pesertaMagang && $statusSKL)
+                <p>{{ $statusSKL }}</p>
+            @else
+                <p>Belum mendaftar</p>
+            @endif
+        </div>
 </div>
 @endsection

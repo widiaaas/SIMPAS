@@ -414,7 +414,10 @@ class MentorSeeder extends Seeder
                  'jabatan'=>'Kepala Bidang Pembinaan Guru dan Tenaga Kependidikan',
                 'user_id' =>null, // Gantilah dengan user_id yang valid
              ],      
+<<<<<<< HEAD
              
+=======
+>>>>>>> 2bef84bc0cf064932b3d8d60834e23a5b9fc5ba5
         ]);
     }
 }

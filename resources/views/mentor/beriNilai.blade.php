@@ -194,6 +194,7 @@
   <p class="text-sm text-gray-600">Nilai dalam bentuk angka dari 1 sampai nilai bobot.</p>
 </div>
 </form>
+
 <!-- Tombol Simpan -->
 <div class="flex justify-end mr-9 inter-font">
   @if(is_null($penilaian) || (is_null($penilaian->nilai1) && is_null($penilaian->nilai2) && 
@@ -333,4 +334,6 @@
   }
 </script>
 
+
+    
 @endsection

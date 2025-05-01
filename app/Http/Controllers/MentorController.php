@@ -138,7 +138,7 @@ class MentorController extends Controller
             return redirect()->route('mentor.daftarPeserta')->with('error', 'Peserta tidak ditemukan');
         }
 
-        $pendaftaran=$peserta->pendaftaran; 
+        $pendaftaran=$peserta->pendaftaran;
 
         $peserta->file_cv_url = Storage::url($pendaftaran->cv);
         $peserta->file_proposal_url = Storage::url($pendaftaran->proposal);
