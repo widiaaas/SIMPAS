@@ -23,41 +23,99 @@ class PesertaMagangController extends Controller
     }
 
     // dashboard
+    // public function showDashboard()
+    // {
+    //     $pesertaMagang = Auth::user()->pesertaMagang;
+
+
+    //     if ($pesertaMagang) {
+    //         // $pendaftaranMagang = $pesertaMagang->pendaftaranMagangs
+    //         // ->orderBy('tanggal_daftar', 'desc')
+    //         // ->first();
+    //         // $pendaftaranMagang = $pesertaMagang->pendaftaranMagangs()->latest('tanggal_daftar')->first();
+    //         $pendaftaranMagang = $pesertaMagang->pendaftaranMagangs()
+    //         ->orderBy('tanggal_daftar', 'desc')
+    //         ->first();
+    //         // dd($pendaftaranMagang);
+    //         // dd($pendaftaranMagang->status_skl);
+            
+    //         // Ambil status magang dan tanggal terkait jika ada
+    //         $statusMagang = $pendaftaranMagang ? $pesertaMagang->status_magang : null;
+    //         $tanggalMulai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->format('d-m-Y') : null;
+    //         $tanggalSelesai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->format('d-m-Y') : null;
+    //         $statusSKL = $pendaftaranMagang ? $pesertaMagang->status_skl : null;
+
+    //         // Ambil tanggal hari ini
+    //         $today = \Carbon\Carbon::today();
+
+    //         // Tentukan status magang
+    //         if ($tanggalMulai && $tanggalSelesai) {
+    //             if ($today->gte($tanggalMulai) && $today->lte($tanggalSelesai)) {
+    //                 $statusMagang = 'Aktif';
+    //             } else {
+    //                 $statusMagang = 'Tidak Aktif';
+    //             }
+    //         } else {
+    //             $statusMagang = 'Belum Mendaftar';
+    //         }
+    //         return view('pesertaMagang.dashboard', compact('pesertaMagang', 'statusMagang', 'tanggalMulai', 'tanggalSelesai','statusSKL'));
+    //     }
+
+    //     return redirect()->route('login')->with('error', 'Data peserta magang tidak ditemukan.');
+    // }
     public function showDashboard()
     {
         $pesertaMagang = Auth::user()->pesertaMagang;
 
-
-        if ($pesertaMagang) {
-            $pendaftaranMagang = $pesertaMagang->pendaftaranMagangs->first(); 
-            
-            // dd($pendaftaranMagang);
-            // dd($pendaftaranMagang->status_skl);
-            
-            // Ambil status magang dan tanggal terkait jika ada
-            $statusMagang = $pesertaMagang ? $pesertaMagang->status_magang : null;
-            $tanggalMulai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->format('d-m-Y') : null;
-            $tanggalSelesai = $pendaftaranMagang ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->format('d-m-Y') : null;
-            $statusSKL = $pesertaMagang ? $pesertaMagang->status_skl : null;
-
-            // Ambil tanggal hari ini
-            $today = \Carbon\Carbon::today();
-
-            // Tentukan status magang
-            if ($tanggalMulai && $tanggalSelesai) {
-                if ($today->gte($tanggalMulai) && $today->lte($tanggalSelesai)) {
-                    $statusMagang = 'Aktif';
-                } else {
-                    $statusMagang = 'Tidak Aktif';
-                }
-            } else {
-                $statusMagang = 'Belum Mendaftar';
-            }
-            return view('pesertaMagang.dashboard', compact('pesertaMagang', 'statusMagang', 'tanggalMulai', 'tanggalSelesai','statusSKL'));
+        // Jika peserta magang tidak ada, arahkan ke login
+        if (!$pesertaMagang) {
+            return redirect()->route('login')->with('error', 'Data peserta magang tidak ditemukan.');
         }
 
-        return redirect()->route('login')->with('error', 'Data peserta magang tidak ditemukan.');
+        // Cari pendaftaran magang terakhir (jika ada)
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                            ->latest()
+                            ->first();
+
+
+        // Inisialisasi default status
+        $statusPendaftaran = 'Belum Mendaftar';
+        $statusMagang = 'Belum Mendaftar';
+        $statusSKL = 'Belum Mendaftar';
+        $tanggalMulai = null;
+        $tanggalSelesai = null;
+
+        if ($pendaftaranMagang) {
+            // Jika sudah mendaftar magang, ambil data dari pendaftaran magang
+            $statusPendaftaran = $pendaftaranMagang->status_pendaftaran ?? 'Belum Mendaftar';
+            $statusMagang = $pendaftaranMagang->status_magang ?? 'Belum Mendaftar';
+            $statusSKL = $pendaftaranMagang->status_skl ?? 'Belum Mendaftar';
+            $tanggalMulai = $pendaftaranMagang->tanggal_mulai ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai)->format('d-m-Y') : null;
+            $tanggalSelesai = $pendaftaranMagang->tanggal_selesai ? \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)->format('d-m-Y') : null;
+
+            // Hitung status magang berdasarkan tanggal
+            $today = \Carbon\Carbon::today();
+            if ($tanggalMulai && $tanggalSelesai) {
+                $statusMagang = $today->between(
+                    \Carbon\Carbon::parse($pendaftaranMagang->tanggal_mulai),
+                    \Carbon\Carbon::parse($pendaftaranMagang->tanggal_selesai)
+                ) ? 'Aktif' : 'Tidak Aktif';
+            }
+        }
+        
+        // Kirim data ke view
+        return view('pesertaMagang.dashboard', compact(
+            'pesertaMagang',
+            'statusPendaftaran',
+            'statusMagang',
+            'tanggalMulai',
+            'tanggalSelesai',
+            'statusSKL'
+        ));
     }
+
+
+
 
     // daftar akun 
     // public function store(Request $request)

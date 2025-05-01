@@ -69,37 +69,45 @@
 </style>
 
 <div class="container-custom">
-    <div class="card card-custom">
-        <h3>Status Pendaftaran</h3>
-        <hr>
-        @if ($pesertaMagang)
-            @if ($pesertaMagang->status_pendaftaran)
-                <p>{{ $pesertaMagang->status_pendaftaran }}</p>
+{{-- STATUS PENDAFTARAN --}}
+<div class="card card-custom">
+    <h3>Status Pendaftaran</h3>
+    <hr>
+    @if (!empty($pendaftaranMagang) && !empty($pendaftaranMagang->statusPendaftaran))
+        <p>{{ $pendaftaranMagang->statusPendaftaran }}</p>
+        @if (in_array(strtolower($pendaftaranMagang->statusPendaftaran), ['disetujui', 'diproses', 'ditolak']))
+            <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
+        @endif
+    @else
+        <p>Belum Mendaftar</p>
+    @endif
+</div>
 
-                @if (strtolower($pesertaMagang->status_pendaftaran) === 'disetujui' || strtolower($pesertaMagang->status_pendaftaran) === 'diproses' || strtolower($pesertaMagang->status_pendaftaran) === 'ditolak')
-                    <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
-                @endif
+{{-- STATUS MAGANG --}}
+<div class="card card-custom">
+    <h3>Status Magang</h3>
+        <hr>
+        @if (!empty($statusMagang) && $statusMagang !== 'Belum Mendaftar')
+            <p>{{ $statusMagang }}</p>
+            @if (strtolower($statusMagang) === 'aktif')
+                <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
+                <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
             @endif
-        </div>
-        <div class="card card-custom">
-            <h3>Status Magang</h3>
-            <hr>
-                <p>{{ $pesertaMagang->status_magang }}</p>
-                    @if (strtolower($pesertaMagang->status_magang) === 'aktif')
-                        <p><strong>Tanggal Mulai:</strong> {{ $tanggalMulai }}</p>
-                        <p><strong>Tanggal Selesai:</strong> {{ $tanggalSelesai }}</p>
-                    @else
-                        <p>Belum mendaftar</p>
-                    @endif
-        </div>
-        <div class="card card-custom">
-            <h3>Status SKL</h3>
-            <hr>
-            @if ($pesertaMagang && $statusSKL)
-                <p>{{ $statusSKL }}</p>
-            @else
-                <p>Belum mendaftar</p>
-            @endif
-        </div>
+        @else
+            <p>Belum Mendaftar</p>
+        @endif
+    </div>
+
+    {{-- STATUS SKL --}}
+    <div class="card card-custom">
+        <h3>Status SKL</h3>
+        <hr>
+        @if (!empty($statusSKL) && $statusSKL !== 'Belum Mendaftar')
+            <p>{{ $statusSKL }}</p>
+        @else
+            <p>Belum Mendaftar</p>
+        @endif
+    </div>
+
 </div>
 @endsection

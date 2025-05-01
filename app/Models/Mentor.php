@@ -32,6 +32,11 @@ class Mentor extends Model
         return $this->hasMany(PesertaMagang::class, 'nip_mentor', 'nip_mentor');
     }
 
+    public function pendaftaranMagangs()
+    {
+        return $this->hasMany(PendaftaranMagang::class, 'nip_mentor', 'nip_mentor');
+    }
+
     public function penilaians()
     {
         return $this->hasMany(Penilaian::class, 'nip_mentor', 'nip_mentor');

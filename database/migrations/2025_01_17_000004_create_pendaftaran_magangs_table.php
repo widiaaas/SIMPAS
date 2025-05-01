@@ -25,7 +25,6 @@ return new class extends Migration
             $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
             $table->string('alasan')->nullable();
             $table->string('nip_mentor')->nullable();
-            $table->string('kode_instansi')->nullable();
             $table->timestamps();
 
             $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');

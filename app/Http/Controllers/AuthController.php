@@ -134,9 +134,9 @@ class AuthController extends Controller
             $pesertaMagang->no_telp_peserta = $request->no_telp_peserta;
             $pesertaMagang->asal_sekolah = $request->asal_sekolah;
             $pesertaMagang->jurusan = $request->jurusan;
-            $pesertaMagang->status_pendaftaran = null;
-            $pesertaMagang->status_magang = null; 
-            $pesertaMagang->status_skl = null; 
+            // $pesertaMagang->status_pendaftaran = "Belum Mendaftar Magang";
+            // $pesertaMagang->status_magang = "Belum Mendaftar Magang"; 
+            // $pesertaMagang->status_skl = "Belum Mendaftar Magang"; 
             $pesertaMagang->user_id = $user->id; // Mengaitkan user ID dengan peserta_magang
             $pesertaMagang->save();
         }

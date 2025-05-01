@@ -19,9 +19,15 @@ class PendaftaranMagang extends Model
         return $this->belongsTo(PesertaMagang::class, 'nip_peserta', 'nip_peserta');
     }
 
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
+    }
+
     public function instansi()
     {
         return $this->belongsTo(Instansi::class, 'kode_instansi', 'kode_instansi');
     }
+
 
 }

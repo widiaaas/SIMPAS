@@ -20,13 +20,13 @@ class KoordinatorController extends Controller
         $koordinator = Koordinator::where('user_id', $currentLogin)->first();
         
         // Hitung total peserta dengan status 'Aktif'
-        $totalPeserta = DB::table('peserta_magangs')
+        $totalPeserta = DB::table('pendaftaran_magangs')
                         ->where('status_pendaftaran', 'Disetujui')
                         ->count();
 
         // Hitung jumlah peserta per instansi
-        $pesertaPerInstansi = DB::table('peserta_magangs')
-                            ->join('instansis', 'peserta_magangs.kode_instansi', '=', 'instansis.kode_instansi')
+        $pesertaPerInstansi = DB::table('pendaftaran_magangs')
+                            ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
                             ->where('status_pendaftaran', 'Disetujui')
                             ->select('instansis.nama_instansi', DB::raw('count(*) as total'))
                             ->groupBy('instansis.nama_instansi')
@@ -52,19 +52,19 @@ class KoordinatorController extends Controller
         // Hitung total peserta dengan status 'Aktif'
         $totalPendaftar = DB::table('pendaftaran_magangs')
                         ->join('peserta_magangs', 'pendaftaran_magangs.nip_peserta', '=', 'peserta_magangs.nip_peserta')
-                        ->whereNull('peserta_magangs.nip_mentor')
+                        ->whereNull('pendaftaran_magangs.nip_mentor')
                         ->count();
 
         $diterima = DB::table('pendaftaran_magangs')
                     ->join('peserta_magangs', 'pendaftaran_magangs.nip_peserta', '=', 'peserta_magangs.nip_peserta')
-                    ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
-                    ->whereNull('peserta_magangs.nip_mentor')
+                    ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
+                    ->whereNull('pendaftaran_magangs.nip_mentor')
                     ->count();
         
         $diproses = DB::table('pendaftaran_magangs')
                     ->join('peserta_magangs', 'pendaftaran_magangs.nip_peserta', '=', 'peserta_magangs.nip_peserta')
                     ->where('status_pendaftaran', 'Diproses')
-                    ->whereNull('peserta_magangs.nip_mentor')
+                    ->whereNull('pendaftaran_magangs.nip_mentor')
                     ->count();
 
         // Kirim data ke view
@@ -140,7 +140,7 @@ class KoordinatorController extends Controller
                         'pendaftaran_magangs.tanggal_mulai',
                         'pendaftaran_magangs.tanggal_selesai'
                     )
-                    ->where('peserta_magangs.status_pendaftaran', 'Diproses')
+                    ->where('pendaftaran_magangs.status_pendaftaran', 'Diproses')
                     // ->where('peserta_magangs.status_magang', 'Tidak aktif')
                     ->get();
 
@@ -193,7 +193,7 @@ class KoordinatorController extends Controller
         ]);
 
         // Ambil data peserta
-        $peserta = PesertaMagang::where('nip_peserta', $request->nip_peserta)->first();
+        $peserta = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)->first();
         $peserta->status_pendaftaran = $request->status_pendaftaran;
 
         if ($request->status_pendaftaran === 'Disetujui') {
@@ -236,7 +236,7 @@ class KoordinatorController extends Controller
         $peserta = DB::table('peserta_magangs')
             ->join('pendaftaran_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
             ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
-            ->leftJoin('mentors', 'peserta_magangs.nip_mentor', '=', 'mentors.nip_mentor') // Include mentors, if assigned
+            ->leftJoin('mentors', 'pendaftaran_magangs.nip_mentor', '=', 'mentors.nip_mentor') // Include mentors, if assigned
             ->select(
                 'peserta_magangs.nip_peserta', 
                 'peserta_magangs.nama_peserta',
@@ -247,9 +247,9 @@ class KoordinatorController extends Controller
                 'pendaftaran_magangs.tanggal_selesai',
                 'mentors.nama as nama_mentor'
             )
-            ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
-            ->where('peserta_magangs.status_magang', 'Tidak aktif')
-            ->whereNull('peserta_magangs.nip_mentor') // Participants without an assigned mentor
+            ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
+            ->where('pendaftaran_magangs.status_magang', 'Tidak aktif')
+            ->whereNull('pendaftaran_magangs.nip_mentor') // Participants without an assigned mentor
             ->get();
 
         // Fetching mentors grouped by instansi
@@ -299,7 +299,8 @@ class KoordinatorController extends Controller
 
     public function getMentors(Request $request) {
         $kodeInstansi = $request->query('kode_instansi');
-        dd($mentors);
+        // dd($mentors);
+        dd($kodeInstansi);
 
         if (!$kodeInstansi) {
             return response()->json(['mentors' => []]);
@@ -308,7 +309,8 @@ class KoordinatorController extends Controller
         $mentors = DB::table('mentors')
             ->where('kode_instansi', $kodeInstansi)
             ->get(['nip_mentor', 'nama']);
-    
+        dd($mentors);
+        
         return response()->json(['mentors' => $mentors]);
     }
 
@@ -328,8 +330,8 @@ class KoordinatorController extends Controller
                         'pendaftaran_magangs.tanggal_mulai',
                         'pendaftaran_magangs.tanggal_selesai'
                     )
-                    ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
-                    ->whereNotNull('peserta_magangs.nip_mentor')
+                    ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
+                    ->whereNotNull('pendaftaran_magangs.nip_mentor')
                     ->get();
 
         return view('koordinator.daftarPeserta', compact('peserta'));
@@ -380,7 +382,7 @@ class KoordinatorController extends Controller
                         'pendaftaran_magangs.tanggal_mulai',
                         'pendaftaran_magangs.tanggal_selesai'
                     )
-                    ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
+                    ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
                     ->whereNotNull('penilaians.nilai1')
                     ->whereNotNull('penilaians.nilai2')
                     ->whereNotNull('penilaians.nilai3')
