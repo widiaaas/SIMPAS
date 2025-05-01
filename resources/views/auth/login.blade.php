@@ -9,8 +9,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
         html, body {
-            height: 100%; 
-            margin: 0; 
+            height: 100%;
+            margin: 0;
         }
 
         body {
@@ -18,16 +18,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative; 
-            overflow: hidden; 
+            position: relative;
+            overflow: hidden;
             background-image: url('{{ asset('img/bg.jpg') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-
-        // <uniquifier>: Use a unique and descriptive class name
-        // <weight>: Use a value from 100 to 900
 
         .inter-font {
             font-family: "Inter", serif;
@@ -41,10 +38,9 @@
             font-style: normal;
         }
 
-
         .container {
-            margin: auto;  
-            max-width: 1000px;
+            margin: auto;
+            max-width: 100%;
             padding: 50px;
             margin-top: 110px;
         }
@@ -56,8 +52,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(254, 247, 244, 0.5); 
-            z-index: -1; 
+            background-color: rgba(254, 247, 244, 0.5);
+            z-index: -1;
         }
 
         .card {
@@ -66,25 +62,24 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
-            z-index: 1; 
+            z-index: 1;
         }
 
         .card-header h2 {
-            font-weight: bold; 
-            color: rgba(64, 51, 51, 1); 
+            font-weight: bold;
+            color: rgba(64, 51, 51, 1);
         }
 
         .card-header {
             border-radius: 10px 10px 0 0;
-            background-color: #FEF7F4; 
+            background-color: #FEF7F4;
             color: black;
             text-align: center;
-            text-emphasis: none;
         }
 
         .form-control {
-            background-color: rgba(255, 136, 91, 0.25); 
-            border: 2px solid #FF885B; 
+            background-color: rgba(255, 136, 91, 0.25);
+            border: 2px solid #FF885B;
             color: #403333;
         }
 
@@ -94,25 +89,25 @@
             background-color: #FF885B;
             border-color: #FF885B;
             outline: none;
-            box-shadow: none; /* Menghilangkan shadow biru */
+            box-shadow: none;
         }
 
         .btn-primary:hover {
-            background-color: #FF7733; /* Sedikit lebih gelap dari warna awal */
+            background-color: #FF7733;
             border-color: #FF7733;
             color: white;
         }
 
         .btn-primary:focus,
         .btn-primary:active {
-            background-color: #FF6600; /* Tetap dengan warna yang sama */
-            border-color: #FF6600; 
-            outline: none; /* Menghilangkan outline biru */
-            box-shadow: none; /* Menghilangkan shadow */
+            background-color: #FF6600;
+            border-color: #FF6600;
+            outline: none;
+            box-shadow: none;
         }
 
         .btn-primary:focus-visible {
-            outline: none; /* Hilangkan outline biru */
+            outline: none;
         }
 
         .logo {
@@ -122,37 +117,60 @@
         }
 
         .alert {
-            font-size: 0.875rem; 
+            font-size: 0.875rem;
         }
 
         footer {
             position: absolute;
             bottom: 0;
             width: 100%;
-            background-color: #403333; 
-            color: white; 
-            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1); 
-            border-top: 2px solid #FEF7F4; 
-            padding: 10px 0; 
+            background-color: #403333;
+            color: white;
+            box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid #FEF7F4;
+            padding: 10px 0;
             text-align: center;
             font-size: 0.875rem;
-            z-index: 1; 
+            z-index: 1;
         }
 
         footer p {
             margin: 0;
         }
-        
+
         .form-control {
             border-radius: 20px;
             padding: 10px 15px;
-            background-color: rgba(255, 136, 91, 0.25); 
-            border: 2px #FF885B; 
+            background-color: rgba(255, 136, 91, 0.25);
+            border: 2px #FF885B;
         }
-        .card-footer{
+
+        .card-footer {
             text-align: center;
         }
 
+        /* Responsive adjustments for mobile */
+        @media (max-width: 576px) {
+            .card-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .form-control {
+                font-size: 0.875rem;
+            }
+
+            .logo {
+                width: 40px;
+            }
+
+            .btn-primary {
+                font-size: 0.875rem;
+            }
+
+            footer p {
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -205,7 +223,6 @@
 
     <!-- Footer with information -->
     <footer>
-        <!-- <p>Hand-crafted & Made with ❤️ by Kelompok 6</p> -->
         <p>&copy; 2025 All rights reserved.</p>
     </footer>
 
