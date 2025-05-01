@@ -18,13 +18,6 @@ return new class extends Migration
             $table->string('no_telp_peserta')->unique();
             $table->string('asal_sekolah');
             $table->string('jurusan');
-            $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
-            $table->string('alasan')->nullable();
-            $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
-            $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
-            $table->string('alasan')->nullable();
-            $table->string('nip_mentor')->nullable();
-            $table->string('kode_instansi')->nullable();
             $table->unsignedBigInteger('user_id');
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -187,7 +187,7 @@
     </tbody>
   </table>
 </div>
-
+ 
 <!-- Keterangan -->
 <div class="mt-4 ml-8 inter-font">
   <p class="text-sm text-gray-600">Keterangan:</p>
@@ -196,10 +196,15 @@
 </form>
 <!-- Tombol Simpan -->
 <div class="flex justify-end mr-9 inter-font">
-  @if(!$penilaian)
+  @if(is_null($penilaian) || (is_null($penilaian->nilai1) && is_null($penilaian->nilai2) && 
+     is_null($penilaian->nilai3) && is_null($penilaian->nilai4) && 
+     is_null($penilaian->nilai5) && is_null($penilaian->nilai6) && 
+     is_null($penilaian->nilai7) && is_null($penilaian->nilai8) && 
+     is_null($penilaian->nilai9) && is_null($penilaian->nilai10) && 
+     is_null($penilaian->nip_mentor)))
     <button id="actionButton" 
     class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-    onclick="handleSave()">
+    onclick="handleSave()"  >
     Simpan
     </button>
   @endif
@@ -226,8 +231,9 @@
     const inputs = document.querySelectorAll('.score-input');
     let allFilled = true;
 
+    // Cek apakah semua input telah diisi
     inputs.forEach((input) => {
-        if (!input.value) {
+        if (!input.value.trim()) {
             allFilled = false;
         }
     });
@@ -246,52 +252,44 @@
     }
 
     Swal.fire({
-        title: "Apakah anda yakin ingin menyimpan?",
+        title: "Apakah Anda yakin ingin menyimpan?",
         showCancelButton: true,
         confirmButtonText: "Ya, Simpan",
-        cancelButtonText: `Batal`,
+        cancelButtonText: "Batal",
         customClass: {
             confirmButton: 'btn-ya',
             cancelButton: 'btn-tidak',
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Create FormData object
             const form = document.getElementById('formPenilaian');
             const formData = new FormData(form);
-            
-            // Send as regular form data
+
             fetch("{{ route('mentor.simpanPenilaian') }}", {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                    "Accept": "application/json"  // Add this line
+                    "Accept": "application/json"
                 },
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    if (response.headers.get("content-type")?.includes("application/json")) {
-                        return response.json().then(err => Promise.reject(err));
-                    }
-                    return Promise.reject({ message: 'Server error' });
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (data.message === 'Penilaian berhasil disimpan!') {
+                if (data.message && data.message.toLowerCase().includes('berhasil')) {
                     Swal.fire({
-                        title: "Nilai berhasil disimpan",
+                        title: "Nilai berhasil disimpan!",
                         icon: "success"
                     }).then(() => {
-                        toggleEdit();
+                        // Menonaktifkan semua input setelah sukses
+                        inputs.forEach(input => input.disabled = true);
+                        // Menyembunyikan tombol simpan
+                        document.getElementById('actionButton').style.display = 'none';
                     });
                 } else {
                     throw new Error(data.message || 'Terjadi kesalahan');
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
                 Swal.fire({
                     title: "Terjadi kesalahan",
                     text: error.message || "Gagal menyimpan penilaian",
@@ -304,6 +302,8 @@
 
 
 
+
+
   // Fungsi validasi input dan perhitungan total
   function validateAndCalculate(input, max) {
     const value = parseFloat(input.value); // Gunakan parseFloat untuk menangani angka desimal
@@ -311,7 +311,7 @@
         alert('Masukkan nilai berupa bilangan bulat.');
         input.value = ''; // Kosongkan input jika invalid
     } else if (value < 1 || value > max || isNaN(value)) {
-        alert(`Masukkan nilai antara 1 dan ${max}`);
+        alert(Masukkan nilai antara 1 dan ${max});
         input.value = ''; // Kosongkan input jika invalid
     } else {
         calculateTotal(); // Hitung total setelah input valid
@@ -333,6 +333,4 @@
   }
 </script>
 
-
-    
-@endsection 
+@endsection

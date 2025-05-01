@@ -51,7 +51,7 @@ class PesertaMagangController extends Controller
                     $statusMagang = 'Tidak Aktif';
                 }
             } else {
-                $statusMagang = 'Belum Terdaftar';
+                $statusMagang = 'Belum Mendaftar';
             }
             return view('pesertaMagang.dashboard', compact('pesertaMagang', 'statusMagang', 'tanggalMulai', 'tanggalSelesai','statusSKL'));
         }

@@ -15,4 +15,4 @@
         <p class="aoboshi-one-regular text-xl font-bold mb-4">Jumlah Peserta Magang</p>
         <p class="inter-font text-7xl font-bold italic text-[#b12a2f]">{{ $jumlah_peserta??'0' }}</p>
     </div>
-@endsection 
+@endsection

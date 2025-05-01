@@ -415,16 +415,6 @@ class MentorSeeder extends Seeder
                 'user_id' =>null, // Gantilah dengan user_id yang valid
              ],      
              
-             [
-               'nip_mentor' => '1978152933',
-                'nama' => 'Dr. Miftahudin, S.Pd.,M.Si.',
-                'nomor_telp' => '082394957743',
-                'email' => 'miftahudin@gmail.com',
-                'alamat' => 'Jl. Ariloka no.4, Semarang',
-                'kode_instansi' => 'Disdik',
-                'jabatan'=>'Kepala Bidang Pembinaan Guru dan Tenaga Kependidikan',
-               'user_id' =>null, // Gantilah dengan user_id yang valid
-            ], 
         ]);
     }
 }

@@ -75,6 +75,7 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian'])->name('konfirmasiPenilaian')->middleware('web');
 });
 
+
 //Mentor
 Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/dashboard', [MentorController::class, 'dashboard'])->name('mentor.dashboard');
@@ -97,7 +98,7 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::post('/mentor/simpanPenilaian', [MentorController::class, 'simpanPenilaian'])->name('mentor.simpanPenilaian')->middleware('web');
 
 
-}); 
+});
 
 
 

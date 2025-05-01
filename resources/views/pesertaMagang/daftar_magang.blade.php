@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Peserta Magang')
+@section('title', 'Daftar Magang')
 
 @section('sidebar')
 
@@ -82,7 +82,7 @@
         <br>
         Pendaftaran magang sudah ditutup karena pendaftaran anda sedang <strong>{{ $pesertaMagang->status_pendaftaran }}</strong>.
     </div>
-@elseif ($pesertaMagang->status_pendaftaran == 'Disetujui')
+@elseif ($pesertaMagang->status_pendaftaran == 'Disetujui' && $pesertaMagang->status_skl == 'Belum diterbitkan')
     <div class="alert alert-warning mt-3" style="font-size: 20px;" >
         <br>
         Pendaftaran magang sudah ditutup karena status pendaftaran anda sudah <strong>{{ $pesertaMagang->status_pendaftaran }}</strong>.

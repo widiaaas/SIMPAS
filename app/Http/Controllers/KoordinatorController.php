@@ -201,18 +201,18 @@ class KoordinatorController extends Controller
             $peserta->alasan = "Berkas-berkas sudah sesuai";
 
             // Ambil kode_instansi dari tabel pendaftaran_magangs
-            $pendaftaran = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)->first();
-            if ($pendaftaran) {
-                $peserta->kode_instansi = $pendaftaran->kode_instansi;
+            // $pendaftaran = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)->first();
+            // if ($pendaftaran) {
+            //     $peserta->kode_instansi = $pendaftaran->kode_instansi;
 
-                // DB::table('penilaians')->insert([
-                //     'nip_peserta' => $request->nip_peserta,
-                //     'created_at' => now(),
-                //     'updated_at' => now(),
-                // ]);
-            } else {
-                return response()->json(['success' => false, 'message' => 'Data pendaftaran tidak ditemukan untuk peserta ini.'], 404);
-            }
+            //     // DB::table('penilaians')->insert([
+            //     //     'nip_peserta' => $request->nip_peserta,
+            //     //     'created_at' => now(),
+            //     //     'updated_at' => now(),
+            //     // ]);
+            // } else {
+            //     return response()->json(['success' => false, 'message' => 'Data pendaftaran tidak ditemukan untuk peserta ini.'], 404);
+            // }
         } 
         else if ($request->status_pendaftaran === 'Ditolak') {
             // Jika ditolak, gunakan alasan dari input
@@ -274,12 +274,7 @@ class KoordinatorController extends Controller
                 ->where('nip_peserta', $request->nip_peserta)
                 ->update(['nip_mentor' => $request->nip_mentor]);
     
-            $updatedPenilaian = DB::table('penilaians')
-                ->where('nip_peserta', $request->nip_peserta)
-                ->update(['nip_mentor' => $request->nip_mentor]);
-    
-    
-            if ($updatedPeserta && $updatedPenilaian) {
+            if ($updatedPeserta) {
                 DB::commit();
     
                 // Check if nip_mentor is now set in the database
@@ -304,7 +299,8 @@ class KoordinatorController extends Controller
 
     public function getMentors(Request $request) {
         $kodeInstansi = $request->query('kode_instansi');
-    
+        dd($mentors);
+
         if (!$kodeInstansi) {
             return response()->json(['mentors' => []]);
         }
@@ -315,6 +311,8 @@ class KoordinatorController extends Controller
     
         return response()->json(['mentors' => $mentors]);
     }
+
+
 
     public function daftarPeserta()
     {
@@ -351,12 +349,9 @@ class KoordinatorController extends Controller
                 'instansis.nama_instansi',
                 'pendaftaran_magangs.tanggal_mulai',
                 'pendaftaran_magangs.tanggal_selesai',
-<<<<<<< HEAD
-=======
                 'pendaftaran_magangs.spkl',
                 'pendaftaran_magangs.cv',
                 'pendaftaran_magangs.proposal'
->>>>>>> 68e9dec34d4c8135d63005baaadd58595e1b1266
             )
             ->where('peserta_magangs.nip_peserta', $nip_peserta) // Berikan alias tabel pada kolom
             ->first(); // Gunakan first() agar data berupa objek, bukan array
@@ -405,38 +400,46 @@ class KoordinatorController extends Controller
     
 
     public function detailNilaiPeserta($nip_peserta)
-    {
-        $peserta = DB::table('peserta_magangs')
-                    ->join('pendaftaran_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
-                    ->join('penilaians', 'peserta_magangs.nip_peserta', '=', 'penilaians.nip_peserta')
-                    ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
-                    ->select(
-                        'peserta_magangs.nip_peserta as nip',
-                        'peserta_magangs.nama_peserta as nama',
-                        'peserta_magangs.asal_sekolah',
-                        'peserta_magangs.jurusan',
-                        'instansis.kode_instansi',
-                        'instansis.nama_instansi',
-                        'pendaftaran_magangs.tanggal_mulai',
-                        'pendaftaran_magangs.tanggal_selesai',
-                        'penilaians.nilai1', 'penilaians.nilai2', 'penilaians.nilai3', 'penilaians.nilai4', 'penilaians.nilai5', 'penilaians.nilai6', 'penilaians.nilai7', 'penilaians.nilai8', 'penilaians.nilai9', 'penilaians.nilai10'
-                    )
-                    ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
-                    ->whereNotNull('penilaians.nilai1')
-                    ->whereNotNull('penilaians.nilai2')
-                    ->whereNotNull('penilaians.nilai3')
-                    ->whereNotNull('penilaians.nilai4')
-                    ->whereNotNull('penilaians.nilai5')
-                    ->whereNotNull('penilaians.nilai6')
-                    ->whereNotNull('penilaians.nilai7')
-                    ->whereNotNull('penilaians.nilai8')
-                    ->whereNotNull('penilaians.nilai9')
-                    ->whereNotNull('penilaians.nilai10')
-                    ->whereNotNull('penilaians.nip_mentor')
-                    ->first();
+{
+    $peserta = DB::table('peserta_magangs')
+                ->join('pendaftaran_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
+                ->join('penilaians', 'peserta_magangs.nip_peserta', '=', 'penilaians.nip_peserta')
+                ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
+                ->select(
+                    'peserta_magangs.nip_peserta as nip',
+                    'peserta_magangs.nama_peserta as nama',
+                    'peserta_magangs.asal_sekolah',
+                    'peserta_magangs.jurusan',
+                    'instansis.kode_instansi',
+                    'instansis.nama_instansi',
+                    'pendaftaran_magangs.tanggal_mulai',
+                    'pendaftaran_magangs.tanggal_selesai',
+                    'penilaians.nilai1', 'penilaians.nilai2', 'penilaians.nilai3', 
+                    'penilaians.nilai4', 'penilaians.nilai5', 'penilaians.nilai6', 
+                    'penilaians.nilai7', 'penilaians.nilai8', 'penilaians.nilai9', 'penilaians.nilai10'
+                )
+                ->where('peserta_magangs.nip_peserta', $nip_peserta) // Menyesuaikan dengan NIP peserta
+                ->where('peserta_magangs.status_pendaftaran', 'Disetujui')
+                ->whereNotNull('penilaians.nilai1')
+                ->whereNotNull('penilaians.nilai2')
+                ->whereNotNull('penilaians.nilai3')
+                ->whereNotNull('penilaians.nilai4')
+                ->whereNotNull('penilaians.nilai5')
+                ->whereNotNull('penilaians.nilai6')
+                ->whereNotNull('penilaians.nilai7')
+                ->whereNotNull('penilaians.nilai8')
+                ->whereNotNull('penilaians.nilai9')
+                ->whereNotNull('penilaians.nilai10')
+                ->whereNotNull('penilaians.nip_mentor')
+                ->first();
 
-        return view('koordinator.detailNilaiPeserta', compact('peserta'));
+    if (!$peserta) {
+        return redirect()->route('koordinator.daftarPeserta')->with('error', 'Peserta tidak ditemukan atau belum dinilai.');
     }
+
+    return view('koordinator.detailNilaiPeserta', compact('peserta'));
+}
+
 
     public function updateNilaiPeserta(Request $request, $nip_peserta)
     {
@@ -491,6 +494,7 @@ class KoordinatorController extends Controller
                 ->where('nip_peserta', $nip_peserta)
                 ->update([
                     'status_skl' => 'Sudah diterbitkan',
+                    'status_magang' => 'Tidak aktif',
                     'updated_at' => now()
                 ]);
 

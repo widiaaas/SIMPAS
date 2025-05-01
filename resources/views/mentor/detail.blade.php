@@ -21,7 +21,7 @@
     <div >
       <p class="text-sm font-semibold text-gray-600">Detail CV:</p>
       <button class=" px-9 py-2 bg-[#282a4c] text-white rounded-lg hover:bg-blue-600 transition">
-        <a href="{{ asset('storage/' . $peserta->cv) }}" target="_blank">Lihat CV</a>
+        <a href="{{str_replace('http://localhost/storage/', '/storage/', $peserta->file_cv_url)  }}" target="_blank">Lihat CV</a>
       </button>
     </div>
   </div>
@@ -33,7 +33,7 @@
       <div >
         <p class="text-sm font-semibold text-gray-600">Detail Proposal:</p>
         <button class=" px-4 py-2 bg-[#282a4c] text-white rounded-lg hover:bg-blue-600 transition">
-          <a href="{{asset('storage/' .$peserta->proposal) }}" target="_blank">Lihat Proposal</a>
+          <a href="{{str_replace('http://localhost/storage/', '/storage/', $peserta->file_proposal_url)  }}" target="_blank">Lihat Proposal</a>
         </button>
       </div>
     </div>
@@ -66,4 +66,4 @@
     </div>
 
 
-@endsection 
+@endsection

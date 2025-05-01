@@ -499,10 +499,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             mentorDropdown.innerHTML = '<option value="" disabled selected>Pilih Mentor</option>';
-            mentorDropdown.disabled = true;
+            mentorDropdown.disabled = false;
 
             try{
-                const response = await fetch(`/koordinator/get-mentors?kode_instansi=${kodeInstansi}`); // Tambahkan backtick (`) di awal dan akhir URL
+                const response = await fetch('/koordinator/get-mentors?kode_instansi=${kodeInstansi}'); // Tambahkan backtick (`) di awal dan akhir URL
                 const data = await response.json();
                 console.log(data);
 
@@ -516,7 +516,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Mengisi dropdown dengan mentor yang tersedia
                 data.mentors.forEach(mentor => {
-                    mentorDropdown.innerHTML += <option value="${mentor.nip_mentor}">${mentor.nama}</option>;
+                    const option = document.createElement('option');
+                    option.value = mentor.nip_mentor;
+                    option.text = mentor.nama; // atau option.textContent = mentor.nama;
+                    mentorDropdown.appendChild(option);
                 });
                 mentorDropdown.disabled = false;
                 mentorModal.style.display = 'block';
@@ -604,26 +607,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 text: result.message || 'Terjadi kesalahan.', // Display the error message from the server
                 confirmButtonColor: '#B31312',
             });
-        } else { // Handle unexpected status
-            console.error('Unexpected response:', result);
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal memilih mentor!',
-                text: 'Terjadi kesalahan yang tidak terduga.',
-                confirmButtonColor: '#B31312',
-            });
         }
-
-    } catch (error) {
-        console.error('Error plotting mentor:', error); // Log the full error details to the console
-        Swal.fire({
-            icon: 'error',
-            title: 'Gagal memilih mentor!',
-            text: error.message || 'Terjadi kesalahan saat menyimpan data.', // Display the error message
-            confirmButtonColor: '#B31312',
-        });
-    }
-});
+    });
 });
 
 

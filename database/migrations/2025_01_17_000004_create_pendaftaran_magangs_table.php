@@ -20,10 +20,17 @@ return new class extends Migration
             $table->string('spkl')->nullable();
             $table->string('cv')->nullable();
             $table->string('proposal')->nullable();
+            $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
+            $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
+            $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
+            $table->string('alasan')->nullable();
+            $table->string('nip_mentor')->nullable();
+            $table->string('kode_instansi')->nullable();
             $table->timestamps();
 
             $table->foreign('kode_instansi')->references('kode_instansi')->on('instansis');
             $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs');
+            $table->foreign('nip_mentor')->references('nip_mentor')->on('mentors');
         });
     }
 
