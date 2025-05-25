@@ -233,8 +233,8 @@ class KoordinatorController extends Controller
     public function plottingMentor()
     {
         // Fetching the peserta data along with instansi and mentor information
-        $peserta = DB::table('peserta_magangs')
-            ->join('pendaftaran_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
+        $peserta = DB::table('pendaftaran_magangs')
+            ->join('peserta_magangs', 'peserta_magangs.nip_peserta', '=', 'pendaftaran_magangs.nip_peserta')
             ->join('instansis', 'pendaftaran_magangs.kode_instansi', '=', 'instansis.kode_instansi')
             ->leftJoin('mentors', 'pendaftaran_magangs.nip_mentor', '=', 'mentors.nip_mentor') // Include mentors, if assigned
             ->select(
@@ -297,22 +297,41 @@ class KoordinatorController extends Controller
         }
     }
 
-    public function getMentors(Request $request) {
-        $kodeInstansi = $request->query('kode_instansi');
-        // dd($mentors);
-        dd($kodeInstansi);
+    // public function getMentors(Request $request) {
+    //     $kodeInstansi = $request->query('kode_instansi');
+    //     // dd($mentors);
+    //     // dd($kodeInstansi);
 
-        if (!$kodeInstansi) {
-            return response()->json(['mentors' => []]);
-        }
+    //     if (!$kodeInstansi) {
+    //         return response()->json(['mentors' => []]);
+    //     }
     
-        $mentors = DB::table('mentors')
-            ->where('kode_instansi', $kodeInstansi)
-            ->get(['nip_mentor', 'nama']);
-        dd($mentors);
+    //     $mentors = DB::table('mentors')
+    //         ->where('kode_instansi', $kodeInstansi)
+    //         ->get(['nip_mentor', 'nama']);
+    //     // dd($mentors);
         
-        return response()->json(['mentors' => $mentors]);
+    //     return response()->json(['mentors' => $mentors]);
+    // }
+
+    public function getMentors($kode_instansi)
+    {
+        $mentors = Mentor::where('kode_instansi', $kode_instansi)->get();
+
+        if ($mentors->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada mentor ditemukan untuk instansi ini.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $mentors
+        ]);
     }
+
+
 
 
 

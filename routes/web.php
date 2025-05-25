@@ -63,7 +63,7 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::post('/update-status', [KoordinatorController::class, 'updateStatus'])->name('update.status');
 
     Route::get('/pembagianMagang/plottingMentor', [KoordinatorController::class, 'plottingMentor'])->name('koordinator.plottingMentor');
-    Route::get('/get-mentors', [KoordinatorController::class, 'getMentors']);
+    Route::get('/get-mentors{kode_instansi}', [KoordinatorController::class, 'getMentors']);
     Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor')->middleware('web'); 
 
     Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
