@@ -29,5 +29,10 @@ class PendaftaranMagang extends Model
         return $this->belongsTo(Instansi::class, 'kode_instansi', 'kode_instansi');
     }
 
+    public function penilaian() {
+        return $this->hasOne(Penilaian::class, 'nip_peserta', 'nip_peserta');
+    }
+   
+
 
 }

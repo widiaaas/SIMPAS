@@ -53,4 +53,14 @@ class PesertaMagang extends Model
     {
         return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
     }
+
+     public function pendaftarans()
+    {
+        return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
+    }
+
+    public function pendaftaranTerbaru()
+    {
+    return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta')->latestOfMany();
+    }
 }

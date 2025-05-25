@@ -51,17 +51,17 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Diterima Magang di:</p>
-      <p class="text-lg font-medium"> {{ optional($peserta->pendaftaran->instansi)->nama_instansi ?? '-' }}</p>
+      <p class="text-lg font-medium"> {{ optional($peserta->pendaftaranTerbaru->instansi)->nama_instansi ?? '-' }}</p>
     </div>
 
     <div class="flex space-x-4">
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Mulai:</p>
-        <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') }}</p>
+        <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->pendaftaranTerbaru->tanggal_mulai)->format('d/m/Y') }}</p>
       </div>
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Selesai:</p>
-        <p class="text-lg font-medium">{{ \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y')}}</p>
+        <p class="text-lg font-medium">{{ \Carbon\Carbon::parse($peserta->pendaftaranTerbaru->tanggal_selesai)->format('d/m/Y')}}</p>
       </div>
     </div>
 

@@ -89,6 +89,8 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     Route::get('/profil',[MentorController::class,'showProfile'])->name('mentor.profil');
     //daftar peserta
     Route::get('/daftarPeserta',[MentorController::class,'daftarPeserta'])->name('mentor.daftarPeserta');
+    //menandai peserta selesai magang
+    Route::post('/peserta/{nip_peserta}/selesai', [MentorController::class, 'tandaiSelesai'])->name('mentor.tandaiSelesai');
     //detail tiap peserta
     Route::get("/detail/{nip_peserta}",[MentorController::class,'detailPeserta'])->name('mentor.detail');
     //page penilaian peserta
@@ -96,6 +98,10 @@ Route::prefix('mentor')->middleware('auth')->group(function () {
     //page pemberian nilai
     Route::get("/beriNilai/{nip_peserta}",[MentorController::class,'beriNilai'])->name('mentor.beriNilai');
     Route::post('/mentor/simpanPenilaian', [MentorController::class, 'simpanPenilaian'])->name('mentor.simpanPenilaian')->middleware('web');
+     //page penilaian peserta
+    Route::get('/riwayatPenilaian',[MentorController::class,'riwayatPenilaian'])->name('mentor.riwayatPenilaian');
+    //detail nilai peserta
+    Route::get("/nilaiAkhir/{nip_peserta}/{created_at}",[MentorController::class,'nilaiAkhir'])->name('mentor.nilaiAkhir');
 
 
 });

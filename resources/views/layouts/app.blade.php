@@ -199,6 +199,7 @@
                 <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
                 <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
                 <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
+                <a href="/mentor/riwayatPenilaian" class="{{ Request::is('riwayatPenilaian') ? 'active' : '' }}">Riwayat Penilaian</a>
             @endif
             
         @else
