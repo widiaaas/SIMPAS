@@ -163,8 +163,8 @@ class PesertaMagangController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $pesertaMagang = Auth::user()->pesertaMagang;
         $user = Auth::user();
+        $pesertaMagang = Auth::user()->pesertaMagang;
         
         // Validasi hanya untuk field yang diubah
         $rules = [];

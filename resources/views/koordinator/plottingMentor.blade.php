@@ -295,7 +295,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $p->nama_peserta }}</td>
                         <td>{{ $p->asal_sekolah }}</td>
-                        <td class="dinas-cell" value="{{ $p->kode_instansi }}">{{ $p->nama_instansi }}</td>
+                        <td class="dinas-cell">{{ $p->nama_instansi }}</td>
                         <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
                             <!-- Button for selecting a mentor -->
@@ -497,8 +497,9 @@ document.addEventListener('DOMContentLoaded', function () {
             mentorDropdown.innerHTML = '<option disabled selected>Pilih Mentor</option>';
             mentorDropdown.disabled = true;
 
+            console.log('Kode instansi:', kodeInstansi);
             // Ambil data mentor dengan AJAX
-            fetch(`/get-mentors/${kodeInstansi}`)
+            fetch(`/koordinator/get-mentors/${kodeInstansi}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.length === 0) {
@@ -557,7 +558,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Kirim data ke server (POST request)
-        fetch('/simpan-mentor', {
+        fetch('/koordinator/plot-mentor', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

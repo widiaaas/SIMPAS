@@ -30,13 +30,15 @@ class PendaftaranMagangController extends Controller
         if (!$pesertaMagang) {
             return redirect()->route('pesertaMagang.dashboard')->with('error', 'Data peserta magang tidak ditemukan.');
         }
-
+        $pendaftaranMagang = $pesertaMagang->pendaftaranTerbaru;
+        
         // Cek status pendaftaran magang
-        if ($pesertaMagang->status_pendaftaran == 'Diproses' || $pesertaMagang->status_pendaftaran == 'Disetujui') {
-            return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang'))
-                ->with('error', 'Pendaftaran magang sudah ditutup karena status Anda sedang ' . $pesertaMagang->status_pendaftaran);
+        if ($pendaftaranMagang && in_array($pendaftaranMagang->status_pendaftaran, ['Diproses', 'Disetujui'])) {
+            return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang', 'pendaftaranMagang'))
+                ->with('error', 'Pendaftaran magang sudah ditutup karena status Anda sedang ' . $pendaftaranMagang->status_pendaftaran);
         }
-        return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang'));
+        
+        return view('pesertaMagang.daftar_magang', compact('instansis', 'pesertaMagang','pendaftaranMagang'));
     }
 
 
@@ -81,8 +83,23 @@ class PendaftaranMagangController extends Controller
             'status_magang' => 'Tidak aktif',
             'status_skl' => 'Belum diterbitkan',
         ]);
-
+        // $pendaftaran = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->latest()->first();
+        // dd($pendaftaran);   
         // Membuat data penilaian baru untuk peserta magang
+        // dd([
+        //     'nip_peserta' => $pesertaMagang->nip_peserta,
+        //     'kode_instansi' => $request->dinas,
+        //     'spkl' => $spklPath,
+        //     'cv' => $cvPath,
+        //     'proposal' => $proposalPath,
+        //     'tanggal_mulai' => $request->tanggal_mulai,
+        //     'tanggal_selesai' => $request->tanggal_selesai,
+        //     'nip_mentor' => null,
+        //     'status_pendaftaran' => 'Diproses',
+        //     'status_magang' => 'Tidak aktif',
+        //     'status_skl' => 'Belum diterbitkan',
+        // ]);
+        
         Penilaian::create([
             'nip_peserta' => $pesertaMagang->nip_peserta,
             'nilai1' => null,
@@ -100,15 +117,18 @@ class PendaftaranMagangController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Pendaftaran magang berhasil!');
+        
     }
 
 
 
     public function detailPendaftaran (){
         $pesertaMagang = Auth::user()->pesertaMagang;
-        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->first();
-        $instansi = $pesertaMagang->instansi;
-        $mentor = $pesertaMagang->mentor;
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                            ->orderBy('created_at', 'desc')
+                            ->first();
+        $instansi = $pendaftaranMagang->instansi;
+        $mentor = $pendaftaranMagang->mentor;
 
         return view('pesertaMagang.detail_pendaftaran', compact('instansi', 'pesertaMagang','pendaftaranMagang','mentor'));
     }

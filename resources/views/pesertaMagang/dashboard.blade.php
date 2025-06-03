@@ -73,9 +73,9 @@
 <div class="card card-custom">
     <h3>Status Pendaftaran</h3>
     <hr>
-    @if (!empty($pendaftaranMagang) && !empty($pendaftaranMagang->statusPendaftaran))
-        <p>{{ $pendaftaranMagang->statusPendaftaran }}</p>
-        @if (in_array(strtolower($pendaftaranMagang->statusPendaftaran), ['disetujui', 'diproses', 'ditolak']))
+    @if (!empty($statusPendaftaran) && $statusPendaftaran !== 'Belum Mendaftar')
+    <p>{{ $statusPendaftaran }}</p>
+        @if (in_array(strtolower($statusPendaftaran), ['disetujui', 'diproses', 'ditolak']))
             <a href="{{ route('dashboard.detailPendaftaran') }}" class="button-detail">Lihat Detail</a>
         @endif
     @else

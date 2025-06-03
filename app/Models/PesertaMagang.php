@@ -11,8 +11,7 @@ class PesertaMagang extends Model
 
     protected $primaryKey = 'nip_peserta';
     protected $fillable = [
-        'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan', 'status_pendaftaran', 
-        'status_magang', 'status_skl', 'nip_mentor', 'kode_instansi', 'user_id'
+        'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan','user_id'
     ];
     protected $casts = [
         'nip_peserta' => 'string',
@@ -29,10 +28,10 @@ class PesertaMagang extends Model
         return $this->belongsTo(Instansi::class, 'kode_instansi', 'kode_instansi');
     }
 
-    public function mentor()
-    {
-        return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
-    }
+    // public function mentor()
+    // {
+    //     return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip_mentor');
+    // }
 
     public function pendaftaranMagangs()
     {
@@ -52,5 +51,15 @@ class PesertaMagang extends Model
     public function pendaftaran()
     {
         return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
+    }
+
+     public function pendaftarans()
+    {
+        return $this->hasMany(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta');
+    }
+
+    public function pendaftaranTerbaru()
+    {
+    return $this->hasOne(PendaftaranMagang::class, 'nip_peserta', 'nip_peserta')->latestOfMany();
     }
 }

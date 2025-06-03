@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('spkl')->nullable();
             $table->string('cv')->nullable();
             $table->string('proposal')->nullable();
-            $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable();
+            $table->enum('status_pendaftaran', ['Disetujui', 'Diproses', 'Ditolak'])->nullable()-> default('Diproses');
             $table->enum('status_magang', ['Aktif','Tidak aktif'])->nullable()-> default('Tidak aktif');
             $table->enum('status_skl',['Sudah diterbitkan','Belum diterbitkan'])->nullable()-> default('Belum diterbitkan');
             $table->string('alasan')->nullable();

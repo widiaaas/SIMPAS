@@ -41,13 +41,13 @@
   <div class="grid grid-cols-2 gap-6">
     <div>
       <p class="text-sm font-semibold text-gray-600">Nama/NIM:</p>
-      <p class="text-lg font-medium">{{ $peserta->nama_peserta ??'-' }}/{{ $peserta->nip_peserta ??'-' }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->nama_peserta ??'-' }}/{{ $peserta->nip_peserta ??'-' }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Sekolah/Universitas:</p>
-      <p class="text-lg font-medium">{{ $peserta->asal_sekolah ??'-' }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->asal_sekolah ??'-' }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
-      <p class="text-lg font-medium">{{ $peserta->jurusan ??'-'  }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->jurusan ??'-'  }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
-      <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_mulai)->format('d/m/Y') ??'-'}} - {{  \Carbon\Carbon::parse($peserta->pendaftaran->tanggal_selesai)->format('d/m/Y')??'-' }}</p>
+      <p class="text-lg font-medium">{{  \Carbon\Carbon::parse($peserta->tanggal_mulai)->format('d/m/Y') ??'-'}} - {{  \Carbon\Carbon::parse($peserta->tanggal_selesai)->format('d/m/Y')??'-' }}</p>
     </div>
     <div class="flex items-start justify-end">
 
@@ -312,7 +312,7 @@
         alert('Masukkan nilai berupa bilangan bulat.');
         input.value = ''; // Kosongkan input jika invalid
     } else if (value < 1 || value > max || isNaN(value)) {
-        alert(Masukkan nilai antara 1 dan ${max});
+        alert(`Masukkan nilai antara 1 dan ${max}`);
         input.value = ''; // Kosongkan input jika invalid
     } else {
         calculateTotal(); // Hitung total setelah input valid

@@ -16,21 +16,49 @@ class SKLController extends Controller
 {   
     public function nilaiPeserta()
     {
-        // Mengambil data penilaian berdasarkan peserta magang yang sedang login
+        // Mengambil data peserta magang yang sedang login
         $pesertaMagang = Auth::user()->pesertaMagang;
+
+        // Ambil pendaftaran terakhir peserta magang
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+
+        // Pastikan pendaftaran tersedia
+        if (!$pendaftaranMagang) {
+            return redirect()->back()->with('error', 'Data pendaftaran tidak ditemukan.');
+        }
+
+        // Ambil data penilaian yang sesuai dengan pendaftaran (matching created_at)
+        $penilaian = DB::table('penilaians')
+                        ->where('nip_peserta', $pesertaMagang->nip_peserta)
+                        ->where('created_at', $pendaftaranMagang->created_at)
+                        ->first();
+
+        // Ambil data status SKL (yang sudah diterbitkan) pada periode yang sama
         $nilai = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                        ->where('created_at', $pendaftaranMagang->created_at)
                         ->where('status_skl', 'Sudah diterbitkan')
-                        ->first(); // Mengambil satu penilaian yang sudah disetujui
-        $penilaian = $pesertaMagang->penilaian;
-        return view('pesertaMagang.penilaian', compact('nilai','pesertaMagang','penilaian'));
+                        ->first();
+
+        return view('pesertaMagang.penilaian', compact('nilai', 'pesertaMagang', 'penilaian', 'pendaftaranMagang'));
     }
+
 
 
     public function unduhSKSM()
     {
         $pesertaMagang = Auth::user()->pesertaMagang;
-        // $pendaftaranMagang = PendaftaranMagang::all();
-        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->first();
+
+        // Ambil pendaftaran terakhir
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+
+        if (!$pendaftaranMagang) {
+            return redirect()->back()->with('error', 'Data pendaftaran tidak ditemukan.');
+        }
+
         $instansi = $pendaftaranMagang->instansi;
 
         $data = [
@@ -48,8 +76,16 @@ class SKLController extends Controller
     public function unduhSertifikat()
     {
         $pesertaMagang = Auth::user()->pesertaMagang;
-        // $pendaftaranMagang = PendaftaranMagang::all();
-        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)->first();
+
+        // Ambil pendaftaran terakhir
+        $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)
+                                ->orderBy('created_at', 'desc')
+                                ->first();
+
+        if (!$pendaftaranMagang) {
+            return redirect()->back()->with('error', 'Data pendaftaran tidak ditemukan.');
+        }
+
         $instansi = $pendaftaranMagang->instansi;
 
         $data = [
@@ -58,11 +94,9 @@ class SKLController extends Controller
             'pendaftaranMagang' => $pendaftaranMagang,
         ];
 
-        // Render template sertifikat ke dalam PDF
-        $pdf = Pdf::loadView('pesertaMagang/sertifikat', $data);
+        $pdf = PDF::loadView('pesertaMagang.sertifikat', $data);
         $pdf->setPaper('A4', 'landscape');
 
-        // Unduh file PDF
         return $pdf->download('sertifikat.pdf');
     }
 

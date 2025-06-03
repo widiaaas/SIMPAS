@@ -77,15 +77,15 @@
     </div>
 @endif
 
-@if ($pesertaMagang->status_pendaftaran == 'Diproses')
+@if ($pendaftaranMagang && $pendaftaranMagang->status_pendaftaran == 'Diproses')
     <div class="alert alert-warning mt-3" style="font-size: 20px;" >
         <br>
-        Pendaftaran magang sudah ditutup karena pendaftaran anda sedang <strong>{{ $pesertaMagang->status_pendaftaran }}</strong>.
+        Pendaftaran magang sudah ditutup karena pendaftaran anda sedang <strong>{{ $pendaftaranMagang->status_pendaftaran }}</strong>.
     </div>
-@elseif ($pesertaMagang->status_pendaftaran == 'Disetujui' && $pesertaMagang->status_skl == 'Belum diterbitkan')
+@elseif ($pendaftaranMagang && $pendaftaranMagang->status_pendaftaran == 'Disetujui' && $pendaftaranMagang->status_skl == 'Belum diterbitkan')
     <div class="alert alert-warning mt-3" style="font-size: 20px;" >
         <br>
-        Pendaftaran magang sudah ditutup karena status pendaftaran anda sudah <strong>{{ $pesertaMagang->status_pendaftaran }}</strong>.
+        Pendaftaran magang sudah ditutup karena status pendaftaran anda sudah <strong>{{ $pendaftaranMagang->status_pendaftaran }}</strong>.
     </div>
 @else
     <!-- Form Pendaftaran Magang -->

@@ -85,10 +85,10 @@
         <br>
         Nilai belum dapat ditampilkan karena anda belum terdaftar sebagai peserta Magang .
     </div>
-@elseif ($pesertaMagang->status_skl == 'Belum diterbitkan' )
+@elseif ($pendaftaranMagang->status_skl == 'Belum diterbitkan' )
     <div class="alert alert-warning mt-3" style="font-size: 20px;" >
         <br>
-        Nilai belum dapat ditampilkan karena status SKL <strong>{{ $pesertaMagang->status_skl }}</strong>.
+        Nilai belum dapat ditampilkan karena status SKL <strong>{{ $pendaftaranMagang->status_skl }}</strong>.
     </div>
 @else
     <div class="container mx-auto p-6">

@@ -16,10 +16,10 @@
             <th>Asal Sekolah/Universitas</th>
             <td>{{ $pesertaMagang->asal_sekolah }}</td>
         </tr>
-        @if ($pesertaMagang->status_pendaftaran !== 'Ditolak')
+        @if ($pendaftaranMagang->status_pendaftaran !== 'Ditolak')
             <tr>
                 <th>Tanggal Pendaftaran</th>
-                @if ($pesertaMagang->status_pendaftaran === 'Disetujui' || $pesertaMagang->status_pendaftaran === 'Diproses')
+                @if ($pendaftaranMagang->status_pendaftaran === 'Disetujui' || $pendaftaranMagang->status_pendaftaran === 'Diproses')
                     <td>{{ $pendaftaranMagang->created_at->format('d-m-Y') }}</td>
                 @endif
             </tr>
@@ -28,14 +28,14 @@
             <th>Instansi</th>
             <td>{{ $instansi->nama_instansi }}</td>
         </tr>
-        @if ($pesertaMagang->status_pendaftaran !== 'Ditolak')
+        @if ($pendaftaranMagang->status_pendaftaran !== 'Ditolak')
             <tr>
                 <th>Tanggal Mulai Magang</th>
                 <td>{{ $pendaftaranMagang->tanggal_mulai }}</td>
             </tr>
         @endif
 
-        @if ($pesertaMagang->status_pendaftaran !== 'Ditolak')
+        @if ($pendaftaranMagang->status_pendaftaran !== 'Ditolak')
             <tr>
                 <th>Tanggal Selesai Magang</th>
                 <td>{{ $pendaftaranMagang->tanggal_selesai }}</td>
@@ -45,32 +45,32 @@
             <th>Status Pendaftaran</th>
             <td>
                 <span class="status 
-                    @if($pesertaMagang->status_pendaftaran == 'Disetujui') accepted 
-                    @elseif($pesertaMagang->status_pendaftaran == 'Ditolak') rejected 
+                    @if($pendaftaranMagang->status_pendaftaran == 'Disetujui') accepted 
+                    @elseif($pendaftaranMagang->status_pendaftaran == 'Ditolak') rejected 
                     @else processing 
                     @endif">
-                    {{ $pesertaMagang->status_pendaftaran }}
+                    {{ $pendaftaranMagang->status_pendaftaran }}
                 </span>
             </td>
         </tr>
-        @if ($pesertaMagang->status_pendaftaran !== 'Diproses')
+        @if ($pendaftaranMagang->status_pendaftaran !== 'Diproses')
             <tr>
                 <th>Alasan</th>
-                @if ($pesertaMagang->status_pendaftaran === 'Disetujui')
+                @if ($pendaftaranMagang->status_pendaftaran === 'Disetujui')
                     <td>Berkas-berkas sudah disetujui</td>
                 @else
-                    <td>{{ $pesertaMagang->alasan }}</td>
+                    <td>{{ $pendaftaranMagang->alasan }}</td>
                 @endif
             </tr>
         @endif
-        @if($pesertaMagang->status_pendaftaran == 'Disetujui')
+        @if($pendaftaranMagang->status_pendaftaran == 'Disetujui')
             <tr>
                 <th>Mentor</th>
-                <td>{{ $pesertaMagang->mentor->nama ?? 'Belum ditentukan' }}</td>
+                <td>{{ $pendaftaranMagang->mentor->nama ?? 'Belum ditentukan' }}</td>
             </tr>
             <tr>
                 <th>Kontak Mentor</th>
-                <td>{{ $pesertaMagang->mentor->nomor_telp ?? 'Belum ditentukan' }}</td>
+                <td>{{ $pendaftaranMagang->mentor->nomor_telp ?? 'Belum ditentukan' }}</td>
             </tr>
         @endif
     </table>
