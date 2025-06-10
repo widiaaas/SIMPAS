@@ -230,7 +230,7 @@ class MentorController extends Controller
     $peserta_magangs = DB::table('pendaftaran_magangs')
         ->join('penilaians', function ($join) use ($mentor) {
             $join->on('pendaftaran_magangs.nip_peserta', '=', 'penilaians.nip_peserta')
-                 ->whereColumn('pendaftaran_magangs.created_at', '=', 'penilaians.created_at')
+                 ->whereRaw('DATE(pendaftaran_magangs.created_at) = DATE(penilaians.created_at)')
                  // Pastikan penilaian sudah ada dan tidak null
                  ->whereNotNull('penilaians.nip_mentor')
                  ->whereNotNull('penilaians.nilai_total')
