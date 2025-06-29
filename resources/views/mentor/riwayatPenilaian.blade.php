@@ -42,7 +42,7 @@
             <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->tanggal_mulai)->format('d/m/Y') }}</td>
             <td class="p-2 border border-[#FF885B]">{{ \Carbon\Carbon::parse($peserta->tanggal_selesai)->format('d/m/Y') }}</td>
             <td class="p-4 border border-[#FF885B] text-center">
-               <a href="{{ route('mentor.nilaiAkhir', ['nip_peserta' => $peserta->nip_peserta, 'created_at' => $peserta->created_at]) }}" class="bg-[#B31312] text-white p-2 rounded">
+               <a href="{{ route('mentor.nilaiAkhir', ['nip_peserta' => $peserta->nip_peserta, 'created_at' => $peserta->created_at]) }}" class="inline-block shrink-0 whitespace-nowrap px-4 py-2 bg-[#B31312] text-white p-2 rounded">
                     Lihat Nilai
                 </a>
             </td>

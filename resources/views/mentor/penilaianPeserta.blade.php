@@ -57,12 +57,12 @@
             
                 @if($penilaian && $penilaian->nilai_total !== null)
                     <!-- Jika nilai_total sudah ada, tampilkan tombol "Lihat Nilai" dengan warna hijau -->
-                    <a class="bg-[#B31312] text-white p-2 rounded" href="{{ route('mentor.riwayatPenilaian', $peserta->nip_peserta) }}">
+                    <a class="inline-block shrink-0 whitespace-nowrap px-4 py-2 bg-[#B31312] text-white p-2 rounded" href="{{ route('mentor.riwayatPenilaian', $peserta->nip_peserta) }}">
                         Lihat Nilai
                     </a>
                 @else
                     <!-- Jika nilai_total belum ada, tampilkan tombol "Beri Nilai" dengan warna biru -->
-                    <a class="bg-[#2b2a4c] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">
+                    <a class="inline-block shrink-0 whitespace-nowrap px-4 py-2 bg-[#2b2a4c] text-white p-2 rounded" href="{{ route('mentor.beriNilai', $peserta->nip_peserta) }}">
                         Beri Nilai
                     </a>
                 @endif
