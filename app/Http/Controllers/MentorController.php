@@ -109,6 +109,7 @@ class MentorController extends Controller
         // Mengambil daftar peserta dengan filter pencarian dan relasi dengan PesertaMagang dan PendaftaranMagang
         $peserta_magangs = PendaftaranMagang::where('nip_mentor', $mentor->nip_mentor)
             ->whereDate('tanggal_selesai', '>', Carbon::today()) 
+            ->where('status_magang','Aktif')
             ->with('pesertaMagang')
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('pesertaMagang', function ($q) use ($search) {
