@@ -24,6 +24,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            min-height: :100vh;
         }
 
         .inter-font {
@@ -42,7 +43,7 @@
             margin: auto;
             max-width: 100%;
             padding: 50px;
-            margin-top: 110px;
+            /*margin-top: 110px;*/
         }
 
         /* Dark overlay */
@@ -173,7 +174,8 @@
         }
     </style>
 </head>
-<body>
+<body class="d-flex justify-content-center align-items-center min-vh-100">
+
 
     <!-- Dark overlay -->
     <div class="overlay"></div>

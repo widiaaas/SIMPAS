@@ -315,7 +315,7 @@ public function simpanPenilaian(Request $request)
         $validatedData['nip_mentor'] = auth()->user()->mentor->nip_mentor ?? null;
 
         // 4. Ambil tanggal created_at dari pendaftaran
-       $pendaftaran = DB::table('pendaftaran_magangs as pm')
+       $pendaftaran =DB::table('pendaftaran_magangs as pm')
                     ->join('penilaians as p', function($join) {
                         $join->on('pm.nip_peserta', '=', 'p.nip_peserta')
                             ->on('pm.created_at', '=', 'p.created_at');
@@ -364,11 +364,16 @@ public function simpanPenilaian(Request $request)
                 'nilai_total' => $validatedData['nilai_total'],
                 'nip_mentor' => $validatedData['nip_mentor'],
             ]);
+            DB::table('pendaftaran_magangs')
+                ->where('id', $pendaftaran->id)      // ← id didapat dari $pendaftaran stdClass
+                ->update(['status_magang' => 'Tidak aktif']);
 
             return response()->json([
                 'message' => 'Penilaian berhasil diperbarui!',
                 'data' => $penilaian
             ], 200);
+
+           
         } else {
             // 7. Simpan baru jika belum ada penilaian dengan created_at sama
             $validatedData['created_at'] = $createdAt;
