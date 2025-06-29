@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('penilaians', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('nip_peserta');
             $table->integer('nilai1')->nullable();
             $table->integer('nilai2')->nullable();
@@ -27,7 +26,8 @@ return new class extends Migration
             $table->integer('nilai10')->nullable();
             $table->integer('nilai_total')->nullable();
             $table->string('nip_mentor')->nullable();
-
+            $table->timestamps();
+            
             $table->foreign('nip_mentor')->references('nip_mentor')->on('mentors')->onDelete('cascade');
             $table->foreign('nip_peserta')->references('nip_peserta')->on('peserta_magangs');
         });

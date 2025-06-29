@@ -163,39 +163,45 @@ class PesertaMagangController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
-        $pesertaMagang = Auth::user()->pesertaMagang;
+        $user = Auth::user(); 
+        $pesertaMagang = $user->pesertaMagang;
         
         // Validasi hanya untuk field yang diubah
         $rules = [];
-
+    
         if ($request->filled('phone') && $request->input('phone') !== $pesertaMagang->no_telp_peserta) {
             $rules['phone'] = 'required|regex:/^\+?(\d.*){3,}$/|max:15|unique:peserta_magangs,no_telp_peserta,' 
                             . $pesertaMagang->nip_peserta . ',nip_peserta';
         }
-
+    
         if ($request->filled('email') && $request->input('email') !== $pesertaMagang->email_peserta) {
             $rules['email'] = 'required|email|max:30|unique:peserta_magangs,email_peserta,' 
                             . $pesertaMagang->nip_peserta . ',nip_peserta';
         }
-
+    
+        if ($request->filled('alamat') && $request->input('alamat') !== $pesertaMagang->alamat_peserta) {
+            $rules['alamat'] = 'max:255';
+        }
+    
         $request->validate($rules);
         
         // Update data peserta magang
         $pesertaMagang->update([
-            'no_telp_peserta' => $request->input('phone'),
-            'email_peserta' => $request->input('email'),
+            'no_telp_peserta' => $request->filled('phone') ? $request->input('phone') : $pesertaMagang->no_telp_peserta,
+            'email_peserta' => $request->filled('email') ? $request->input('email') : $pesertaMagang->email_peserta,
+            'alamat_peserta' => $request->filled('alamat') ? $request->input('alamat') : $pesertaMagang->alamat_peserta,
         ]);
-
+    
         // Update email di tabel users
-        if ($user->email !== $request->input('email')) {
+        if ($request->filled('email') && $user->email !== $request->input('email')) {
             $user->update([
                 'email' => $request->input('email'),
             ]);
         }
-
+    
         return redirect()->route('pesertaMagang.profile')->with('success', 'Profil berhasil diperbarui.');
     }
+    
 
 
 

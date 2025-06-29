@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nomor_telp');
             $table->string('email');
             $table->string('alamat');
-            $table->string('kode_instansi');
             $table->string('jabatan');
+            $table->string('kode_instansi');
             $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

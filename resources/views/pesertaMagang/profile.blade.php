@@ -130,12 +130,20 @@
                 <label class="profile-label">Jurusan</label>
                 <p class="profile-value">{{ $pesertaMagang->jurusan }}</p>
             </div>
+            <div>
+                <label class="profile-label">Alamat</label>
+                <div class="profile-value">
+                    <span id="alamat-display">{{ $pesertaMagang->alamat_peserta }}</span>
+                    <input type="text" id="alamat-edit" class="hidden" value="{{ $pesertaMagang->alamat_peserta }}" />
+                </div>
+            </div>
         </div>
         <div class="mt-6 text-right">
             <form action="{{ route('pesertaMagang.updateProfile') }}" method="POST" id="profile-form">
                 @csrf
                 <input type="hidden" name="phone" id="phone-input" value="">
                 <input type="hidden" name="email" id="email-input" value="">
+                <input type="hidden" name="alamat" id="alamat-input" value="">
                 <button type="button" class="edit-button" id="edit-button">Edit</button>
                 <button type="submit" class="save-button hidden" id="save-button">Save</button>
             </form>
@@ -153,9 +161,13 @@
     
     const emailDisplay = document.getElementById('email-display');
     const emailEdit = document.getElementById('email-edit');
+
+    const alamatDisplay = document.getElementById('alamat-display');
+    const alamatEdit = document.getElementById('alamat-edit');
     
     const phoneInput = document.getElementById('phone-input');
     const emailInput = document.getElementById('email-input');
+    const alamatInput = document.getElementById('alamat-input');
     const form = document.getElementById('profile-form');
 
     editButton.addEventListener('click', function () {
@@ -164,10 +176,13 @@
         phoneEdit.classList.remove('hidden');
         emailDisplay.classList.add('hidden');
         emailEdit.classList.remove('hidden');
+        alamatDisplay.classList.add('hidden');
+        alamatEdit.classList.remove('hidden');
 
         // Set nilai input dengan nilai awal dari tampilan
         phoneEdit.value = phoneDisplay.textContent.trim();
         emailEdit.value = emailDisplay.textContent.trim();
+        alamatEdit.value = alamatDisplay.textContent.trim();
 
         // Ubah tombol edit menjadi save
         saveButton.classList.remove('hidden');
@@ -178,6 +193,7 @@
         // Masukkan nilai input ke dalam form
         phoneInput.value = phoneEdit.value;
         emailInput.value = emailEdit.value;
+        alamatInput.value = alamatEdit.value;
 
         // Gunakan SweetAlert2 untuk konfirmasi
         Swal.fire({
@@ -194,10 +210,13 @@
                 // Kembali ke mode non-edit
                 phoneDisplay.textContent = phoneEdit.value;
                 emailDisplay.textContent = emailEdit.value;
+                alamatDisplay.textContent = alamatEdit.value;
                 phoneDisplay.classList.remove('hidden');
                 phoneEdit.classList.add('hidden');
                 emailDisplay.classList.remove('hidden');
                 emailEdit.classList.add('hidden');
+                alamatDisplay.classList.remove('hidden');
+                alamatEdit.classList.add('hidden');
 
                 // Ubah tombol save kembali ke edit
                 saveButton.classList.add('hidden');
@@ -214,6 +233,8 @@
                 phoneDisplay.classList.remove('hidden');
                 emailEdit.classList.add('hidden');
                 emailDisplay.classList.remove('hidden');
+                alamatEdit.classList.add('hidden');
+                alamatDisplay.classList.remove('hidden');
 
                 // Ubah tombol save kembali ke edit
                 saveButton.classList.add('hidden');
@@ -259,6 +280,17 @@
             icon: 'error',
             title: 'Error!',
             text: '{{ $errors->first("email") }}',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+
+@if ($errors->has('alamat'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ $errors->first("alamat") }}',
             confirmButtonText: 'OK'
         });
     </script>

@@ -13,7 +13,13 @@ use App\Models\PendaftaranMagang;
 use App\Models\Penilaian;
 
 class PendaftaranMagangController extends Controller
-{
+{   
+    // public function showDaftarMagang()
+    // {
+
+    // }
+    
+    // buat pendaftaran
     public function create()
     {   
         // Ambil data instansi untuk dropdown
@@ -47,7 +53,7 @@ class PendaftaranMagangController extends Controller
      */
     public function store(Request $request)
     {   
-        // Mendapatkan data peserta magang berdasarkan user yang sedang login
+        // ambil data peserta magang berdasarkan user yang sedang login
         $pesertaMagang = Auth::user()->pesertaMagang;
         
         if (!$pesertaMagang) {
@@ -58,7 +64,7 @@ class PendaftaranMagangController extends Controller
         $validatedData = $request->validate([
             'dinas' => 'required',
             'tanggal_mulai' => 'required|date|after_or_equal:today',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai|after_or_equal:' . now()->addDays(30)->format('Y-m-d'),
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai|after_or_equal:' . now()->addDays(30)->format('d-m-Y'),
             'spkl' => 'required|file|mimes:pdf|max:1024',
             'cv' => 'required|file|mimes:pdf|max:1024',
             'proposal' => 'required|file|mimes:pdf|max:102400',
@@ -121,7 +127,7 @@ class PendaftaranMagangController extends Controller
     }
 
 
-
+    // lihat detail pendaftaran
     public function detailPendaftaran (){
         $pesertaMagang = Auth::user()->pesertaMagang;
         $pendaftaranMagang = PendaftaranMagang::where('nip_peserta', $pesertaMagang->nip_peserta)

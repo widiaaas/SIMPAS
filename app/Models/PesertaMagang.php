@@ -11,7 +11,7 @@ class PesertaMagang extends Model
 
     protected $primaryKey = 'nip_peserta';
     protected $fillable = [
-        'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'asal_sekolah', 'jurusan','user_id'
+        'nip_peserta','nama_peserta','email_peserta', 'no_telp_peserta', 'alamat_peserta', 'asal_sekolah', 'jurusan','user_id'
     ];
     protected $casts = [
         'nip_peserta' => 'string',

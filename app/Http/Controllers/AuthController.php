@@ -73,6 +73,7 @@ class AuthController extends Controller
             'nama_peserta' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'no_telp_peserta' => 'required|numeric|unique:peserta_magangs',
+            'alamat_peserta' => 'required|string|max:255',
             'asal_sekolah' => 'required|string|max:255',
             'jurusan' => 'required|string|max:255',
             'password' => 'required|min:8|confirmed',
@@ -92,6 +93,10 @@ class AuthController extends Controller
             'no_telp_peserta.required' => 'Nomor telepon peserta wajib diisi.',
             'no_telp_peserta.numeric' => 'Nomor telepon harus berupa angka.',
             'no_telp_peserta.unique' => 'Nomor telepon sudah terdaftar.',
+
+            'alamat_peserta.required' => 'Alamat wajib diisi.',
+            'aalamat_peserta.string' => 'Alamat harus berupa teks.',
+            'alamat_peserta_sekolah.max' => 'Alamat tidak boleh lebih dari 255 karakter.',
 
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'asal_sekolah.string' => 'Asal sekolah harus berupa teks.',
@@ -132,6 +137,7 @@ class AuthController extends Controller
             $pesertaMagang->nama_peserta = $request->nama_peserta;
             $pesertaMagang->email_peserta = $request->email;
             $pesertaMagang->no_telp_peserta = $request->no_telp_peserta;
+            $pesertaMagang->alamat_peserta = $request->alamat_peserta;
             $pesertaMagang->asal_sekolah = $request->asal_sekolah;
             $pesertaMagang->jurusan = $request->jurusan;
             // $pesertaMagang->status_pendaftaran = "Belum Mendaftar Magang";

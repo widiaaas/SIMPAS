@@ -208,6 +208,9 @@
                         
                                 <label for="no_telp_peserta" class="form-label" style="font-style: italic;">Nomor Telepon</label>
                                 <input type="text" name="no_telp_peserta" id="no_telp_peserta" class="form-control" required value="{{ old('no_telp_peserta') }}">
+                                
+                                <label for="alamat_peserta" class="form-label" style="font-style: italic;">Alamat</label>
+                                <input type="text" name="alamat_peserta" id="alamat_peserta" class="form-control" required value="{{ old('alamat_peserta') }}">
                         
                                 <label for="asal_sekolah" class="form-label" style="font-style: italic;">Asal Sekolah / Perguruan Tinggi</label>
                                 <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control" required value="{{ old('asal_sekolah') }}">
