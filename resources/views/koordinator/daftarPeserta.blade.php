@@ -257,7 +257,7 @@
     </div>
 
     <div class="page-info" id="page-info">
-        Menampilkan halaman 1 dari 4 halaman
+        Menampilkan halaman 1 dari 1 halaman
     </div>
     
     <div class="pagination-controls" id="pagination-controls">

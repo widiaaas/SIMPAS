@@ -150,7 +150,8 @@
 
         .subnav {
             display: none;
-            margin-left: 20px;  /* Memberikan indentasi untuk subnavigasi */
+            /* margin-left: -20px;  Memberikan indentasi untuk subnavigasi */
+            padding-left: 20px;
         }
 
         .subnav.show {
@@ -179,21 +180,32 @@
             <a href="{{ route('penilaian') }}" class="{{ Request::routeIs('penilaian') ? 'active' : '' }}">Penilaian</a>
         
             
-            @elseif(Auth::user()->role == 'koordinator')
-                <a href="/koordinator/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-                <a href="/koordinator/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
+            @elseif(Auth::user()->role === 'koordinator')
+                <a href="{{ route('koordinator.dashboard') }}" class="{{ Request::routeIs('koordinator.dashboard') ? 'active' : '' }}">Beranda</a>
+                <a href="{{ route('koordinator.profil') }}" class="{{ Request::routeIs('koordinator.profil') ? 'active' : '' }}">Profil</a>
                 <!-- Navigasi Pembagian Magang dengan toggle subnavigasi -->
+                @php
+                    $isPembagianMagangActive = Request::is('koordinator/pembagianMagang') || Request::is('koordinator/pembagianMagang/*');
+                @endphp
+
                 <div class="nav-item" id="pembagianMagangNav">
-                    <a href="#" class="nav-link {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'active' : '' }}" id="pembagianMagangToggle">
+                    <a href="#" class="nav-link {{ $isPembagianMagangActive ? 'active' : '' }}" id="pembagianMagangToggle">
                         Pembagian Magang
                     </a>
-                    <div class="subnav {{ Request::is('pembagianMagang') || Request::is('pembagianMagang/*') ? 'show' : '' }}">
-                        <a href="/koordinator/pembagianMagang" class="{{ Request::is('pembagianMagang') ? 'active' : '' }}">Pendaftar Magang</a>
-                        <a href="/koordinator/pembagianMagang/plottingMentor" class="{{ Request::is('pembagianMagang/plottingMentor') ? 'active' : '' }}">Plotting Mentor</a>
+                    <div class="subnav {{ $isPembagianMagangActive ? 'show' : '' }}">
+                        <a href="{{ url('/koordinator/pembagianMagang') }}" class="{{ Request::is('koordinator/pembagianMagang') ? 'active' : '' }}">
+                            Pendaftar Magang
+                        </a>
+                        <a href="{{ url('/koordinator/pembagianMagang/plottingMentor') }}" class="{{ Request::is('koordinator/pembagianMagang/plottingMentor') ? 'active' : '' }}">
+                            Plotting Mentor
+                        </a>
                     </div>
                 </div>
-                <a href="/koordinator/daftarPeserta" class="{{ Request::is('daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
-                <a href="/koordinator/penilaianPeserta" class="{{ Request::is('penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+
+                <a href="{{ route('koordinator.daftarPeserta') }}" class="{{ Request::routeIs('koordinator.daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
+                <a href="{{ route('koordinator.penilaianPeserta') }}" class="{{ Request::routeIs('koordinator.penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+
+
             @elseif(Auth::user()->role==='mentor')
                 <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
                 <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>

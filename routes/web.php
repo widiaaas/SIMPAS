@@ -66,7 +66,7 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::get('/get-mentors/{kode_instansi}', [KoordinatorController::class, 'getMentors']);
     Route::post('/plot-mentor', [KoordinatorController::class, 'plotMentor'])->name('plotMentor')->middleware('web'); 
 
-    Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta']);
+    Route::get('/daftarPeserta', [KoordinatorController::class, 'daftarPeserta'])->name('koordinator.daftarPeserta');
     Route::get('/daftarPeserta/detailPeserta/{nip_peserta}', [KoordinatorController::class, 'detailPeserta'])->name('detailPeserta');
 
     Route::get('/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta'])->name('koordinator.penilaianPeserta');
