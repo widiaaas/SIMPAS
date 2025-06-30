@@ -31,6 +31,8 @@ class MentorController extends Controller
         // Menghitung peserta yang tanggal_selesai-nya lebih dari hari ini
         $jumlah_peserta = PendaftaranMagang::where('nip_mentor', $mentor->nip_mentor)
                             ->where('tanggal_selesai', '>', Carbon::today())
+                            ->where('status_magang','Aktif')
+                            ->where('status_pendaftaran','Disetujui')
                             ->count();
 
         return view('mentor.dashboard', compact('mentor', 'mentorName', 'jumlah_peserta'));
@@ -110,6 +112,7 @@ class MentorController extends Controller
         $peserta_magangs = PendaftaranMagang::where('nip_mentor', $mentor->nip_mentor)
             ->whereDate('tanggal_selesai', '>', Carbon::today()) 
             ->where('status_magang','Aktif')
+            ->where('status_pendaftaran','Disetujui')
             ->with('pesertaMagang')
             ->when($search, function ($query) use ($search) {
                 $query->whereHas('pesertaMagang', function ($q) use ($search) {
@@ -131,6 +134,13 @@ class MentorController extends Controller
         ->orderBy('created_at', 'desc')
         ->firstOrFail();
 
+    if (Carbon::parse($pendaftaran->tanggal_mulai)->isAfter(Carbon::today())) {
+        return back()->with('swal', [
+            'icon'  => 'error',
+            'title' => 'Magang Belum Dimulai',
+            'text'  => 'Tanggal mulai peserta ini masih di masa depan, jadi tanggal selesai tidak bisa diubah.',
+        ]);
+    }
     // Update status magang dan tanggal selesai
     $pendaftaran->update([
         'tanggal_selesai' => Carbon::today(),

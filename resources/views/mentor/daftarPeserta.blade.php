@@ -3,7 +3,8 @@
 @section('title', 'Daftar Peserta Magang - SIMPAS')
 
 @section('content')
-<h1 class="header">Daftar Peserta Magang</h1>        
+<head><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head>
+<h1 class="header">Daftar Peserta Magang</h1>
 <div class="ml-9 mt-7 mb-6 inter-font">
     <form method="GET" action="{{ route('mentor.daftarPeserta') }}">
         <div class="flex items-center">
@@ -94,7 +95,7 @@
 
 @endsection
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     function konfirmasiSelesai(nip_peserta) {
         console.log('Tandai selesai dipanggil untuk:', nip_peserta);
@@ -120,6 +121,14 @@
         });
     }
 </script>
+@if (session()->has('swal'))
+    <script>
+        // Jalankan setelah DOM siap (aman walau skrip ini di-head ataupun di-body)
+        document.addEventListener('DOMContentLoaded', () => {
+            Swal.fire(@json(session('swal')));
+        });
+    </script>
+    @endif   
 
 @if(session('success'))
 <script>
@@ -130,5 +139,7 @@
         timer: 2000,
         showConfirmButton: false
     });
+
 </script>
 @endif
+

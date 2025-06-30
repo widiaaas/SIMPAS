@@ -12,7 +12,7 @@ class Koordinator extends Model
     protected $primaryKey = 'nip_koor';
 
     protected $fillable = [
-        'nip_koor', 'email', 'no_telp', 'user_id'
+        'nip_koor', 'email', 'no_telp', 'user_id',
     ];
 
     public function user()

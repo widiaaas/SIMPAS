@@ -25,7 +25,7 @@
 </style>
 
 <div class="mb-8">
-  <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/koor/penilaianPeserta">
+  <a class="text-[#282A4C] text-lg mb-4 block inter-font font-bold" href="/koordinator/penilaianPeserta">
       <i class="fas fa-arrow-left">
       </i>
       Kembali

@@ -109,7 +109,7 @@ class KoordinatorController extends Controller
         }
 
         if ($request->filled('alamat') && $request->input('alamat') !== $koordinator->alamat) {
-            $rules['alamat'] = 'required|string|max:30|unique:koordinators,alamat,' 
+          $rules['alamat'] = 'required|string|max:30|unique:koordinators,alamat,' 
                             . $koordinator->nip_koor . ',nip_koor';
         }
 
@@ -350,7 +350,6 @@ public function updateStatus(Request $request)
                         'pendaftaran_magangs.tanggal_selesai'
                     )
                     ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
-                    ->whereDate('pendaftaran_magangs.tanggal_mulai', '<=', Carbon::today())
                     ->whereDate('pendaftaran_magangs.tanggal_selesai', '>', Carbon::today())
                     ->whereNotNull('pendaftaran_magangs.nip_mentor')
                     ->get();
