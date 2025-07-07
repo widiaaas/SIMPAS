@@ -190,56 +190,49 @@ class KoordinatorController extends Controller
         return view('koordinator.detailPendaftarMagang', compact('pendaftar'));
     }
 
-    public function updateStatus(Request $request)
-    {
-        try {
-            // Validasi input
-            $request->validate([
-                'nip_peserta' => 'required|exists:peserta_magangs,nip_peserta',
-                'status_pendaftaran' => 'required|in:Disetujui,Ditolak',
-                'alasan' => 'nullable|string|required_if:status_pendaftaran,Ditolak' // Alasan wajib jika ditolak
-            ]);
+public function updateStatus(Request $request)
+{
+    try {
+        // Validasi input
+        $request->validate([
+            'nip_peserta' => 'required|exists:peserta_magangs,nip_peserta',
+            'status_pendaftaran' => 'required|in:Disetujui,Ditolak',
+            'alasan' => 'nullable|string|required_if:status_pendaftaran,Ditolak' // Alasan wajib jika Ditolak
+        ]);
 
-            // Ambil data peserta
-            $peserta = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)
-             ->orderBy('created_at', 'desc')
-             ->first();
+        // Ambil data pendaftaran terbaru berdasarkan peserta
+        $peserta = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-            $peserta->status_pendaftaran = $request->status_pendaftaran;
-
-            if ($request->status_pendaftaran === 'Disetujui') {
-                // Jika disetujui, otomatis mengisi alasan
-                $peserta->alasan = "Berkas-berkas sudah sesuai";
-
-                // Ambil kode_instansi dari tabel pendaftaran_magangs
-                // $pendaftaran = PendaftaranMagang::where('nip_peserta', $request->nip_peserta)->first();
-                // if ($pendaftaran) {
-                //     $peserta->kode_instansi = $pendaftaran->kode_instansi;
-
-                //     // DB::table('penilaians')->insert([
-                //     //     'nip_peserta' => $request->nip_peserta,
-                //     //     'created_at' => now(),
-                //     //     'updated_at' => now(),
-                //     // ]);
-                // } else {
-                //     return response()->json(['success' => false, 'message' => 'Data pendaftaran tidak ditemukan untuk peserta ini.'], 404);
-                // }
-            } 
-            else if ($request->status_pendaftaran === 'Ditolak') {
-                // Jika ditolak, gunakan alasan dari input
-                $peserta->alasan = $request->alasan;
-
-                // Hapus data dari tabel pendaftaran_magangs
-                DB::table('pendaftaran_magangs')->where('nip_peserta', $request->nip_peserta)->delete();
-            }
-
-            $peserta->save();
-
-            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        if (!$peserta) {
+            return response()->json(['success' => false, 'message' => 'Data pendaftaran tidak ditemukan.'], 404);
         }
+
+        // Update berdasarkan status
+        if ($request->status_pendaftaran === 'Disetujui') {
+            $peserta->status_pendaftaran = 'Disetujui';
+            $peserta->alasan = 'Berkas-berkas sudah sesuai';
+        } elseif ($request->status_pendaftaran === 'Ditolak') {
+            $peserta->status_pendaftaran = 'Ditolak';
+            $peserta->alasan = $request->alasan;
+
+            // Hapus baris di tabel penilaian yang sesuai
+            \DB::table('penilaians')
+                ->where('nip_peserta', $peserta->nip_peserta)
+                ->whereDate('created_at', $peserta->created_at->toDateString())
+                ->delete();
+        }
+
+        $peserta->save();
+
+        return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
     }
+}
+
+
 
     
     public function plottingMentor()
@@ -284,7 +277,7 @@ class KoordinatorController extends Controller
     
             $updatedPeserta = DB::table('pendaftaran_magangs')
                 ->where('nip_peserta', $request->nip_peserta)
-                ->update(['nip_mentor' => $request->nip_mentor]);
+                ->update(['nip_mentor' => $request->nip_mentor, 'status_magang' => 'Aktif']);
     
             if ($updatedPeserta) {
                 DB::commit();
@@ -351,6 +344,8 @@ class KoordinatorController extends Controller
                         'pendaftaran_magangs.tanggal_selesai'
                     )
                     ->where('pendaftaran_magangs.status_pendaftaran', 'Disetujui')
+                    ->whereDate('pendaftaran_magangs.tanggal_mulai', '<=', Carbon::today())
+                    ->whereDate('pendaftaran_magangs.tanggal_selesai', '>', Carbon::today())
                     ->whereNotNull('pendaftaran_magangs.nip_mentor')
                     ->get();
 

@@ -38,7 +38,7 @@
             transform: translateX(0);
             transition: transform 0.3s ease;
             padding-top: 75px;
-            
+            overflow-y: auto;
         }
         .sidebar.closed {
             transform: translateX(-250px);
@@ -159,9 +159,11 @@
         }
 
         .logout-container {
-            margin-top: 150%; /* Agar logout tetap di bawah */
+            position: absolute;
+            bottom: 20px;
+            /* left: 20px; */
+            width: calc(100% - 40px); /* Agar padding kanan-kiri seimbang */
             text-align: left;
-            padding: 10px;
         }
 
     </style>

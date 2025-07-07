@@ -40,9 +40,12 @@
         }
 
         .container {
-            margin: auto;
+            /* margin: auto; */
             max-width: 100%;
             padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             /*margin-top: 110px;*/
         }
 
@@ -62,7 +65,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 1000px;
             z-index: 1;
         }
 
@@ -183,7 +186,7 @@
     <!-- Main container for centering -->
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-5">
+            <div class="col-md-20">
                 <div class="card shadow">
                     <div class="card-header">
                         <h2>SIMPAS</h2>
