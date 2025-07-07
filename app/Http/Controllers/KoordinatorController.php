@@ -108,19 +108,25 @@ class KoordinatorController extends Controller
                             . $koordinator->nip_koor . ',nip_koor';
         }
 
-        if ($request->filled('alamat') && $request->input('alamat') !== $koordinator->alama) {
-            $rules['alamat'] = 'required|alamat|max:30|unique:koordinators,alamat,' 
+        if ($request->filled('alamat') && $request->input('alamat') !== $koordinator->alamat) {
+            $rules['alamat'] = 'required|string|max:30|unique:koordinators,alamat,' 
                             . $koordinator->nip_koor . ',nip_koor';
         }
 
         $request->validate($rules);
         
         // Update data peserta magang
-        $koordinator->update([
-            'no_telp' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'alamat' => $request->input('alamat'),
-        ]);
+        // $koordinator->update([
+        //     'no_telp' => $request->input('phone'),
+        //     'email' => $request->input('email'),
+        //     'alamat' => $request->input('alamat'),
+        // ]);
+
+        $koordinator->no_telp = $request->input('phone');
+        $koordinator->email = $request->input('email');
+        $koordinator->alamat = $request->input('alamat');
+        $koordinator->save();
+
 
         // Update email di tabel users
         if ($user->email !== $request->input('email')) {

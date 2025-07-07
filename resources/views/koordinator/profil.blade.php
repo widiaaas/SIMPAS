@@ -134,7 +134,7 @@
                 <label class="profile-label">Alamat</label>
                 <div class="profile-value">
                     <span id="alamat-display">{{ $koordinator->alamat }}</span>
-                    <input type="text" id="alamat-edit" class="hidden" value={{ $koordinator->alamat }} />
+                    <input type="text" id="alamat-edit" class="hidden" value="{{ $koordinator->alamat }}" />
                 </div>
             </div>
         </div>
@@ -192,6 +192,7 @@
         // Masukkan nilai input ke dalam form
         phoneInput.value = phoneEdit.value;
         emailInput.value = emailEdit.value;
+        alamatInput.value = alamatEdit.value;
 
         // Gunakan SweetAlert2 untuk konfirmasi
         Swal.fire({
@@ -223,6 +224,8 @@
                 // Kirim form
                 if (result.isConfirmed) {
                     // Kirim form setelah konfirmasi
+                    console.log("Alamat baru:", alamatInput.value);
+
                     form.submit();
                 }
             } else {
