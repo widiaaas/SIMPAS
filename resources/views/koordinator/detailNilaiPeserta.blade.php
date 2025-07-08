@@ -37,13 +37,13 @@
   <div class="grid grid-cols-2 gap-6">
     <div>
       <p class="text-sm font-semibold text-gray-600">Nama/NIM:</p>
-      <p class="text-lg font-medium">{{ $peserta->nama }} / {{ $peserta->nip }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->nama_peserta }} / {{ $peserta->pesertaMagang->nip_peserta }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Sekolah/Universitas:</p>
-      <p class="text-lg font-medium">{{ $peserta->asal_sekolah }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->asal_sekolah }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Program Studi:</p>
-      <p class="text-lg font-medium">{{ $peserta->jurusan }}</p>
+      <p class="text-lg font-medium">{{ $peserta->pesertaMagang->jurusan }}</p>
       <p class="text-sm font-semibold text-gray-600 mt-2">Waktu Magang:</p>
-      <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($peserta->tanggal_selesai)) }}</p>
+      <p class="text-lg font-medium">	{{ date('d/m/Y', strtotime($peserta->pesertaMagang->pendaftaranTerbaru->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($peserta->pesertaMagang->pendaftaranTerbaru->tanggal_selesai)) }}</p>
     </div>
   </div>
 </div>
@@ -212,8 +212,7 @@
         const updatedScores = Array.from(inputs).map(input => parseInt(input.value, 10));
 
         // Kirim data ke server dengan fetch
-        fetch("{{ route('updateNilaiPeserta', $peserta->nip) }}", {
-
+        fetch("{{ route('updateNilaiPeserta', ['nip_peserta' => $peserta->nip ?? $peserta->nip_peserta]) }}", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -267,7 +266,7 @@
         cancelButtonText: 'Tidak'
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch("{{ route('konfirmasiPenilaian', $peserta->nip) }}",  {
+          fetch("{{ route('konfirmasiPenilaian', ['nip_peserta' => $peserta->pesertaMagang->nip_peserta]) }}", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

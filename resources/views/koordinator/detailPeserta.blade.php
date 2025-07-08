@@ -15,7 +15,7 @@
   <div class="space-y-4">
     <div>
         <p class="text-sm font-semibold text-gray-600">Nama:</p>
-        <p class="text-lg font-medium">{{ $peserta->nama }}</p>
+        <p class="text-lg font-medium">{{ $peserta->nama_peserta }}</p>
     </div>
     <div>
         <p class="text-sm font-semibold text-gray-600">Sekolah/Universitas Asal:</p>
@@ -23,7 +23,7 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">NIM/NISN:</p>
-      <p class="text-lg font-medium">{{ $peserta->nip }}</p>
+      <p class="text-lg font-medium">{{ $peserta->nip_peserta }}</p>
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Jurusan:</p>
@@ -31,7 +31,7 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Email:</p>
-      <p class="text-lg font-medium" href="mailto:{{ $peserta->email }}">{{ $peserta->email }}</p>
+      <p class="text-lg font-medium" href="mailto:{{ $peserta->email_peserta }}">{{ $peserta->email_peserta }}</p></p>
     </div>
     <div>
       <p class="text-sm font-semibold text-gray-600">Diterima Magang di:</p>
@@ -40,11 +40,11 @@
     <div class="flex space-x-4">
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Mulai:</p>
-        <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_mulai)) }}</p>
+        <p class="text-lg font-medium">{{ \Carbon\Carbon::parse($peserta->pendaftaranTerbaru->tanggal_mulai)->format('d/m/Y') ?? '-' }}</p>
       </div>
       <div>
         <p class="text-sm font-semibold text-gray-600">Tanggal Selesai:</p>
-        <p class="text-lg font-medium">{{ date('d/m/Y', strtotime($peserta->tanggal_selesai)) }}</p>
+        <p class="text-lg font-medium">{{ \Carbon\Carbon::parse($peserta->pendaftaranTerbaru->tanggal_selesai)->format('d/m/Y') ?? '-' }}</p>
       </div>
     </div>
 

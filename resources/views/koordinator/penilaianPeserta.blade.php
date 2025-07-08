@@ -241,15 +241,20 @@
                 @foreach($peserta as $index => $p)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $p->nama_peserta }}</td>
-                        <td>{{ $p->asal_sekolah }}</td>
-                        <td>{{ $p->nama_instansi }}</td>
-                        <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
-                        <td>
-                            <button class="btn-tolak">
-                                <a href="/koordinator/penilaianPeserta/detailNilaiPeserta/{{ $p->nip_peserta }}" style="color: white;">Lihat Detail</a>
-                            </button>
-                        </td>                        
+                        <td>{{ $p->pesertaMagang->nama_peserta }}</td>
+<td>{{ $p->pesertaMagang->asal_sekolah }}</td>
+<td>{{ $p->pesertaMagang->pendaftaranTerbaru->instansi->nama_instansi }}</td>
+<td>
+    {{ date('d/m/Y', strtotime($p->pesertaMagang->pendaftaranTerbaru->tanggal_mulai)) }}
+    -
+    {{ date('d/m/Y', strtotime($p->pesertaMagang->pendaftaranTerbaru->tanggal_selesai)) }}
+</td>
+<td>
+    <button class="btn-tolak">
+        <a href="/koordinator/penilaianPeserta/detailNilaiPeserta/{{ $p->pesertaMagang->nip_peserta }}" style="color: white;">Lihat Detail</a>
+    </button>
+</td>
+                        
                     </tr>
                 @endforeach
             </tbody>

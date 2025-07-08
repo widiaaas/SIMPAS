@@ -241,9 +241,9 @@
                 @foreach($peserta as $index => $p)
                     <tr>
                         <td>{{ $index }}</td>
-                        <td>{{ $p->nama_peserta }}</td>
-                        <td>{{ $p->asal_sekolah }}</td>
-                        <td>{{ $p->nama_instansi }}</td>
+                        <td>{{ $p->pesertaMagang->nama_peserta ?? '-' }}</td>
+                        <td>{{ $p->pesertaMagang->asal_sekolah ?? '-' }}</td>
+                        <td class="dinas-cell">{{ $p->instansi->nama_instansi ?? '-' }}</td>
                         <td>{{ date('d/m/Y', strtotime($p->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($p->tanggal_selesai)) }}</td>
                         <td>
                             <button class="btn-tolak">

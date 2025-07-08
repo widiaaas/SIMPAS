@@ -195,7 +195,7 @@
                         Pembagian Magang
                     </a>
                     <div class="subnav {{ $isPembagianMagangActive ? 'show' : '' }}">
-                        <a href="{{ url('/koordinator/pembagianMagang') }}" class="{{ Request::is('koordinator/pembagianMagang') ? 'active' : '' }}">
+                        <a href="{{ url('/koordinator/pembagianMagang') }}" class="{{ Request::is('koordinator/pembagianMagang') || Request::is('koordinator/pembagianMagang/detailPendaftarMagang/*') ? 'active' : '' }}">
                             Pendaftar Magang
                         </a>
                         <a href="{{ url('/koordinator/pembagianMagang/plottingMentor') }}" class="{{ Request::is('koordinator/pembagianMagang/plottingMentor') ? 'active' : '' }}">
@@ -204,16 +204,21 @@
                     </div>
                 </div>
 
-                <a href="{{ route('koordinator.daftarPeserta') }}" class="{{ Request::routeIs('koordinator.daftarPeserta') ? 'active' : '' }}">Daftar Peserta</a>
-                <a href="{{ route('koordinator.penilaianPeserta') }}" class="{{ Request::routeIs('koordinator.penilaianPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
+                <a href="{{ route('koordinator.daftarPeserta') }}" class="{{ Request::routeIs('koordinator.daftarPeserta') || Request::routeIs('detailPeserta') ? 'active' : '' }}">Daftar Peserta</a>
+                <a href="{{ route('koordinator.penilaianPeserta') }}" class="{{ Request::routeIs('koordinator.penilaianPeserta') || Request::routeIs('detailNilaiPeserta') ? 'active' : '' }}">Penilaian Peserta</a>
 
 
             @elseif(Auth::user()->role==='mentor')
-                <a href="/mentor/dashboard" class="{{ Request::is('/') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
-                <a href="/mentor/profil" class="{{ Request::is('profil') ? 'active' : '' }}">Profil</a>
-                <a href="/mentor/daftarPeserta" class="{{ Request::is('daftar-peserta-magang') ? 'active' : '' }}">Daftar Peserta Magang</a>
-                <a href="/mentor/penilaianPeserta" class="{{ Request::is('penilaian-peserta') ? 'active' : '' }}">Penilaian Peserta</a>
-                <a href="/mentor/riwayatPenilaian" class="{{ Request::is('riwayatPenilaian') ? 'active' : '' }}">Riwayat Penilaian</a>
+                <a href="{{ url('mentor/dashboard') }}" class="{{ Request::is('mentor/dashboard') ? 'active' : '' }} rounded d-flex align-items-center">Beranda</a>
+
+<a href="{{ url('mentor/profil') }}" class="{{ Request::is('mentor/profil*') ? 'active' : '' }}">Profil</a>
+
+<a href="{{ url('mentor/daftarPeserta') }}" class="{{ Request::is('mentor/daftarPeserta*') || Request::is('mentor/detailPeserta*') ? 'active' : '' }}">Daftar Peserta Magang</a>
+
+<a href="{{ url('mentor/penilaianPeserta') }}" class="{{ Request::is('mentor/penilaianPeserta*') || Request::is('mentor/editPenilaian*') ? 'active' : '' }}">Penilaian Peserta</a>
+
+<a href="{{ url('mentor/riwayatPenilaian') }}" class="{{ Request::is('mentor/riwayatPenilaian*') ? 'active' : '' }}">Riwayat Penilaian</a>
+
             @endif
             
         @else

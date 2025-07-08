@@ -66,53 +66,47 @@
 
 <div class="card">
     <div class="info-section">
-        <div class="info-label">Nama</div>
-        <div class="info-value">{{ $pendaftar->nama }}</div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">Sekolah / Universitas</div>
-        <div class="info-value">{{ $pendaftar->asal_sekolah }}</div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">NIM/NISN</div>
-        <div class="info-value">{{ $pendaftar->nip }}</div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">Jurusan</div>
-        <div class="info-value">{{ $pendaftar->jurusan }}</div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">Email</div>
-        <div class="info-value">
-            <a style="color:#b53c00" href="mailto:{{ $pendaftar->email }}">{{ $pendaftar->email }}</a>
-        </div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">Dinas Tujuan</div>
-        <div class="info-value">{{ $pendaftar->nama_instansi }}</div>
-    </div>
-    
-    <div class="info-section">
-        <div class="info-label">Periode</div>
-        <div class="info-value">{{ date('d/m/Y', strtotime($pendaftar->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($pendaftar->tanggal_selesai)) }}</div>
-    </div>    
+    <div class="info-label">Nama</div>
+    <div class="info-value">{{ $peserta->nama_peserta ?? '-' }}</div>
+</div>
 
-    <div class="buttons">
-        <button class="btn">
-            <a href="{{ asset('storage/' . $pendaftar->cv) }}" target="_blank">Lihat CV</a>
-        </button>
-        <button class="btn">
-            <a href="{{ asset('storage/' . $pendaftar->proposal) }}" target="_blank">Lihat Proposal</a>
-        </button>
-        <button class="btn">
-            <a href="{{ asset('storage/' . $pendaftar->spkl) }}" target="_blank">Lihat Surat Pengantar</a>
-        </button>
-    </div>    
+<div class="info-section">
+    <div class="info-label">Sekolah / Universitas</div>
+    <div class="info-value">{{ $peserta->asal_sekolah }}</div>
+</div>
+
+<div class="info-section">
+    <div class="info-label">NIM/NISN</div>
+    <div class="info-value">{{ $peserta->nip_peserta }}</div>
+</div>
+
+<div class="info-section">
+    <div class="info-label">Jurusan</div>
+    <div class="info-value">{{ $peserta->jurusan }}</div>
+</div>
+
+<div class="info-section">
+    <div class="info-label">Email</div>
+    <div class="info-value">
+        <a style="color:#b53c00" href="mailto:{{ $peserta->email_peserta }}">{{ $peserta->email_peserta }}</a>
+    </div>
+</div>
+
+<div class="info-section">
+    <div class="info-label">Dinas Tujuan</div>
+    <div class="info-value">{{ $pendaftaran->instansi->nama_instansi }}</div>
+</div>
+
+<div class="info-section">
+    <div class="info-label">Periode</div>
+    <div class="info-value">{{ date('d/m/Y', strtotime($pendaftaran->tanggal_mulai)) }} - {{ date('d/m/Y', strtotime($pendaftaran->tanggal_selesai)) }}</div>
+</div>
+
+<a class="btn" href="{{ $pendaftaran->file_cv_url }}" target="_blank">Lihat CV</a>
+<a class="btn" href="{{ $pendaftaran->file_proposal_url }}" target="_blank">Lihat Proposal</a>
+<a class="btn" href="{{ $pendaftaran->file_spkl_url }}" target="_blank">Lihat Surat Pengantar</a>
+
+  
 </div>
 
 {{-- Untuk PDF --}}

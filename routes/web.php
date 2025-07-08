@@ -72,7 +72,7 @@ Route::prefix('koordinator')->middleware('auth')->group(function () {
     Route::get('/penilaianPeserta', [KoordinatorController::class, 'penilaianPeserta'])->name('koordinator.penilaianPeserta');
     Route::get('/penilaianPeserta/detailNilaiPeserta/{nip_peserta}', [KoordinatorController::class, 'detailNilaiPeserta'])->name('detailNilaiPeserta');
     Route::post('/update-nilai-peserta/{nip_peserta}', [KoordinatorController::class, 'updateNilaiPeserta'])->name('updateNilaiPeserta')->middleware('web');
-    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian'])->name('konfirmasiPenilaian')->middleware('web');
+    Route::post('/konfirmasi-penilaian/{nip_peserta}', [KoordinatorController::class, 'konfirmasiPenilaian'])->name('konfirmasiPenilaian');
 });
 
 
